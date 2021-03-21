@@ -3,7 +3,8 @@ import { Component } from '@angular/core';
 import { ValueAccessor } from '@ionic/angular/directives/control-value-accessors/value-accessor';
 import interact from 'interactjs';
 import { element } from 'protractor';
-
+import{DbServiceService} from '../db-service.service'
+import { ImagenToBackend } from '../home/clases/imagenGuardada';
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -13,14 +14,124 @@ import { element } from 'protractor';
 
 export class HomePage {
 
-  constructor() {}
+  constructor(private dBservice: DbServiceService) {}
 
- 
+
   clase="";
   girarImagen=0;
   //value = 'https://cdn1.iconfinder.com/data/icons/hawcons/32/699470-icon-4-thumb-up-256.png';
   value='https://c0.klipartz.com/pngpicture/110/30/gratis-png-patron-de-area-de-angulo-cubo-3d-s.png';
 
+  listaFotosPersonajes: any[] = [];
+  listaFotosFondos: any[] = [];
+  listaFotosObjetos: any[] = [];
+
+  listaRecursos: any[] = [];
+  recursoId: Number;
+  recursoCargadoPregunta: any = false;
+  recursoCargado: any;
+
+  async ngOnInit() {
+
+    this.recuperarListaRecursos();
+    console.log('HOLA');
+    console.log(this.listaRecursos);
+
+  }
+
+
+  traeImagenesRecursoLibro(){
+  
+
+    this.listaFotosPersonajes = [];
+    this.listaFotosFondos  = [];
+    this.listaFotosObjetos = [];
+
+    this.recursoCargadoPregunta = true;
+    console.log('This');
+   // this.recursoCargado = this.listaRecursos.filter (recuro => recuro.id === Number(this.recursoId))[0];
+console.log('id: ')
+console.log(this.listaRecursos[0].id);
+
+   this.recursoCargado = this.listaRecursos.filter (recuro => recuro.id === this.listaRecursos[0].id)[0];
+
+    console.log(this.listaRecursos);
+    console.log(this.recursoCargado);
+
+    this.recursoCargado.imagenes.forEach(element => {
+      
+      this.dBservice.getImagenesRecurso(this.recursoCargado.carpeta, element.nombre)
+      .subscribe((res)=>{
+
+        const blob = new Blob([res.blob()], { type: 'image/png' });
+        const reader = new FileReader();
+
+        reader.addEventListener('load', () => {
+
+          var foto = null;
+          foto = reader.result.toString();
+          var fotoProps = new ImagenToBackend();
+          fotoProps.url = foto;
+          if(element.especial == true)
+          {
+            fotoProps.especial = "Especial"
+          }
+          else
+          {
+            fotoProps.especial == ""
+          }
+
+          fotoProps.nombre = element.nombre
+
+
+          if (element.tipo == "fondo")
+          {
+            this.listaFotosFondos.push(fotoProps);
+          }
+          else if (element.tipo == "personaje")
+          {
+            this.listaFotosPersonajes.push(fotoProps);
+
+          }
+          else if (element.tipo == "objeto")
+          {
+            this.listaFotosObjetos.push(fotoProps);
+
+          }
+
+        }, false);
+
+        if (blob) {
+          reader.readAsDataURL(blob);
+        }
+
+
+      }, (err)=>{
+
+        console.log(err);
+      })
+
+    });
+    console.log('end')
+  }
+  
+
+
+
+
+  //Recuperamos la lista de recursos donde se encuentran las imagenes para la app//
+ recuperarListaRecursos() {
+    this.listaRecursos = [];
+
+   this.dBservice.recuperarListaRecursos(8)
+      .subscribe((res) => {
+        console.log(8);
+        this.listaRecursos = res;
+        console.log(this.listaRecursos);
+      }, (err) => {
+
+      })
+  }
 
 
 
