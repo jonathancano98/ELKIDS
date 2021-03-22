@@ -1,4 +1,4 @@
-import { R3TargetBinder } from '@angular/compiler';
+import { hostViewClassName, R3TargetBinder } from '@angular/compiler';
 import { Component } from '@angular/core';
 import { ValueAccessor } from '@ionic/angular/directives/control-value-accessors/value-accessor';
 import interact from 'interactjs';
@@ -25,6 +25,7 @@ export class HomePage {
   listaFotosPersonajes: any[] = [];
   listaFotosFondos: any[] = [];
   listaFotosObjetos: any[] = [];
+  listaFotosDeEscena: any[] = [];
 
   listaRecursos: any[] = [];
   recursoId: Number;
@@ -38,6 +39,36 @@ export class HomePage {
     console.log(this.listaRecursos);
 
   }
+
+seleccionarobjeto(imageO: ImagenToBackend)
+{
+  this.listaFotosDeEscena.push(imageO);
+
+
+
+
+}
+
+  seleccionarfondo(urlrwae: string){
+         
+    var img3 = new Image();
+   // img3.src = foto.url;
+    console.log('URL de foto');
+    console.log(urlrwae);
+   this.value = urlrwae;
+    // img3.src = '../../assets/imgs/fondo1.jpg';
+   /* img3.width = 900;
+    img3.height = 900; 
+   console.log(img3.src);
+   localStorage.setItem("src", "tengo");  
+   this.dataService.setDataRecursos(500, foto.nombre);
+   this.dataService.setDataRecursos(501, foto.url);
+   var idEscena = localStorage.getItem("idEscena");
+   this.router.navigateByUrl("/cuentocanvas/" + idEscena);*/
+         
+    }
+
+
 
 
   traeImagenesRecursoLibro(){
@@ -289,12 +320,96 @@ girar(){
 
 
 }
+
+arrastrar22222222222(){
+  this.clase="draggable";
+    console.log("llamamos a funcion arrastrar");
+    console.log(this.listaFotosDeEscena);
+   this.listaFotosDeEscena.forEach(element => {
+      console.log(element.nombre);
+
+      document.getElementById(element.nombre).classList.remove('#rotate-area');
+      document.getElementById(element.nombre).classList.remove('resize-drag');
+      document.getElementById(element.nombre).classList.add('draggable');
+    
+    });
+
+    //document.getElementById("hola").classList.add('draggable');
+    console.log(this.listaFotosDeEscena[0]);
+    
+    /*document.getElementById("imageF.nombre").classList.remove('#rotate-area');
+    document.getElementById("imageF.nombre").classList.remove('resize-drag');
+    document.getElementById("imageF.nombre").classList.add('draggable');*/
+    console.log(document.getElementById("prueba"))
+  
+  
+  interact('.draggable')
+    .draggable({
+      // enable inertial throwing
+      inertia: true,
+      // keep the element within the area of it's parent
+      modifiers: [
+        interact.modifiers.restrictRect({
+          restriction: 'parent',
+          endOnly: true
+        })
+      ],
+      // enable autoScroll
+      autoScroll: true,
+  
+      listeners: {
+        // call this function on every dragmove event
+        move: dragMoveListener,
+  
+        // call this function on every dragend event
+        end (event) {
+          var textEl = event.target.querySelector('p')
+  
+          textEl && (textEl.textContent =
+            'moved a distance of ' +
+            (Math.sqrt(Math.pow(event.pageX - event.x0, 2) +
+                       Math.pow(event.pageY - event.y0, 2) | 0))
+              .toFixed(2) + 'px')
+        }
+      }
+    })
+  
+  function dragMoveListener (event) {
+    var target = event.target
+    // keep the dragged position in the data-x/data-y attributes
+    var x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx
+    var y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy
+  
+   var rotation = (parseFloat(target.getAttribute('data-angle')) || 0) 
+  
+   console.log(rotation);
+    // translate the element
+    target.style.webkitTransform =
+      target.style.transform =
+      'translate(' + x + 'px,' + y + 'px) rotate(' + rotation + 'deg)';
+  
+    // update the posiion attributes
+    target.setAttribute('data-x', x)
+    target.setAttribute('data-y', y)
+  
+  }
+  
+  // this function is used later in the resizing and gesture demos
+  window.dragMoveListener = dragMoveListener
+  }
+
+
+
+
+
+
 ////
 //Funcion que sirve para arrastrar la imagen//
 ////
 arrastrar(){
 this.clase="draggable";
   console.log("llamamos a funcion arrastrar");
+  //document.getElementById("hola").classList.add('draggable');
   document.getElementById("prueba").classList.remove('#rotate-area');
   document.getElementById("prueba").classList.remove('resize-drag');
   document.getElementById("prueba").classList.add('draggable');
@@ -366,6 +481,12 @@ declare global {
 }
 
 //let FB = window.dragMoveListener; // ok now
+
+
+
+
+
+
 
 
 

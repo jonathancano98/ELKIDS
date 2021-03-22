@@ -6,13 +6,23 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<!--<ion-content [fullscreen]="true">-->
 
   
   <ion-content [fullscreen]="true">
-    <div id="rotate-area">
+    <div id="rotate-area" >
+      
+
+    <!-- <div *ngFor="let imageE of listaFotosDeEscena" >-->
+
+        <img id={{imageE.nombre}} bottom="1500px" left="50px" width="100" height="100" [src]= "imageE.url" *ngFor="let imageE of listaFotosDeEscena">
+      
+        
+    <!--  </div>-->
+
+      <img id="prueba" bottom="1500px" left="50px" width="50" height="50" [src]= "value" >
    
-    <img id="prueba" bottom="1500px" left="50px" width="50" height="50" [src]= "value" >
+ <!-- <img id="prueba" bottom="1500px" left="50px" width="50" height="50" [src]= "value" >-->
   
   </div>
  
@@ -23,7 +33,7 @@
   <ion-button style = "width: 20%; height: 40pt"class="ranking-btn-rojo" (click)="girar()">         <ion-icon name="refresh-outline"></ion-icon></ion-button> 
   <ion-button style = "width: 20%; height: 40pt" class="ranking-btn-azul" (click)="invertir();">        <ion-icon name="repeat-outline"></ion-icon></ion-button>
   <ion-button style = "width: 20%; height: 40pt" class="ranking-btn-azul" (click)="traeImagenesRecursoLibro();">        <ion-icon name="repeat-outline"></ion-icon></ion-button>
-
+  <ion-button style = "width: 20%; height: 40pt" class="ranking-btn" (click)="arrastrar22222222222()">         <ion-icon name="move-outline"></ion-icon></ion-button> 
 <!-- <div id="angle-info">0°</div>S-->  
 
 </ion-list>
@@ -53,9 +63,9 @@
         <p>Personajes:</p>
       </ion-text>
       <ion-col size="4" *ngFor="let imageF of listaFotosPersonajes">
-        <ion-card (click)="seleccionarfondo(foto)">
+        <ion-card (click)="seleccionarfondo(imageF.url)">
 
-          <ion-col> <img src={{imageF.url}} width="175" height="175" class="center"></ion-col>
+          <ion-col> <img src={{imageF.url}} id="hola" width="175" height="175" class="center"></ion-col>
           <ion-col>
             <p>{{imageF.nombre}}</p>
             <p>{{imageF.especial}}</p>
@@ -74,11 +84,10 @@
 <!-- <div id="angle-info">0°</div>S--> 
 <ion-row>
   <ion-text>
-    <p>Objetos:</p>
+    <p>Fondos:</p>
   </ion-text>
   <ion-col size="2" *ngFor="let imageP of listaFotosFondos">
-    <ion-card (click)="seleccionarfondo(foto)">
-
+    <ion-card (click)="seleccionarfondo(imageP.url)">
       <ion-col> <img src={{imageP.url}} width="450" height="450" class="center"></ion-col>
       <ion-col>
         <p>{{imageP.nombre}}</p>
@@ -102,10 +111,10 @@
 
     <ion-row>
       <ion-text>
-        <p>Fondos:</p>
+        <p>Objetos:</p>
       </ion-text>
       <ion-col size="4" *ngFor="let imageO of listaFotosObjetos">
-        <ion-card (click)="seleccionarfondo(foto)">
+        <ion-card (click)="seleccionarobjeto(imageO)">
 
           <ion-col> <img src={{imageO.url}} width="175" height="175" class="center"></ion-col>
           <ion-col>
