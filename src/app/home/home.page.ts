@@ -5,6 +5,9 @@ import interact from 'interactjs';
 import { element } from 'protractor';
 import{DbServiceService} from '../db-service.service'
 import { ImagenToBackend } from '../home/clases/imagenGuardada';
+import { ViewChild,ElementRef } from '@angular/core';
+
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -17,10 +20,15 @@ export class HomePage {
   constructor(private dBservice: DbServiceService) {}
 
 
+  @ViewChild('canvas', { static: true }) 
+  canvas: ElementRef<HTMLCanvasElement>;
+  private ctx: CanvasRenderingContext2D;
   clase="";
   girarImagen=0;
   //value = 'https://cdn1.iconfinder.com/data/icons/hawcons/32/699470-icon-4-thumb-up-256.png';
   value='https://c0.klipartz.com/pngpicture/110/30/gratis-png-patron-de-area-de-angulo-cubo-3d-s.png';
+
+  fondoPrimero = 'https://www.bbva.com/wp-content/uploads/2017/11/iceberg-recurso-fondo-de-comercio-bbva-1024x416.jpg';
 
   listaFotosPersonajes: any[] = [];
   listaFotosFondos: any[] = [];
@@ -40,6 +48,24 @@ export class HomePage {
 
   }
 
+  //Cambio el fondo del  canvas con un click//
+  canvasClick()
+  {
+    var Imagen= new Image;
+    this.ctx = this.canvas.nativeElement.getContext('2d');
+    Imagen.src=this.fondoPrimero;
+    Imagen.onload;
+    this.ctx.drawImage(Imagen,0,0,1000,500)
+
+
+
+
+  }
+
+
+
+
+//Selecciono el objeto que quiero y lo añado a la listaFotosDeEscena//
 seleccionarobjeto(imageO: ImagenToBackend)
 {
   this.listaFotosDeEscena.push(imageO);
@@ -48,7 +74,7 @@ seleccionarobjeto(imageO: ImagenToBackend)
 
 
 }
-
+//Selecciono el fondo que quiero//
   seleccionarfondo(urlrwae: string){
          
     var img3 = new Image();
@@ -56,6 +82,7 @@ seleccionarobjeto(imageO: ImagenToBackend)
     console.log('URL de foto');
     console.log(urlrwae);
    this.value = urlrwae;
+   this.fondoPrimero= urlrwae;
     // img3.src = '../../assets/imgs/fondo1.jpg';
    /* img3.width = 900;
     img3.height = 900; 
@@ -70,7 +97,7 @@ seleccionarobjeto(imageO: ImagenToBackend)
 
 
 
-
+//chupo las imagenes de mi recurso que hay en la api//
   traeImagenesRecursoLibro(){
   
 
@@ -321,6 +348,7 @@ girar(){
 
 }
 
+//Arrastro de momento todos los objetos que he añadido a la funcion listaFOtosDeEscena//
 arrastrar22222222222(){
   this.clase="draggable";
     console.log("llamamos a funcion arrastrar");
