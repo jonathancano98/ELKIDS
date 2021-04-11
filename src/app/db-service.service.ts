@@ -15,7 +15,7 @@ export class DbServiceService {
   private APIUrlhost = 'http://localhost:3000/api/Profesores/8/recursosLibros';
   private APIUrlProfesoresHost ='http://localhost:3000/api/Profesores';
   private APIUrlRecursoJuego ='http://localhost:3000/api/juegodelibro';
-
+  private APIUrlEscena='http://localhost:3000/api/escenas';
   private APIurlImagenesLibrosHost ='http://localhost:3000/api/imagenes';
   private APIurlAlumnoJuego = 'http://localhost:3000/api/alumnojuegodecuento';
   private APIurllibro = 'http://localhost:3000/api/libro';
@@ -33,6 +33,11 @@ export class DbServiceService {
     recuperarListaRecursosJuego(juegoId):Observable<RecursoLibroJuego[]>{
       return this.http.get<RecursoLibroJuego[]>(this.APIUrlRecursoJuego  + '/' + juegoId +'/recursosJuegoLibro');
 
+    }
+
+    public postEscena(escena: any): Observable<any> {
+      return this.http.post<any>(this.APIUrlEscena + '/' + escena.id, escena);
+  
     }
 
     /**

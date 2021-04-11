@@ -1,10 +1,5 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Classpipkids
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+
+
 
 <!--<ion-content [fullscreen]="true">-->
 
@@ -12,17 +7,17 @@
   <ion-content [fullscreen]="true">
     <div id="rotate-area" >
       
-   <canvas #canvas id="canvas" (click)="canvasClick()"  width="1000" height="500" style="border-style: solid; "></canvas>
-    
+      <canvas #canvas id="canvas" (click)="canvasClick2($event)"  width="1000" height="500" style="border-style: solid; " position="absolute" crossorigin="anonymous"></canvas>
+     
        
     <!-- <div *ngFor="let imageE of listaFotosDeEscena" >-->
 
-        <img id={{imageE.nombre}} bottom="1500px" left="50px" width="150" height="150" [src]= "imageE.url" *ngFor="let imageE of listaFotosDeEscena">
-      
+        <img id={{imageE.nombre}} position="absolute"  bottom="1500px" left="50px" z-index="3" width="150" height="150" [src]= "imageE.url" *ngFor="let imageE of listaFotosDeEscena" (dblclick)="testeo(imageE.nombre,$event)"(click)="testeo2(imageE.nombre,$event,imageE)"crossorigin="anonymous">
+       
         
     <!--  </div>-->
 
-      <img id="prueba" bottom="1500px" left="50px" width="50" height="50" [src]= "value" >
+      <img id="prueba" bottom="1500px" left="50px" width="50" height="50" [src]= "value" position="absolute" z-index="-1">
    
  <!-- <img id="prueba" bottom="1500px" left="50px" width="50" height="50" [src]= "value" >-->
   
@@ -30,15 +25,32 @@
  
 
 <ion-list style="text-align:center">
-  <ion-button style = "width: 20%; height: 40pt" class="ranking-btn" (click)="arrastrar()">         <ion-icon name="move-outline"></ion-icon></ion-button> 
-  <ion-button style = "width: 20%; height: 40pt" class="ranking-btn-azul" (click)="resize()">       <ion-icon name="resize-outline"></ion-icon></ion-button>
-  <ion-button style = "width: 20%; height: 40pt"class="ranking-btn-rojo" (click)="girar()">         <ion-icon name="refresh-outline"></ion-icon></ion-button> 
-  <ion-button style = "width: 20%; height: 40pt" class="ranking-btn-azul" (click)="invertir();">        <ion-icon name="repeat-outline"></ion-icon></ion-button>
-  <ion-button style = "width: 20%; height: 40pt" class="ranking-btn-azul" (click)="traeImagenesRecursoLibro();">        <ion-icon name="repeat-outline"></ion-icon></ion-button>
-  <ion-button style = "width: 20%; height: 40pt" class="ranking-btn" (click)="arrastrar22222222222()">         <ion-icon name="move-outline"></ion-icon></ion-button> 
+  <ion-button style = "width: 20%; height: 40pt" class="ranking-btn" (click)="arrastrar()">    ARRASTRAR     <ion-icon name="move-outline"></ion-icon></ion-button> 
+  <ion-button style = "width: 20%; height: 40pt" class="ranking-btn-azul" (click)="resize()">   RESIZE    <ion-icon name="resize-outline"></ion-icon></ion-button>
+  <ion-button style = "width: 20%; height: 40pt"class="ranking-btn-rojo" (click)="arregloGirar()">    GIRAR     <ion-icon name="refresh-outline"></ion-icon></ion-button> 
+  <ion-button style = "width: 20%; height: 40pt" class="ranking-btn-azul" (click)="invertir();">  INVERTIR      <ion-icon name="repeat-outline"></ion-icon></ion-button>
+  <ion-button style = "width: 20%; height: 40pt" class="ranking-btn-azul" (click)="traeImagenesRecursoLibro();">     TRAEIMAGENRECURSO   <ion-icon name="repeat-outline"></ion-icon></ion-button>
+  <ion-button style = "width: 20%; height: 40pt" class="ranking-btn" (click)="arrastrar22222222222()">    ARRASTRAR22     <ion-icon name="move-outline"></ion-icon></ion-button> 
+  <ion-button color="warning" (click)="crearPagina()">CREATE PAGE</ion-button>
+  <ion-button color="warning" (click)="recuperarPagina()">Recuperar Pagina</ion-button>
+  <ion-button color="warning" (click)="recolocar()">Recolocar</ion-button>
+  <ion-button color="warning" (click)="eliminarTexto()">ATRÁS texto</ion-button>
+  <ion-button color="danger" (click)="drawCanvas()">DrawCanvas</ion-button>
+  <ion-button color="danger" (click)="pruebaCanvasUrl()">URL_CANVAS</ion-button>
+  <input name="mensaje" placeholder="Escribe tu texto" [(ngModel)]="mark">
+  <ion-button id="theBoxes"style = "width: 20%; height: 40pt" class="ranking-btn-azul" (click)="modoTexto()">        <ion-icon name="repeat-outline"></ion-icon>Texto</ion-button>
 <!-- <div id="angle-info">0°</div>S-->  
 
 </ion-list>
+
+<div id="list1" class="dropdown-check-list" tabindex="100">
+  <span class="anchor" (click)="desplegarTexto()">Selecciona Texto</span>
+  <ul id="inputs" class="items" >
+    
+
+  </ul>
+</div>
+
 <!--
 <div *ngIf="recursoCargadoPregunta">
   <h2>Personajes:</h2>
@@ -65,9 +77,9 @@
         <p>Personajes:</p>
       </ion-text>
       <ion-col size="4" *ngFor="let imageF of listaFotosPersonajes">
-       <!-- <ion-card (click)="seleccionarfondo(imageF.url)">-->
+        <ion-card (click)="seleccionarobjeto(imageF)">
 
-          <ion-col> <img src={{imageF.url}} id="hola" width="175" height="175" class="center" ></ion-col>
+          <ion-col> <img src={{imageF.url}} id="hola" width="175" height="175" class="center"></ion-col>
           <ion-col>
             <p>{{imageF.nombre}}</p>
             <p>{{imageF.especial}}</p>
@@ -75,7 +87,7 @@
 
           </ion-col>
 
-        <!-- </ion-card>-->
+        </ion-card>
 
 
 
@@ -90,7 +102,7 @@
   </ion-text>
   <ion-col size="2" *ngFor="let imageP of listaFotosFondos">
     <ion-card (click)="seleccionarfondo(imageP.url)">
-      <ion-col> <img src={{imageP.url}} width="450" height="450" class="center" ></ion-col>
+      <ion-col> <img src={{imageP.url}} width="450" height="450" class="center"></ion-col>
       <ion-col>
         <p>{{imageP.nombre}}</p>
         <p>{{imageP.especial}}</p>
@@ -145,28 +157,6 @@
 
   </div>
 
-  <div>
-
-   
-      <ion-slides>
-
-        <ion-slide  *ngFor="let imageP of listaFotosFondos">
-          <div class="slide">
-            
-            <img src={{imageP.url}}  class="center">
-          </div>
-        </ion-slide>
-
-
-
-      </ion-slides>
- 
-
-
-
-
-
-  </div>
 
 
 
@@ -181,5 +171,21 @@
 
 
 </ion-content>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
