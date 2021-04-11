@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Classpipkids</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding >
+<ion-item  *ngIf = "alumnoJuegoDeLibro">
+
+<ion-text> Bienvenido {{alumnoJuegoDeLibro.Nombre}} </ion-text>
+
+</ion-item>
+<ion-row style="height: 50px"></ion-row>
+<ion-button (click)="crearCuento()" >Crear Cuento</ion-button>
+<ion-row style="height: 100px"></ion-row>
+
+<ion-text> Tienes estos cuentos: </ion-text>
+
+<ion-row style="height: 100px"></ion-row>
+<ion-list>
+<ion-item *ngFor="let cuento of listaDeLibrosAlumnoJuego; let i = index" >
+  <ion-label> {{cuento.titulo}} </ion-label>
+  <ion-checkbox   [(ngModel)]="seleccionado[i]" ></ion-checkbox  > 
+</ion-item>
+
+</ion-list>
+
+
+
+
+
+<ion-button  (click)="irCuento()" >Siguiente</ion-button>
+
+<ion-button  (click)="obtenemosLosLibrosAlumnoJuego()" >Actualizo lista</ion-button>
+
+</ion-content>

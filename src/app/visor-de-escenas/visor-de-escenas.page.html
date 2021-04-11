@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>visorDeEscenas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-slides>
+
+    <ion-slide>
+      <div class="slide">
+        <img src="https://haciendofotos.com/wp-content/uploads/mejores-fotos-del-mar-2019-playa-de-portugal.jpg"/>
+        <h2>Welcome</h2>
+        <p>The <b>ionic conference app</b> is a practical preview of the ionic framework in action, and a demonstration of proper code use.</p>
+      </div>
+    </ion-slide>
+
+    <ion-slide>
+      <img src="https://haciendofotos.com/wp-content/uploads/mejores-fotos-del-mar-2019-puesta-de-sol.jpg"/>
+      <h2>What is Ionic?</h2>
+      <p><b>Ionic Framework</b> is an open source SDK that enables developers to build high quality mobile apps with web technologies like HTML, CSS, and JavaScript.</p>
+    </ion-slide>
+
+
+  </ion-slides>
+
+  <ion-button  (click)="Atras()" >Volver</ion-button>
+  <ion-button  (click)="EditarEscena()" >Editar Escena</ion-button>
+
+
+
+  <ion-slides>
+
+    <ion-slide  *ngFor="let imageP of listaFotosFondos">
+      <div class="slide">
+        
+        <img src={{imageP.url}}  class="center">
+      </div>
+    </ion-slide>
+
+
+
+  </ion-slides>
+
+
+</ion-content>

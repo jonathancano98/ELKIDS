@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { ValueAccessor } from '@ionic/angular/directives/control-value-accessors/value-accessor';
 import interact from 'interactjs';
 import { element } from 'protractor';
-import{DbServiceService} from '../db-service.service'
+import{DbServiceService} from 'src/app/db-service.service'
 import { ImagenToBackend } from '../home/clases/imagenGuardada';
 import { ViewChild,ElementRef } from '@angular/core';
 
@@ -52,9 +52,8 @@ export class HomePage {
   canvasClick()
   {
     var Imagen= new Image;
-    this.ctx = this.canvas.nativeElement.getContext('2d');
     Imagen.src=this.fondoPrimero;
-    Imagen.onload;
+    this.ctx = this.canvas.nativeElement.getContext('2d');
     this.ctx.drawImage(Imagen,0,0,1000,500)
 
 
@@ -83,6 +82,7 @@ seleccionarobjeto(imageO: ImagenToBackend)
     console.log(urlrwae);
    this.value = urlrwae;
    this.fondoPrimero= urlrwae;
+   this.canvasClick();
     // img3.src = '../../assets/imgs/fondo1.jpg';
    /* img3.width = 900;
     img3.height = 900; 
@@ -180,15 +180,26 @@ console.log(this.listaRecursos[0].id);
   //Recuperamos la lista de recursos donde se encuentran las imagenes para la app//
  recuperarListaRecursos() {
     this.listaRecursos = [];
+//ponia el valor 1//
 
-   this.dBservice.recuperarListaRecursos(8)
+   /*this.dBservice.recuperarListaRecursos(1)
       .subscribe((res) => {
-        console.log(8);
+        console.log(1);
+        this.listaRecursos = res;
+        console.log(this.listaRecursos);
+      }, (err) => {
+
+      })*/
+      this.dBservice.recuperarListaRecursosJuego(localStorage.getItem("idJuego"))
+      .subscribe((res) => {
+        console.log(1);
         this.listaRecursos = res;
         console.log(this.listaRecursos);
       }, (err) => {
 
       })
+
+
   }
 
 

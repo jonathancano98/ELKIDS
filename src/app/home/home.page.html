@@ -12,8 +12,8 @@
   <ion-content [fullscreen]="true">
     <div id="rotate-area" >
       
-      <canvas #canvas id="canvas" (click)="canvasClick()"  width="1000" height="500" style="border-style: solid; "></canvas>
-
+   <canvas #canvas id="canvas" (click)="canvasClick()"  width="1000" height="500" style="border-style: solid; "></canvas>
+    
        
     <!-- <div *ngFor="let imageE of listaFotosDeEscena" >-->
 
@@ -65,9 +65,9 @@
         <p>Personajes:</p>
       </ion-text>
       <ion-col size="4" *ngFor="let imageF of listaFotosPersonajes">
-        <ion-card (click)="seleccionarfondo(imageF.url)">
+       <!-- <ion-card (click)="seleccionarfondo(imageF.url)">-->
 
-          <ion-col> <img src={{imageF.url}} id="hola" width="175" height="175" class="center"></ion-col>
+          <ion-col> <img src={{imageF.url}} id="hola" width="175" height="175" class="center" ></ion-col>
           <ion-col>
             <p>{{imageF.nombre}}</p>
             <p>{{imageF.especial}}</p>
@@ -75,7 +75,7 @@
 
           </ion-col>
 
-        </ion-card>
+        <!-- </ion-card>-->
 
 
 
@@ -90,7 +90,7 @@
   </ion-text>
   <ion-col size="2" *ngFor="let imageP of listaFotosFondos">
     <ion-card (click)="seleccionarfondo(imageP.url)">
-      <ion-col> <img src={{imageP.url}} width="450" height="450" class="center"></ion-col>
+      <ion-col> <img src={{imageP.url}} width="450" height="450" class="center" ></ion-col>
       <ion-col>
         <p>{{imageP.nombre}}</p>
         <p>{{imageP.especial}}</p>
@@ -145,6 +145,28 @@
 
   </div>
 
+  <div>
+
+   
+      <ion-slides>
+
+        <ion-slide  *ngFor="let imageP of listaFotosFondos">
+          <div class="slide">
+            
+            <img src={{imageP.url}}  class="center">
+          </div>
+        </ion-slide>
+
+
+
+      </ion-slides>
+ 
+
+
+
+
+
+  </div>
 
 
 
