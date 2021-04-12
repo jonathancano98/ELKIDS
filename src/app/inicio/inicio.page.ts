@@ -33,7 +33,7 @@ export class InicioPage implements OnInit {
   //Forzamos el alumno con id 17 ya que sabemos que tiene un juego y ahora mismo no esta implementado el login
   obtenemosAlumnoJuegoLibro()
   {
-    this.dBservice.dameAlumnoJuegoLibro(57)
+    this.dBservice.dameAlumnoJuegoLibro(18)
     .subscribe(res => {
       console.log(res);
       this.alumnoJuegoDeLibro=res;
@@ -50,7 +50,7 @@ export class InicioPage implements OnInit {
 
   obtenemosLosLibrosAlumnoJuego()
   {
-    this.dBservice.dameLibrosAlumnoJuego(57).subscribe(res => {
+    this.dBservice.dameLibrosAlumnoJuego(18).subscribe(res => {
       
      // this.crearCarpeta(res.id);
       this.listaDeLibrosAlumnoJuego = res;
@@ -72,6 +72,7 @@ export class InicioPage implements OnInit {
         if(this.seleccionado[i])
         {
           localStorage.setItem("idLibroDelAlumno",this.listaDeLibrosAlumnoJuego[i].id);
+          localStorage.setItem("contenedor",this.listaDeLibrosAlumnoJuego[i].titulo);
           count = true;
           //this.router.navigate(['/menu-libro']);
 

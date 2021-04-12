@@ -8,6 +8,8 @@ import { ImagenToBackend } from '../home/clases/imagenGuardada';
 import{ImagenToBackendEdu} from '../home/clases/imagenGuardadaEdu';
 import{PersonajesPagina} from '../home/clases/PersonajesPagina'
 import{TextoCuento} from '../home/clases/TextoCuento'
+import{Imagen}from'../home/clases/imagen';
+
 
 import { ViewChild,ElementRef } from '@angular/core';
 
@@ -30,7 +32,7 @@ export class HomePage {
   clase="";
   girarImagen=0;
   //value = 'https://cdn1.iconfinder.com/data/icons/hawcons/32/699470-icon-4-thumb-up-256.png';
-  value='https://c0.klipartz.com/pngpicture/110/30/gratis-png-patron-de-area-de-angulo-cubo-3d-s.png';
+  value='';
 
   fondoPrimero = 'https://www.bbva.com/wp-content/uploads/2017/11/iceberg-recurso-fondo-de-comercio-bbva-1024x416.jpg';
 
@@ -61,6 +63,11 @@ export class HomePage {
     this.recuperarListaRecursos();
     console.log('HOLA');
     console.log(this.listaRecursos);
+    this.obtengoNumeroEscenas()
+
+    var bocadilloImagen = new Image;
+    bocadilloImagen.src='../../assets/icon/bocadillo.png'
+    this.value=bocadilloImagen.src
 
   }
   signalSelected (markVal: string){
@@ -192,6 +199,7 @@ testeo(objeto:any,event)
 }
 
 contadorIDPersonajes=0;
+numeroPaginas;
 
 crearPagina(){
 
@@ -241,21 +249,86 @@ this.listaFotosDeEscena=[];
 
 
 this.drawCanvas();
+
+
+
+
 this.pruebaCanvasUrl();
 
 this.ctx.clearRect(0, 0, 1000, 500);
 
+
+
+
 }
+
+dataURLtoFile(dataurl, filename) {
+  var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+     bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+  while (n--) {
+     u8arr[n] = bstr.charCodeAt(n);
+  }
+  return new File([u8arr], filename, { type: mime });
+}
+
+
+obtengoNumeroEscenas()
+{
+
+  this.dBservice.obtenerImagenesEscena(localStorage.getItem("contenedor"))
+  .subscribe((res) => {
+  
+    this.numeroPaginas = res.length;
+    console.log(this.numeroPaginas);
+  
+  
+  })
+
+
+}
+
+
 
 //guarda el url
-pruebaCanvasUrl(){
+
+
+async pruebaCanvasUrl(){
+
+
   
+
+
+  const formData: FormData = new FormData();
   var micanvas = document.getElementById("canvas") as HTMLCanvasElement;
   var dataURL = micanvas.toDataURL();
-  
-  console.log(dataURL);
+  var file = this.dataURLtoFile(dataURL,this.numeroPaginas + '.png')
+  this.numeroPaginas++;
 
+  formData.append('fotoFrame', file);
+
+  await this.postFotoFrame(formData);
+
+
+ 
 }
+
+async postFotoFrame(formData: FormData) {
+
+  var contenedor = localStorage.getItem("contenedor");
+
+  this.dBservice.postImage(contenedor, formData)
+     .subscribe((res) => {
+       console.log("ok")
+
+
+     }
+        , (err) => {
+           console.log("error al subir la imagem");
+           console.log('Error : ' + err);
+        });
+}
+
+
 
 pruebatranslate(){
  
@@ -669,7 +742,7 @@ console.log(this.listaRecursos[0].id);
       
       this.dBservice.getImagenesRecurso(this.recursoCargado.carpeta, element.nombre)
       .subscribe((res)=>{
-
+        
         const blob = new Blob([res.blob()], { type: 'image/png' });
         const reader = new FileReader();
 

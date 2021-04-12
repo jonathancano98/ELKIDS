@@ -6,6 +6,7 @@ import{RecursoLibroJuego} from'../app/home/clases/recursoLibroJuego';
 import { ResponseContentType, Http} from '@angular/http';
 import {Alumnojuegodecuento} from '../app/home/clases/Alumnojuegodecuento';
 import{Libro} from '../app/home/clases/libro';
+import{imagenEscena}from '../app/home/clases/imagenEscena';
 
 @Injectable({
   providedIn: 'root'
@@ -30,9 +31,22 @@ export class DbServiceService {
       return this.http.get<RecursoLibro[]>(this.APIUrlProfesoresHost  + '/' + profesorId + '/recursosLibros');
     }
 
+
+
     recuperarListaRecursosJuego(juegoId):Observable<RecursoLibroJuego[]>{
       return this.http.get<RecursoLibroJuego[]>(this.APIUrlRecursoJuego  + '/' + juegoId +'/recursosJuegoLibro');
 
+    }
+
+    obtenerImagenesEscena(nombreCuento):Observable<imagenEscena[]>{
+      return this.http.get<imagenEscena[]>(this.APIurlImagenesLibrosHost  + '/' + nombreCuento +'/files');
+
+    }
+
+
+    public crearCarpeta (name: any): Observable<any> {
+      return this.http.post<any>(this.APIurlImagenesLibrosHost, name);
+  
     }
 
     public postEscena(escena: any): Observable<any> {
@@ -49,6 +63,10 @@ export class DbServiceService {
     public getImagenesRecurso(containerName, fileName): Observable<any> {
       return this.httpImagenes.get(this.APIurlImagenesLibrosHost  + '/' + containerName + '/download/' + fileName, { responseType: ResponseContentType.Blob });
     }
+
+    public getEscenasDeRecurso(containerName, fileName): Observable<any> {
+      return this.httpImagenes.get(this.APIurlImagenesLibrosHost  + '/' + containerName + '/download/' + fileName, { responseType: ResponseContentType.Blob });
+    }
     /**
      * @brief 
      * @param id 
@@ -61,6 +79,11 @@ export class DbServiceService {
 
      public dameAlumnoJuego(id): Observable<any> {
       return this.http.get<any>(this.APIurlAlumnoJuego+ '/' + id);
+    }
+
+    public postImage(contenedor: string, formData: FormData): Observable<any> {
+      return this.http.post<any>(this.APIurlImagenesLibrosHost + '/' + contenedor + '/upload', formData);
+  
     }
 
 

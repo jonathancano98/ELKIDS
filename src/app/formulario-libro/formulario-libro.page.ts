@@ -87,6 +87,23 @@ export class FormularioLibroPage implements OnInit {
   
     }
 
+
+    crearCarp() {
+
+      const name = {
+        "name": this.libro.titulo
+     }
+
+
+      this.dBservice.crearCarpeta(name)
+         .subscribe((res) =>
+            console.log(res),
+
+            (err) => (console.log(err))
+         )
+   }
+    
+
     public publicarLibro()
     {
       this.idAlumnoJuego=localStorage.getItem("idAlumnoJuego")
@@ -99,6 +116,7 @@ export class FormularioLibroPage implements OnInit {
 
         });
 
+        this.crearCarp();
         this.router.navigate(['/inicio']);
     }
 

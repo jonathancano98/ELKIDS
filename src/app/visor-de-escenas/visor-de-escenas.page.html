@@ -6,7 +6,8 @@
 
 <ion-content>
 
-  <ion-slides>
+  <!--<ion-slides>
+    
 
     <ion-slide>
       <div class="slide">
@@ -24,24 +25,26 @@
 
 
   </ion-slides>
+-->
+<ion-slides>
+
+  <ion-slide  *ngFor="let imageP of listaEscenasVisor2">
+    <div class="slide">
+      
+      <img src={{imageP.url}}   class="center">
+    </div>
+  </ion-slide>
+
+
+
+</ion-slides>
 
   <ion-button  (click)="Atras()" >Volver</ion-button>
   <ion-button  (click)="EditarEscena()" >Editar Escena</ion-button>
+  <ion-button  (click)="traeImagenesRecursoLibro()" >trae</ion-button>
 
 
-
-  <ion-slides>
-
-    <ion-slide  *ngFor="let imageP of listaFotosFondos">
-      <div class="slide">
-        
-        <img src={{imageP.url}}  class="center">
-      </div>
-    </ion-slide>
-
-
-
-  </ion-slides>
+  
 
 
 </ion-content>
