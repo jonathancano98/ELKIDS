@@ -20,12 +20,23 @@ export class DbServiceService {
   private APIurlImagenesLibrosHost ='http://localhost:3000/api/imagenes';
   private APIurlAlumnoJuego = 'http://localhost:3000/api/alumnojuegodecuento';
   private APIurllibro = 'http://localhost:3000/api/libro';
+  private APIurlAlumnos= 'http://localhost:3000/api/Alumnos';
  
   
   private APIUrl = 'http://147.83.249.79:3000/api/Profesores/8/recursosLibros';
   private APIUrlProfesores='http://147.83.249.79:3000/api/Profesores';
   private APIurlImagenesLibros='http://147.83.249.79:3000/api/imagenes';
   constructor(private http: HttpClient,private httpImagenes: Http ) {}
+
+  dameAlumno (nombre: string): Observable<any> {
+    return this.http.get<any>(this.APIUrl + '/' + nombre);
+  }
+
+  public loginAlumno(username: string, password: string): Observable<any> {
+    console.log('Entro a mostrar a ' + username + ' ' + password);
+    return this.http.get<any>(this.APIurlAlumnos + '?filter[where][Username]=' + username + '&filter[where][Password]=' + password);
+  }
+
 
     recuperarListaRecursos(profesorId): Observable<RecursoLibro[]> {
       return this.http.get<RecursoLibro[]>(this.APIUrlProfesoresHost  + '/' + profesorId + '/recursosLibros');

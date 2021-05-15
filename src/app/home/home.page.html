@@ -12,7 +12,7 @@
        
     <!-- <div *ngFor="let imageE of listaFotosDeEscena" >-->
 
-        <img id={{imageE.nombre}} position="absolute"  bottom="1500px" left="50px" z-index="3" width="150" height="150" [src]= "imageE.url" *ngFor="let imageE of listaFotosDeEscena" (dblclick)="testeo(imageE.nombre,$event)"(click)="testeo2(imageE.nombre,$event,imageE)"crossorigin="anonymous">
+        <img id={{imageE.nombre}} class="positionAbsolute"  bottom="1500px" left="50px" z-index="3" width="150" height="150" [src]= "imageE.url" *ngFor="let imageE of listaFotosDeEscena" (dblclick)="testeo(imageE.nombre,$event)"(click)="testeo2(imageE.nombre,$event,imageE)"crossorigin="anonymous">
        
         
     <!--  </div>-->

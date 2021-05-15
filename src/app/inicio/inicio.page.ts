@@ -33,7 +33,7 @@ export class InicioPage implements OnInit {
   //Forzamos el alumno con id 17 ya que sabemos que tiene un juego y ahora mismo no esta implementado el login
   obtenemosAlumnoJuegoLibro()
   {
-    this.dBservice.dameAlumnoJuegoLibro(18)
+    this.dBservice.dameAlumnoJuegoLibro(78)
     .subscribe(res => {
       console.log(res);
       this.alumnoJuegoDeLibro=res;
@@ -50,7 +50,7 @@ export class InicioPage implements OnInit {
 
   obtenemosLosLibrosAlumnoJuego()
   {
-    this.dBservice.dameLibrosAlumnoJuego(18).subscribe(res => {
+    this.dBservice.dameLibrosAlumnoJuego(78).subscribe(res => {
       
      // this.crearCarpeta(res.id);
       this.listaDeLibrosAlumnoJuego = res;

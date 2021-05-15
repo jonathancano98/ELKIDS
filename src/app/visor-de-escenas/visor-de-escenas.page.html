@@ -28,13 +28,15 @@
 -->
 <ion-slides>
 
-  <ion-slide  *ngFor="let imageP of listaEscenasVisor2">
+  <ion-slide  *ngFor="let imageP of listaEscenasVisor2; let i = index">
     <div class="slide">
       
       <img src={{imageP.url}}   class="center">
+      <ion-row > Escena {{i}}</ion-row>
     </div>
-  </ion-slide>
 
+  </ion-slide>
+  
 
 
 </ion-slides>

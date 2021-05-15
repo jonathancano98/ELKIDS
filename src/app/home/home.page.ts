@@ -903,7 +903,7 @@ console.log(this.listaRecursos[0].id);
     interact('.resize-drag')
     .resizable({
       // resize from all edges and corners
-      edges: { left: true, right: true, bottom: true, top: true },
+      edges: { left: false, right: true, bottom: true, top: false },
   
       listeners: {
         move (event) {

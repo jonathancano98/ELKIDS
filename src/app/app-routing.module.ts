@@ -27,6 +27,14 @@ const routes: Routes = [
     path: 'visor-de-escenas',
     loadChildren: () => import('./visor-de-escenas/visor-de-escenas.module').then( m => m.VisorDeEscenasPageModule)
   },
+  {
+    path: 'login',
+    loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
+  },
+  {
+    path: 'menu-principal',
+    loadChildren: () => import('./menu-principal/menu-principal.module').then( m => m.MenuPrincipalPageModule)
+  },
 ];
 
 @NgModule({
