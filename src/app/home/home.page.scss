@@ -143,12 +143,16 @@
 }
 
 .cajita {
-  width: 150px;
-  height: 100px;
   position: relative;
   background-color: #4be091;
   border-radius: 6px;
   box-shadow: rgba(240, 46, 170, 0.4) 5px 5px, rgba(240, 46, 170, 0.3) 10px 10px, rgba(240, 46, 170, 0.2) 15px 15px, rgba(240, 46, 170, 0.1) 20px 20px, rgba(240, 46, 170, 0.05) 25px 25px;
+}
+.cajitaInvertida{
+  position: relative;
+  background-color: #4be091;
+  border-radius: 6px;
+  box-shadow: rgba(240, 46, 170, 0.4) -5px 5px, rgba(240, 46, 170, 0.3) -10px 10px, rgba(240, 46, 170, 0.2) -15px 15px, rgba(240, 46, 170, 0.1) -20px 20px, rgba(240, 46, 170, 0.05) -25px 25px;
 }
 
 .rotation-handle {
@@ -169,6 +173,14 @@
 .positionAbsolute {
   position: absolute;
 }
+.positionAbsoluteTituloPersonaje {
+  position: absolute;
+
+}
+
+.positionRelative {
+  position: static;
+}
 .zindex {
   z-index: 0;
 }
@@ -182,4 +194,72 @@
   height: 360px;
   background-color: #e8e9e8;
   position: relative;
+}
+
+.canvasStyle{
+  box-shadow: 5px 5px 10px;
+}
+
+.ion-card{
+  width: 150px;
+  height: 150px;
+}
+
+.botonArratrar{
+  transform: translate(-770px,0px);
+}
+.botonResize{
+  transform: translate(-570px,0px);
+}
+.botonGirar{
+  transform: translate(-555px,0px);
+}
+.textoEscrito{
+  transform: translate(-700px,0px);
+}
+
+.textoAtras{
+  transform: translate(-700px,-9px);
+}
+
+.seleccionaTexto{
+  transform: translate(820px,-230px);
+}
+.hideBocadillo{
+  display: none;
+}
+.fondoMover{
+  transform: translate(40px,0px);
+  width:15%;
+}
+.moverCrearPagina{
+transform: translate(420px,0px);
+}
+.ion-title{
+  font-size: 1em;
+}
+
+.responsivePersonajes{
+  width: 15%;
+  height: auto;
+}
+.responsiveImageObject{
+  width: 10%;
+  height: auto;
+}
+.resposniveButtons{
+  width: 5%;
+  height: auto;
+
+}
+.responsiveImage{
+  width: 1%;
+  height: auto;
+}
+.canvasSize{
+  width: 500px;
+}
+.canvasSizeOriginal{
+  width: 1000px;
+  height: 500px;
 }

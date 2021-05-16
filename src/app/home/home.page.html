@@ -1,152 +1,159 @@
 
-
-
 <!--<ion-content [fullscreen]="true">-->
 
   
   <ion-content [fullscreen]="true">
-    <div id="rotate-area" >
-      
-      <canvas #canvas id="canvas" (click)="canvasClick2($event)"  width="1000" height="500" style="border-style: solid; " position="absolute" crossorigin="anonymous"></canvas>
-     
-       
-    <!-- <div *ngFor="let imageE of listaFotosDeEscena" >-->
+    
+    <div  >
 
-        <img id={{imageE.nombre}} class="positionAbsolute"  bottom="1500px" left="50px" z-index="3" width="150" height="150" [src]= "imageE.url" *ngFor="let imageE of listaFotosDeEscena" (dblclick)="testeo(imageE.nombre,$event)"(click)="testeo2(imageE.nombre,$event,imageE)"crossorigin="anonymous">
-       
+      <canvas #canvas id="canvas" class="canvasStyle" (click)="canvasClick2($event)"  width="1000px" height="500px" style="border-style: solid; " position="absolute" crossorigin="anonymous" ></canvas>
+
+    <!-- <div *ngFor="let imageE of listaFotosDeEscena" >-->
+        <img id={{imageE.nombre}} class="positionAbsolute responsiveImage" z-index="3" width="65px" height="65px" [src]= "imageE.url" *ngFor="let imageE of listaFotosDeEscena" (dblclick)="voltearImagen(imageE.nombre,$event)"(click)="organizarEjeZ(imageE.nombre,$event)"crossorigin="anonymous">
         
     <!--  </div>-->
+    
+    <img id="imagenPersonajes" class="positionAbsoluteTituloPersonaje " [src]= "imagenPersonajes" position="absolute" z-index="-1">
+    <img id="imagenObjetos" class="positionAbsoluteTituloPersonaje " [src]= "imagenObjetos" position="absolute" z-index="-1">
 
-      <img id="prueba" bottom="1500px" left="50px" width="50" height="50" [src]= "value" position="absolute" z-index="-1">
+      <img id="prueba" bottom="1500px" left="50px" width="50" height="50" [src]= "value" position="absolute" z-index="-1" class="hideBocadillo">
    
  <!-- <img id="prueba" bottom="1500px" left="50px" width="50" height="50" [src]= "value" >-->
   
   </div>
- 
+  <div class="fondoMover">
+  <ion-card class ="ion-card">
+    <ion-card-header>
+      <ion-card-title class="ion-title" >Â¡DESLIZA!</ion-card-title >
+    </ion-card-header>
+  
+    <ion-card-content>
+  
+      <ion-slides>
+  
+        <ion-slide  *ngFor="let imageP of listaFotosFondos">
+          <div class="slide">
+            
+            <img src={{imageP.url}}  class="center" (click)="seleccionarfondo(imageP.url)" height="50px" width="50px">
+          </div>
+        </ion-slide>
+      
+      
+      
+      </ion-slides>
+  
+      
+  
+    </ion-card-content>
+  </ion-card>
+</div>
 
+<div>
 <ion-list style="text-align:center">
-  <ion-button style = "width: 20%; height: 40pt" class="ranking-btn" (click)="arrastrar()">    ARRASTRAR     <ion-icon name="move-outline"></ion-icon></ion-button> 
-  <ion-button style = "width: 20%; height: 40pt" class="ranking-btn-azul" (click)="resize()">   RESIZE    <ion-icon name="resize-outline"></ion-icon></ion-button>
-  <ion-button style = "width: 20%; height: 40pt"class="ranking-btn-rojo" (click)="arregloGirar()">    GIRAR     <ion-icon name="refresh-outline"></ion-icon></ion-button> 
-  <ion-button style = "width: 20%; height: 40pt" class="ranking-btn-azul" (click)="invertir();">  INVERTIR      <ion-icon name="repeat-outline"></ion-icon></ion-button>
-  <ion-button style = "width: 20%; height: 40pt" class="ranking-btn-azul" (click)="traeImagenesRecursoLibro();">     TRAEIMAGENRECURSO   <ion-icon name="repeat-outline"></ion-icon></ion-button>
-  <ion-button style = "width: 20%; height: 40pt" class="ranking-btn" (click)="arrastrar22222222222()">    ARRASTRAR22     <ion-icon name="move-outline"></ion-icon></ion-button> 
-  <ion-button color="warning" (click)="crearPagina()">CREATE PAGE</ion-button>
+  
+  <ion-button style = "width: 3%; height: 40pt" class="ranking-btn-azul  resposniveButtons" (click)="resize()"> <ion-icon name="resize-outline"></ion-icon></ion-button>
+  <ion-button style = "width: 3%; height: 40pt"class="ranking-btn-rojo  resposniveButtons" (click)="arregloGirar()">  <ion-icon name="refresh-outline"></ion-icon></ion-button> 
+ 
+  <ion-button style = "width: 3%; height: 40pt" class="ranking-btn  resposniveButtons" (click)="arrastrar22222222222()"><ion-icon name="move-outline"></ion-icon></ion-button> 
+  <ion-button color="warning" style = "width: 3%; height: 40pt" class="ranking-btn  resposniveButtons" (click)="allMight()"><ion-icon name="move-outline"></ion-icon></ion-button> 
+  <ion-button color="warning" (click)="crearPagina()"class="moverCrearPagina">Crear PÃ¡gina</ion-button>
+  <!--
   <ion-button color="warning" (click)="recuperarPagina()">Recuperar Pagina</ion-button>
   <ion-button color="warning" (click)="recolocar()">Recolocar</ion-button>
-  <ion-button color="warning" (click)="eliminarTexto()">ATRÁS texto</ion-button>
-  <ion-button color="danger" (click)="drawCanvas()">DrawCanvas</ion-button>
-  <ion-button color="danger" (click)="pruebaCanvasUrl()">URL_CANVAS</ion-button>
-  <input name="mensaje" placeholder="Escribe tu texto" [(ngModel)]="mark">
+  -->
+  <ion-button color="warning" (click)="eliminarTexto()"class="textoAtras"><ion-icon name="caret-back-outline"></ion-icon></ion-button>
+ 
+  <input name="mensaje" placeholder="Escribe tu texto" [(ngModel)]="mark" class="textoEscrito">
+<!--
   <ion-button id="theBoxes"style = "width: 20%; height: 40pt" class="ranking-btn-azul" (click)="modoTexto()">        <ion-icon name="repeat-outline"></ion-icon>Texto</ion-button>
-<!-- <div id="angle-info">0°</div>S-->  
+-->
+<!-- <div id="angle-info">0Â°</div>S-->  
 
 </ion-list>
-
+</div>
 <div id="list1" class="dropdown-check-list" tabindex="100">
-  <span class="anchor" (click)="desplegarTexto()">Selecciona Texto</span>
-  <ul id="inputs" class="items" >
+  <span class="anchor seleccionaTexto" (click)="desplegarTexto()">Selecciona Texto</span>
+  <ul id="inputs" class="items seleccionaTexto" >
     
 
   </ul>
 </div>
 
-<!--
-<div *ngIf="recursoCargadoPregunta">
-  <h2>Personajes:</h2>
 
-  <div>
-    <mat-grid-list cols="4" rowHeight="1:1">
-      <mat-grid-tile *ngFor='let imageF of listaFotosPersonajes'>
-        <mat-card>
+<div *ngIf="recursoCargadoPregunta" class="hideBocadillo">
+  <ion-row>
+    <ion-text>
+      <p>Personajes:</p>
+    </ion-text>
+    <ion-col size="4" *ngFor="let imageF of listaFotosPersonajes">
+      <ion-card (click)="seleccionarobjeto(imageF)">
 
-          <img [src]='imageF.url' height="175" width="175">
+        <ion-col> <img src={{imageF.url}} id="hola" width="175" height="175" class="center"></ion-col>
+        <ion-col>
           <p>{{imageF.nombre}}</p>
           <p>{{imageF.especial}}</p>
-        </mat-card>
-
-      </mat-grid-tile>
-    </mat-grid-list>
-  </div>
-
---> 
-
-  <div *ngIf="recursoCargadoPregunta">
-    <ion-row>
-      <ion-text>
-        <p>Personajes:</p>
-      </ion-text>
-      <ion-col size="4" *ngFor="let imageF of listaFotosPersonajes">
-        <ion-card (click)="seleccionarobjeto(imageF)">
-
-          <ion-col> <img src={{imageF.url}} id="hola" width="175" height="175" class="center"></ion-col>
-          <ion-col>
-            <p>{{imageF.nombre}}</p>
-            <p>{{imageF.especial}}</p>
 
 
-          </ion-col>
+        </ion-col>
 
-        </ion-card>
+      </ion-card>
 
 
 
 
-      </ion-col>
-    </ion-row>
+    </ion-col>
+  </ion-row>
 
-<!-- <div id="angle-info">0°</div>S--> 
+<!-- <div id="angle-info">0Â°</div>S--> 
 <ion-row>
-  <ion-text>
-    <p>Fondos:</p>
-  </ion-text>
-  <ion-col size="2" *ngFor="let imageP of listaFotosFondos">
-    <ion-card (click)="seleccionarfondo(imageP.url)">
-      <ion-col> <img src={{imageP.url}} width="450" height="450" class="center"></ion-col>
-      <ion-col>
-        <p>{{imageP.nombre}}</p>
-        <p>{{imageP.especial}}</p>
+<ion-text>
+  <p>Fondos:</p>
+</ion-text>
+<ion-col size="2" *ngFor="let imageP of listaFotosFondos">
+  <ion-card (click)="seleccionarfondo(imageP.url)">
+    <ion-col> <img src={{imageP.url}} width="450" height="450" class="center"></ion-col>
+    <ion-col>
+      <p>{{imageP.nombre}}</p>
+      <p>{{imageP.especial}}</p>
 
 
-      </ion-col>
+    </ion-col>
 
-    </ion-card>
-
-
+  </ion-card>
 
 
-  </ion-col>
+
+
+</ion-col>
 </ion-row>
 
 
 
 
-<!-- <div id="angle-info">0°</div>S--> 
+<!-- <div id="angle-info">0Â°</div>S--> 
 
-    <ion-row>
-      <ion-text>
-        <p>Objetos:</p>
-      </ion-text>
-      <ion-col size="4" *ngFor="let imageO of listaFotosObjetos">
-        <ion-card (click)="seleccionarobjeto(imageO)">
+  <ion-row>
+    <ion-text>
+      <p>Objetos:</p>
+    </ion-text>
+    <ion-col size="4" *ngFor="let imageO of listaFotosObjetos">
+      <ion-card (click)="seleccionarobjeto(imageO)">
 
-          <ion-col> <img src={{imageO.url}} width="175" height="175" class="center"></ion-col>
-          <ion-col>
-            <p>{{imageO.nombre}}</p>
-            <p>{{imageO.especial}}</p>
-
-
-          </ion-col>
-
-        </ion-card>
+        <ion-col> <img src={{imageO.url}} width="175" height="175" class="center"></ion-col>
+        <ion-col>
+          <p>{{imageO.nombre}}</p>
+          <p>{{imageO.especial}}</p>
 
 
+        </ion-col>
+
+      </ion-card>
 
 
-      </ion-col>
-    </ion-row>
 
 
+    </ion-col>
+  </ion-row>
 
 
 
@@ -155,7 +162,10 @@
 
 
 
-  </div>
+
+
+</div>
+  
 
 
 
@@ -171,6 +181,48 @@
 
 
 </ion-content>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

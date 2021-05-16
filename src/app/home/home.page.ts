@@ -29,12 +29,11 @@ export class HomePage {
   @ViewChild('canvas', { static: true }) 
   canvas: ElementRef<HTMLCanvasElement>;
   private ctx: CanvasRenderingContext2D;
-  clase="";
+ 
   girarImagen=0;
-  //value = 'https://cdn1.iconfinder.com/data/icons/hawcons/32/699470-icon-4-thumb-up-256.png';
   value='';
 
-  fondoPrimero = 'https://www.bbva.com/wp-content/uploads/2017/11/iceberg-recurso-fondo-de-comercio-bbva-1024x416.jpg';
+  
 
   listaFotosPersonajes: any[] = [];
   listaFotosFondos: any[] = [];
@@ -45,6 +44,7 @@ export class HomePage {
 
   listaPersonajesPagina: PersonajesPagina[] = []
   listaReordenarCanvas: PersonajesPagina[]=[]
+  listaModoEdicion: PersonajesPagina[]=[]
 
 
   listaRecursos: any[] = [];
@@ -57,67 +57,113 @@ export class HomePage {
   mark: string;
   prueba34=-1;
 
+  //Ambas variables utilizadas para declarar el source de los tÃ­tulos Personajes y Objetos en pantalla.
+  imagenPersonajes='';
+  imagenObjetos=''
 
   async ngOnInit() {
+   var resY= window.screen.availHeight
+   var resX= window.screen.availWidth
+   console.log("Resolucion:" + resX+","+resY)
+   if(resX==1024)
+   document.getElementById("canvas").classList.add("canvasSize");
+   else
+   document.getElementById("canvas").classList.add("canvasSizeOriginal");
+    
+    //Recuperamos la lista de recursos donde se encuentran las imagenes para la app//
+    await this.recuperarListaRecursos();
 
-    this.recuperarListaRecursos();
-    console.log('HOLA');
-    console.log(this.listaRecursos);
-    this.obtengoNumeroEscenas()
-
+    //Cargamos la imagen que vamos a usar para realizar los bocadillos de texto.
     var bocadilloImagen = new Image;
     bocadilloImagen.src='../../assets/icon/bocadillo.png'
     this.value=bocadilloImagen.src
+    //Cargamos la imagen con el tÃ­tulo Personajes y lo colocamos en la posiciÃ³n deseada utilizando el style.
+    var Personajes = new Image;
+    Personajes.src='../../assets/icon/Personajes.png'
+    this.imagenPersonajes=Personajes.src;
+    var imagenPersonaje =  document.getElementById("imagenPersonajes") as HTMLImageElement
+    imagenPersonaje.style.transform =
+    'translate(' + (-25) + 'px, ' + (-25) + 'px)'
+    imagenPersonaje.setAttribute('data-x',''+(-25)+'');
+    imagenPersonaje.setAttribute('data-y',''+(-25)+'');
+
+    //Cargamos la imagen con el tÃ­tulo Objetos y lo colocamos en la posiciÃ³n deseada utilizando el style.
+    var Objetos = new Image;
+    Objetos.src='../../assets/icon/Objetos.png'
+    this.imagenObjetos=Objetos.src;
+    var imagenObjeto =  document.getElementById("imagenObjetos") as HTMLImageElement
+    imagenObjeto.style.transform =
+    'translate(' + (250) + 'px, ' + (-25) + 'px)'
+    imagenObjeto.setAttribute('data-x',''+(250)+'');
+    imagenObjeto.setAttribute('data-y',''+(-25)+'');
+
+    //Utilizamos la funciÃ³n delay para esperar la carga completa de todas las imÃ¡genes.
+    await this.delay(200)
+
+    //Traemos las imagenes de mi recurso que hay en la API.
+    this.traeImagenesRecursoLibro()
+
+    //Utilizamos la funciÃ³n delay para esperar la carga completa de mi recurso que hay en la API.
+    await this.delay(500)
+
+    //AÃ±adimos en pantalla las imagenes que son objetos.
+    this.cargoObjetos()
+ 
+    //AÃ±adimos en pantalla las imagenes que son personajes.
+    this.cargoPersonajes()
 
   }
-  signalSelected (markVal: string){
-    
+
+  //Copia el texto que ha escrito el usuario y hace un return del texto.
+  copiarTexto (markVal: string){
     markVal = this.mark
-    console.log("FUNCION SIGNAL: "+markVal)
      return markVal;
 }
 
-
-elementoGirar = '';
-
-zIndexImagenes=0;
-testeo2(objeto:any,event,objeto2){
-
-document.getElementById(objeto).classList.add('positionAbsolute')
-//document.getElementById(objeto).style.position="absolute"
-this.zIndexImagenes=this.zIndexImagenes+1;
-document.getElementById(objeto).style.zIndex=""+this.zIndexImagenes+""
-
-//document.getElementById(objeto).classList.remove('zindex')
-//document.getElementById(objeto).classList.add('zindex1')
-  this.listaFotosDeEscena.forEach(obj=>{
-    if(obj.nombre==objeto){
-      var imagen=document.getElementById(obj.nombre) as HTMLCanvasElement
-      this.elementoGirar=obj.nombre;
-      //this.scaleXGirar=obj.invertir;
-    console.log(imagen.getBoundingClientRect().x)
-    }
-    else{
-      //document.getElementById(obj.nombre).classList.remove('zindex1')
-      //document.getElementById(objeto).classList.add('zindex')
-      document.getElementById(obj.nombre).classList.add('positionAbsolute')
-     // document.getElementById(obj.nombre).style.position="absolute"
-     // document.getElementById(obj.nombre).style.zIndex="0"
-    }
+//Cargo las imagenes que son Personajes para mostrarlos en pantalla.
+cargoPersonajes(){
+ this.listaFotosPersonajes.forEach(element=>{
+ var imagenPersonaje = new ImagenToBackend;
+ imagenPersonaje=element;
+ this.seleccionarobjeto(imagenPersonaje,"Personaje")
   })
+}
 
-console.log("objeto2: "+objeto2)
-console.log(event.target)
-if(event.target==document.getElementById(objeto2))
-{
-  console.log("PROBANDO: "+event.target)
+//Cargo las imagenes que son Objetos para mostrarlos en pantalla.
+cargoObjetos(){
+  this.listaFotosObjetos.forEach(element=>{
+  console.log(element)
+  var imagenPersonaje = new ImagenToBackend;
+  imagenPersonaje=element;
+  this.seleccionarobjeto(imagenPersonaje,"Objeto")
+   })
 }
 
 
-if(this.resizeAngle==true)
-{
+/*Esta variable incrementa en 1 cada vez que se interactua con una imagen
+de esta manera podremos saber en que orden del eje Z se deben encontrar las imagenes
+*/
+zIndexImagenes=0;
 
-     var target = event.target
+/**
+ * 
+ * @param objeto Le pasamos la id de la imagen con la que estamos interactuando.
+ * @param event Parametro event para interactuar con eventos.
+ */
+/*Funcion que determina la posiciÃ³n de las imagenes en el eje Z siendo el que estÃ¡ por encima de los demÃ¡s
+el Ãºltimo con el que se ha interactuado.
+
+AdemÃ¡s si la imagen se encuentra girada, y te encuentras en el modo resize, con esta funciÃ³n dejamos el angulo de la imagen a 0.
+*/
+organizarEjeZ(objeto:any,event){
+ document.getElementById(objeto).classList.add('positionAbsolute')
+ 
+ document.getElementById(objeto).style.zIndex=""+this.zIndexImagenes+""
+ this.zIndexImagenes=this.zIndexImagenes+1;
+
+ if(this.resizeAngle==true)
+  {
+    var target = event.target
     target.setAttribute('data-angle',0)
     var scaleX=target.dataset.scaleX;
     var x = target.dataset.x;
@@ -130,43 +176,39 @@ if(this.resizeAngle==true)
       }
 
     })
-    console.log("scaleX: "+scaleX+" x: "+x+"y: "+y);
+
     target.style.transform =
-      'translate(' + x + 'px,' + y + 'px) scaleX('+scaleX+')';
+    'translate(' + x + 'px,' + y + 'px) scaleX('+scaleX+')';
+
+  }
+
+  console.log(document.getElementById(objeto));
 
 }
 
-}
-
-scaleXGirar= 1;
-
-testeo(objeto:any,event)
+/**
+ *
+ * @param objeto Le pasamos la id de la imagen con la que estamos interactuando.
+ * @param event Parametro event para interactuar con eventos.
+ */
+//FunciÃ³n encargada de voltear la imagen, o tambiÃ©n llamado poner la imagen en modo espejo.
+voltearImagen(objeto:any,event)
 {
-  console.log("Has clickado a un personaje");
-
+  //Recorremos la lista para conocer el estado de la imagen.
   this.listaFotosDeEscena.forEach(obj=>{
-    
-    this.scaleXGirar=obj.invertir;
-    var imagenObjeto= document.getElementById(objeto)
-
-    var target = event.target
-    var rotation = (parseFloat(target.getAttribute('data-angle')) || 0)
-
-
-    if(obj.nombre==objeto){
-      document.getElementById(obj.nombre).classList.remove('cajita');
+   var imagenObjeto= document.getElementById(objeto)
+   //Eliminamos el modo resize.
+   if(obj.nombre==objeto){
+    document.getElementById(obj.nombre).classList.remove('cajita');
+    document.getElementById(obj.nombre).classList.remove('cajitaInvertida');
+    document.getElementById(obj.nombre).classList.remove('resize-drag');
     }
-
-
+    //Cambiamos el style de la imagen para invertirla.
     if(obj.nombre==objeto && obj.invertir==1)
     {
-        obj.invertir=-1;
-       
-
+      obj.invertir=-1;
       var x = imagenObjeto.dataset.x;
       var y = imagenObjeto.dataset.y;
-    
-    
     
       if (typeof x != 'undefined' && typeof y != 'undefined') {
         imagenObjeto.style.transform = 'translate(' + x + 'px, ' + y + 'px) scaleX(-1)';
@@ -175,14 +217,12 @@ testeo(objeto:any,event)
       }
 
     }
-    
+    //Cambiamos el style de la imagen para invertirla.
     else if(obj.nombre==objeto && obj.invertir==-1)
     {
       var x = imagenObjeto.dataset.x;
       var y = imagenObjeto.dataset.y;
-    
-    
-    
+
       if (typeof x != 'undefined' && typeof y != 'undefined') {
         imagenObjeto.style.transform = 'translate(' + x + 'px, ' + y + 'px) scaleX(1)';
       } else {
@@ -194,41 +234,33 @@ testeo(objeto:any,event)
 
   })
 
-
-
 }
 
+//Contador utilizado para aÃ±adir ID propia por pÃ¡gina a cada Personaje/Objeto que hay en pantalla.
 contadorIDPersonajes=0;
-numeroPaginas;
 
+numeroPaginas=0;
+//FunciÃ³n encargada de pintar todo en el canvas y guardar imagen.
 crearPagina(){
-
-
+ //Recorremos la lista encargada de mostrar los Personajes/Objetos en pantalla.
 this.listaFotosDeEscena.forEach(obj=>{
- 
-
+ //Por cada personaje/objeto que hay en la lista, creamos un nuevo personaje/objeto
   var imagendeEscena= new PersonajesPagina;
+
   imagendeEscena.personajeID=this.contadorIDPersonajes;
   this.contadorIDPersonajes=this.contadorIDPersonajes+1;
   imagendeEscena.nombre=obj.nombre;
-
+  //Por cada personaje/objeto guardamos su informaciÃ³n en el elemento creado previamente.
   var imagenObjeto = document.getElementById(obj.nombre) as HTMLImageElement & HTMLCanvasElement
-
   imagendeEscena.imagenWidth=imagenObjeto.width;
   imagendeEscena.imagenHeight=imagenObjeto.height;
   imagendeEscena.invertir=obj.invertir;
   imagendeEscena.rotate=(parseFloat(imagenObjeto.getAttribute('data-angle')) || 0);
   imagendeEscena.zindex=imagenObjeto.style.zIndex.valueOf();
-
-  console.log("NUEVA observacion "+imagendeEscena.zindex);
-
   imagendeEscena.canvasX=imagenObjeto.getBoundingClientRect().left;
   imagendeEscena.canvasY=imagenObjeto.getBoundingClientRect().top;
-
+  //Guardamos tambiÃ©n el fondo en el que se encuentra el personaje/objeto
   imagendeEscena.fondoUrl=this.fondoElegido;
-
-  console.log("OBERSVO MUCHO: "+imagenObjeto.getAttribute('data-x'))
-
   imagendeEscena.imagenDataX =parseFloat(imagenObjeto.getAttribute('data-x'));
   imagendeEscena.imagenDataY = parseFloat(imagenObjeto.getAttribute('data-y'));
   imagendeEscena.especial=obj.especial;
@@ -236,30 +268,84 @@ this.listaFotosDeEscena.forEach(obj=>{
   imagendeEscena.tipo=obj.tipo;
   imagendeEscena.url=obj.url;
   imagendeEscena.positionlista=obj.positionlista;
-
   imagendeEscena.translate=imagenObjeto.getAttribute('style');
 
+  //AÃ±adimos cada personaje/objeto a la lista
   this.listaPersonajesPagina.push(imagendeEscena);
 
 })
 
-
-
+/*
+Vaciamos la lista que muestras los Personajes/Objetos, para asÃ­
+poder reordenar los Personajes/Objetos en pantalla
+*/
 this.listaFotosDeEscena=[];
 
+/*
+VacÃ­amos los contadores de ID independientes por pÃ¡gina, tanto
+de personajes/objetos como de texto.
+*/
+this.contadorTexto=0;
+this.contadorIDPersonajes=0;
 
+//llamamos a las funciones encargadas de pintar el canvas
 this.drawCanvas();
-
-
-
-
 this.pruebaCanvasUrl();
 
+//AÃ±adimos un delay para darle tiempo a leer todo el cÃ³digo
+this.delay(50);
+
+//Reiniciamos los contadores encargardos de recolocar los Personajes/objetos en pantalla
+this.contadorColocadorObjetoX=0;
+this.contadorColocadorObjetoY=1;
+this.contadorColocadorPersonajeX=0;
+this.contadorColocadorPersonajeY=1;
+
+//Volvemos a cargar los personajes/objetos para mostrarlos en pantalla
+this.cargoObjetos() 
+this.cargoPersonajes()
+
+//Limpiamos el canvas dejandolo en blanco
 this.ctx.clearRect(0, 0, 1000, 500);
 
+//Vaciamos el fondoElegido
+this.fondoElegido='';
+
+//Vaciamos la lista de texto
+this.listaTexto.forEach(texto=>{
+  this.removeTexto(texto.textoID)
+})
+
+}
+
+//guarda el url
+async pruebaCanvasUrl(){
+
+  const formData: FormData = new FormData();
+  var micanvas = document.getElementById("canvas") as HTMLCanvasElement;
+  var dataURL = micanvas.toDataURL();
+  var file = this.dataURLtoFile(dataURL,this.numeroPaginas + '.png')
+  this.numeroPaginas++;
+
+  formData.append('fotoFrame', file);
+
+  await this.postFotoFrame(formData);
+ 
+}
+async postFotoFrame(formData: FormData) {
+
+  var contenedor = localStorage.getItem("contenedor");
+
+  this.dBservice.postImage(contenedor, formData)
+     .subscribe((res) => {
+       console.log("ok")
 
 
-
+     }
+        , (err) => {
+           console.log("error al subir la imagem");
+           console.log('Error : ' + err);
+        });
 }
 
 dataURLtoFile(dataurl, filename) {
@@ -270,7 +356,6 @@ dataURLtoFile(dataurl, filename) {
   }
   return new File([u8arr], filename, { type: mime });
 }
-
 
 obtengoNumeroEscenas()
 {
@@ -288,58 +373,14 @@ obtengoNumeroEscenas()
 }
 
 
-
-//guarda el url
-
-
-async pruebaCanvasUrl(){
-
-
-  
-
-
-  const formData: FormData = new FormData();
-  var micanvas = document.getElementById("canvas") as HTMLCanvasElement;
-  var dataURL = micanvas.toDataURL();
-  var file = this.dataURLtoFile(dataURL,this.numeroPaginas + '.png')
-  this.numeroPaginas++;
-
-  formData.append('fotoFrame', file);
-
-  await this.postFotoFrame(formData);
-
-
- 
-}
-
-async postFotoFrame(formData: FormData) {
-
-  var contenedor = localStorage.getItem("contenedor");
-
-  this.dBservice.postImage(contenedor, formData)
-     .subscribe((res) => {
-       console.log("ok")
-
-
-     }
-        , (err) => {
-           console.log("error al subir la imagem");
-           console.log('Error : ' + err);
-        });
-}
-
-
-
-pruebatranslate(){
- 
-  document.getElementById("prueba").classList.add('zindex')
-  this.listaPersonajesPagina.forEach(obj=>{
-
-    console.log("ZETAS: "+obj.zindex+" Nombre: "+obj.nombre)
-
-
-  })
-  
+ compararEjeZ( a, b ) {
+  if ( a.zindex < b.zindex ){
+    return -1;
+  }
+  if ( a.zindex > b.zindex ){
+    return 1;
+  }
+  return 0;
 }
 
 
@@ -361,52 +402,22 @@ drawCanvas(){
 
   })
 
-  for(var i=0;i<this.listaPersonajesPagina.length;i++){
+  this.listaPersonajesPagina.sort(this.compararEjeZ);
 
-    for(var j=0;j<this.listaPersonajesPagina.length;j++){
-console.log("PRRRROBAMOSSSS O.O "+this.listaPersonajesPagina[i].rotate)
-  if(this.listaPersonajesPagina[i].zindex>=this.listaPersonajesPagina[j].zindex && this.listaPersonajesPagina[i].pintado==false){
+  this.listaReordenarCanvas=this.listaPersonajesPagina
+  this.listaModoEdicion=this.listaPersonajesPagina
 
+  this.listaPersonajesPagina=[]
 
-    var imagendeEscena= new PersonajesPagina;
-
-    imagendeEscena.url = this.listaPersonajesPagina[i].url;
-    imagendeEscena.nombre = this.listaPersonajesPagina[i].nombre;
-    imagendeEscena.tipo = this.listaPersonajesPagina[i].tipo;
-    imagendeEscena.especial = this.listaPersonajesPagina[i].especial;
-    imagendeEscena.imagenDataX=this.listaPersonajesPagina[i].imagenDataX;
-    imagendeEscena.imagenDataY=this.listaPersonajesPagina[i].imagenDataY;
-    imagendeEscena.translate=this.listaPersonajesPagina[i].translate;
-
-    imagendeEscena.imagenWidth=this.listaPersonajesPagina[i].imagenWidth;
-    imagendeEscena.imagenHeight=this.listaPersonajesPagina[i].imagenHeight;
-    imagendeEscena.invertir=this.listaPersonajesPagina[i].invertir;
-
-    imagendeEscena.canvasX=this.listaPersonajesPagina[i].canvasX;
-    imagendeEscena.canvasY=this.listaPersonajesPagina[i].canvasY;
-
-    imagendeEscena.rotate=this.listaPersonajesPagina[i].rotate;
-    imagendeEscena.zindex=this.listaPersonajesPagina[i].zindex;
-
-
-    this.listaPersonajesPagina[i].pintado=true;
-    this.listaReordenarCanvas.push(imagendeEscena)
-
-  }
-
-    }
-
-  }
-  
-  
   var Imagen = new Image;
   var angle=0;
-this.listaReordenarCanvas.forEach(objeto=>{
+  this.listaReordenarCanvas.forEach(objeto=>{
 
- angle=objeto.rotate*(180/Math.PI);
+  angle=objeto.rotate*(180/Math.PI);
   Imagen.src=objeto.url;
+ 
   this.ctx = this.canvas.nativeElement.getContext('2d');
-console.log("ANG: "+angle);
+
 
 
 
@@ -417,7 +428,7 @@ console.log("ANG: "+angle);
   //this.ctx.rotate(objeto.rotate)
   this.ctx.scale(-1,1)
  
-  this.ctx.drawImage(Imagen,-objeto.imagenWidth/2+20,objeto.canvasY-18,objeto.imagenWidth,objeto.imagenHeight)
+  this.ctx.drawImage(Imagen,-objeto.imagenWidth/2,objeto.canvasY,objeto.imagenWidth,objeto.imagenHeight)
  this.ctx.restore();
 
   }else if(objeto.invertir==1 && objeto.rotate==0)
@@ -425,7 +436,7 @@ console.log("ANG: "+angle);
     this.ctx.save();
   
 
-    this.ctx.drawImage(Imagen,objeto.canvasX-20,objeto.canvasY-18,objeto.imagenWidth,objeto.imagenHeight)
+    this.ctx.drawImage(Imagen,objeto.canvasX,objeto.canvasY,objeto.imagenWidth,objeto.imagenHeight)
 
     
 
@@ -435,7 +446,7 @@ console.log("ANG: "+angle);
     this.ctx.save();
 
     
-    this.ctx.translate(objeto.canvasX+objeto.imagenWidth/2+18,objeto.canvasY+objeto.imagenHeight/2+18);
+    this.ctx.translate(objeto.canvasX+objeto.imagenWidth/2,objeto.canvasY+objeto.imagenHeight/2);
     this.ctx.rotate(objeto.rotate)
     this.ctx.translate(-objeto.imagenWidth/2,-objeto.imagenHeight/2);
     this.ctx.drawImage(Imagen,0,0,objeto.imagenWidth,objeto.imagenHeight)
@@ -472,7 +483,7 @@ async recuperarPagina(){
 
   var fondoSeleccionado=''
 
-this.listaPersonajesPagina.forEach(objeto=>{
+this.listaModoEdicion.forEach(objeto=>{
 
 var imagenRecuperada = new ImagenToBackend
 
@@ -524,36 +535,48 @@ async recolocar(){
   this.recolocarObjeto=true;
   
     console.log("READY")
-  
+  var fondoSeleccionado=''
     this.listaFotosDeEscena.forEach(element=>{
+
+      
+      
+    this.listaModoEdicion.forEach(edicion=>{
+      fondoSeleccionado=edicion.fondoUrl;
+      if(element.nombre==edicion.nombre){
+
       var imagenObjeto =  document.getElementById(element.nombre) as HTMLImageElement
   
       imagenObjeto.classList.add('positionAbsolute')
   //document.getElementById(objeto).style.position="absolute
-  imagenObjeto.style.zIndex=""+element.zindex+""
+  imagenObjeto.style.zIndex=""+edicion.zindex+""
   
   
       
-      if(element.invertir==-1){
+      if(edicion.invertir==-1){
       imagenObjeto.style.transform =
-        'translate(' + element.imagenDataX + 'px, ' + element.imagenDataY + 'px) scaleX('+element.invertir+') rotate(' + element.rotate*(-1) + 'rad)'
+        'translate(' + edicion.imagenDataX + 'px, ' + edicion.imagenDataY + 'px) scaleX('+edicion.invertir+') rotate(' + edicion.rotate*(-1) + 'rad)'
       }
       else{
   
         imagenObjeto.style.transform =
-        'translate(' + element.imagenDataX + 'px, ' + element.imagenDataY + 'px) scaleX('+element.invertir+') rotate(' + element.rotate + 'rad)'
+        'translate(' + edicion.imagenDataX + 'px, ' + edicion.imagenDataY + 'px) scaleX('+edicion.invertir+') rotate(' + edicion.rotate + 'rad)'
   
       }
-        console.log(document.getElementById(element.nombre))
+        
   
-        imagenObjeto.setAttribute('data-x',element.imagenDataX);
-        imagenObjeto.setAttribute('data-y',element.imagenDataY);
-        imagenObjeto.setAttribute('data-angle',element.rotate);
+        imagenObjeto.setAttribute('data-x',edicion.imagenDataX);
+        imagenObjeto.setAttribute('data-y',edicion.imagenDataY);
+        imagenObjeto.setAttribute('data-angle',edicion.rotate);
   
-        imagenObjeto.width=element.imagenWidth;
-        imagenObjeto.height=element.imagenHeight;
+        imagenObjeto.width=edicion.imagenWidth;
+        imagenObjeto.height=edicion.imagenHeight;
     
+
+    }
     })
+    })
+    this.delay(50)
+    this.seleccionarfondo(fondoSeleccionado)
     this.vaciar();
   }
 
@@ -566,43 +589,25 @@ async recolocar(){
   }
 
   async allMight(){
- 
-    await this.recuperarPagina();
-  
-    await this.recolocar();
-    
-  }
 
-
-
-
-
-
-  //Cambio el fondo del  canvas con un click//
-  canvasClick()
-  {
-    var Imagen= new Image;
-    Imagen.src=this.fondoPrimero;
-    this.ctx = this.canvas.nativeElement.getContext('2d');
-    this.ctx.drawImage(Imagen,0,0,1000,500)
-
-
-
-
+    await this.recolocar();    
   }
 
   contadorTexto=0;
 
   canvasClick2(event){
     
-    //this.value='https://i.pinimg.com/originals/56/20/01/5620017c61509710ca24b17a8fa9347d.png'
+    if(this.fondoElegido==''){
+      return;
+    }
+    
     this.ctx = this.canvas.nativeElement.getContext('2d');
     var x = event.clientX;
     var y = event.clientY;
     var texto = ''
-    texto = this.signalSelected(texto);
+    texto = this.copiarTexto(texto);
     console.log("X: "+x+"Y: "+y)
-    console.log("El usuario ha escrito: "+texto+" Tamaño texto: "+texto.length)
+    console.log("El usuario ha escrito: "+texto+" TamaÃ±o texto: "+texto.length)
 
     var plusWidth=texto.length
 
@@ -629,52 +634,89 @@ async recolocar(){
 
     //this.ctx.drawImage(prueba,(x - (prueba.width/2)), (y -(prueba.height/2)) ,prueba.width,prueba.height);
 
+    
+    var ul = document.getElementById("inputs");
+    var li = document.createElement("li");
+
+    li.setAttribute("type","checkbox")
+  li.setAttribute("id",""+textoPrueba.textoID+"")
+  
+    li.addEventListener('click', (e) => {
+      this.removeTextoDesdeLista(li);//your typescript function
+  });
+  
+    li.appendChild(document.createTextNode(textoPrueba.textoString));
+    ul.appendChild(li);
 
 
 
   }
 
-  removeTexto(id) {
-    this.listaTexto = this.listaTexto.filter(item => item.textoID !== id);
+
+
+
+
+
+
+
+
+
+//Selecciono el objeto que quiero y lo aÃ±ado a la listaFotosDeEscena//
+delay(ms: number) {
+  return new Promise( resolve => setTimeout(resolve, ms) );
 }
 
-eliminarTexto(){
-  this.contadorTexto=this.contadorTexto-1;
-    var length = this.listaTexto.length;
-    console.log("Length: "+length)
-    this.removeTexto(length-1);
+contadorColocadorObjetoX=0;
+contadorColocadorObjetoY=1;
+
+contadorColocadorPersonajeX=0;
+contadorColocadorPersonajeY=1;
+
+async seleccionarobjeto(imageO: ImagenToBackend,imagenNombre)
+{
+  console.log("Nombre: "+imageO.nombre)
+
+this.listaFotosDeEscena.push(imageO);
+await this.delay(50)
+
+if(imagenNombre=='Objeto'){
+  var imagenObjeto =  document.getElementById(imageO.nombre) as HTMLImageElement
+
+  imagenObjeto.style.transform =
+        'translate(' + (50*this.contadorColocadorObjetoX+250) + 'px, ' + 40*this.contadorColocadorObjetoY + 'px)'
+        imagenObjeto.setAttribute('data-x',''+(50*this.contadorColocadorObjetoX+250)+'');
+        imagenObjeto.setAttribute('data-y',''+40*this.contadorColocadorObjetoY+'');
+imagenObjeto.style.width='65px';
+imagenObjeto.style.height='65px';
+imagenObjeto.style.rotate='0'
+
+  this.contadorColocadorObjetoX++;
+
+  if(this.contadorColocadorObjetoX>=4){
+    this.contadorColocadorObjetoY++;
+    this.contadorColocadorObjetoX=0;
     
-  
-    this.seleccionarfondo(this.fondoElegido);
-  
-    this.listaTexto.forEach(texto=>{
-  
-      var Texto = new Image;
-  
-      Texto.src=this.value;
-  
-      this.ctx.drawImage(Texto,texto.imagenX,texto.imagenY,texto.imagenWidth,texto.imagenHeight);
-  
-      this.ctx.fillText(texto.textoString,texto.textoX,texto.textoY);
-  
-  
-    })
-  
-  
+  }
+}else if(imagenNombre=='Personaje'){
+  var imagenPersonaje =  document.getElementById(imageO.nombre) as HTMLImageElement
+
+  imagenPersonaje.style.transform =
+        'translate(' + 50*this.contadorColocadorPersonajeX + 'px, ' + 40*this.contadorColocadorPersonajeY + 'px)'
+        imagenPersonaje.setAttribute('data-x',''+50*this.contadorColocadorPersonajeX+'');
+        imagenPersonaje.setAttribute('data-y',''+40*this.contadorColocadorPersonajeY+'');
+  imagenPersonaje.style.width='65px';
+  imagenPersonaje.style.height='65px';
+  imagenPersonaje.style.rotate='0'
+
+  this.contadorColocadorPersonajeX++;
+
+  if(this.contadorColocadorPersonajeX>=4){
+    this.contadorColocadorPersonajeY++;
+    this.contadorColocadorPersonajeX=0;
+    
   }
 
-
-
-
-
-
-//Selecciono el objeto que quiero y lo añado a la listaFotosDeEscena//
-seleccionarobjeto(imageO: ImagenToBackend)
-{
-  this.listaFotosDeEscena.push(imageO);
-
-
-
+}
 
 }
 
@@ -683,39 +725,33 @@ seleccionarobjeto(imageO: ImagenToBackend)
 //Selecciono el fondo que quiero//
 fondoElegido='';
   seleccionarfondo(urlrwae: string){
-         
+
+
     var Imagen = new Image;
    Imagen.src=urlrwae
    this.fondoElegido=urlrwae;
     this.ctx = this.canvas.nativeElement.getContext('2d');
     this.ctx.drawImage(Imagen,0,0,1000,500)
+
+    this.listaTexto.forEach(texto=>{
+
+      var Texto = new Image;
+  
+      Texto.src=this.value;
+  
+      this.ctx.drawImage(Texto,texto.imagenX,texto.imagenY,texto.imagenWidth,texto.imagenHeight);
+  
+      this.ctx.fillText(texto.textoString,texto.textoX,texto.textoY);
+
+  
+  
+    })
   
   
  
          
     }
-/*
-  seleccionarfondo(urlrwae: string){
-         
-    var img3 = new Image();
-   // img3.src = foto.url;
-    console.log('URL de foto');
-    console.log(urlrwae);
-   this.value = urlrwae;
-   this.fondoPrimero= urlrwae;
-   this.canvasClick();
-    // img3.src = '../../assets/imgs/fondo1.jpg';
-    img3.width = 900;
-    img3.height = 900; 
-   console.log(img3.src);
-   localStorage.setItem("src", "tengo");  
-   this.dataService.setDataRecursos(500, foto.nombre);
-   this.dataService.setDataRecursos(501, foto.url);
-   var idEscena = localStorage.getItem("idEscena");
-   this.router.navigateByUrl("/cuentocanvas/" + idEscena);
-         
-    }
-*/
+
 
 
 
@@ -742,7 +778,7 @@ console.log(this.listaRecursos[0].id);
       
       this.dBservice.getImagenesRecurso(this.recursoCargado.carpeta, element.nombre)
       .subscribe((res)=>{
-        
+
         const blob = new Blob([res.blob()], { type: 'image/png' });
         const reader = new FileReader();
 
@@ -800,7 +836,7 @@ console.log(this.listaRecursos[0].id);
 
 
   //Recuperamos la lista de recursos donde se encuentran las imagenes para la app//
- recuperarListaRecursos() {
+ async recuperarListaRecursos() {
     this.listaRecursos = [];
 //ponia el valor 1//
 
@@ -872,12 +908,12 @@ console.log(this.listaRecursos[0].id);
 
 
   ////
-  //Función que sirve para agrandar o disminuir el tamaño de la imagen//
+  //FunciÃ³n que sirve para agrandar o disminuir el tamaÃ±o de la imagen//
   ////
   resize(){
     this.primeroResize=true;
-    console.log("CAMBIAMOS TAMAÑO");
-    this.elementoGirar='null'
+    console.log("CAMBIAMOS TAMAÃ‘O");
+   
     
     this.resizeAngle=true;
   
@@ -890,7 +926,12 @@ console.log(this.listaRecursos[0].id);
     this.listaFotosDeEscena.forEach(element => {
       console.log(element.nombre);
     document.getElementById(element.nombre).classList.add('resize-drag');
-    document.getElementById(element.nombre).classList.add('cajita');
+    if(element.invertir==-1){
+    document.getElementById(element.nombre).classList.add('cajitaInvertida');
+    }
+    else if (element.invertir==1){
+      document.getElementById(element.nombre).classList.add('cajita');
+    }
     document.getElementById(element.nombre).classList.remove('draggable');
     document.getElementById(element.nombre).classList.remove('drag-rotate');
     });
@@ -904,14 +945,18 @@ console.log(this.listaRecursos[0].id);
     .resizable({
       // resize from all edges and corners
       edges: { left: false, right: true, bottom: true, top: false },
-  
+      margin: 75,
+     
       listeners: {
         move (event) {
   
           var target = event.target
+          
           var x = (parseFloat(target.getAttribute('data-x')) || 0)
           var y = (parseFloat(target.getAttribute('data-y')) || 0)
   
+          console.log("x: "+x+" y: "+y)
+
           var invertir = 1
   
           lista.forEach(element => {
@@ -964,7 +1009,7 @@ console.log(this.listaRecursos[0].id);
 
 
   ////
-  //Función que sirve para modificar la orientacion de la imagen//
+  //FunciÃ³n que sirve para modificar la orientacion de la imagen//
   ////
   arregloGirar(){
     if(this.primeroGiro==false)
@@ -984,14 +1029,13 @@ console.log(this.listaRecursos[0].id);
     var angle = 0
     console.log(document.getElementById("prueba"));
     document.getElementById("prueba").classList.add('drag-rotate');
-    var scaleGirar = this.scaleXGirar;
+  
    
     this.resizeAngle=false;
   
     console.log('bUENAS')
   
     var lista = this.listaFotosDeEscena
-    var elementoGirar1=this.elementoGirar;
   
     this.listaFotosDeEscena.forEach(element => {
       console.log(element.nombre);
@@ -999,6 +1043,7 @@ console.log(this.listaRecursos[0].id);
     document.getElementById(element.nombre).classList.remove('draggable');
     document.getElementById(element.nombre).classList.remove('resize-drag');
     document.getElementById(element.nombre).classList.remove('cajita');
+    document.getElementById(element.nombre).classList.remove('cajitaInvertida');
     });
   
     interact('.drag-rotate')
@@ -1065,62 +1110,9 @@ console.log(this.listaRecursos[0].id);
     };
     var angle = Math.atan2(center.y - event.clientY,
                            center.x - event.clientX);
-  /*
-    lista.forEach(elementoGirado=>{
-    
-    elementoGirado.rotate= angle - startAngle
-                      
-    })
-  */
+
     return angle - startAngle;
   }
-  
-  /*
-    interact('#rotate-area').gesturable({
-      listeners: {
-        move (event) {
-  
-          lista.forEach(element =>{
-  
-            if(elementoGirar1==element.nombre)
-            {
-  
-  
-          var arrow = document.getElementById(element.nombre);
-          console.log('De revens')
-  
-          var x = arrow.dataset.x;
-          var y = arrow.dataset.y;
-          
-  
-          angle += event.da
-          
-          var invertir = 1
-  
-          lista.forEach(element => {
-      
-         if(document.getElementById(element.nombre)==event.target)
-         {
-           invertir=element.invertir;
-         }
-        })
-  
-          if (typeof x != 'undefined' && typeof y != 'undefined') {
-            arrow.style.transform = 'translate(' + x + 'px, ' + y + 'px) rotate(' + angle + 'deg' + ') scaleX('+scaleGirar+')';
-          } else {
-            arrow.style.transform = 'rotate(' + angle + 'deg' + ') scaleX('+scaleGirar+')';
-          }
-  
-        }
-          })
-        
-  
-        }
-      }
-    })
-  
-    */
-  
   
   
   }
@@ -1134,6 +1126,7 @@ console.log(this.listaRecursos[0].id);
   
   }
   modoTexto(){
+
     this.listaFotosDeEscena.forEach(element => {
       document.getElementById(element.nombre).classList.remove('#rotate-area');
         
@@ -1162,38 +1155,56 @@ console.log(this.listaRecursos[0].id);
         
     
   }
-  removeTextoDesdeLista(element:any){
-    var id = element.getAttribute("id");
-    console.log(element)
-    console.log("Id a eliminar: "+id)
-    this.removeTexto(id)
-  
-    this.seleccionarfondo(this.fondoElegido);
-  
-    this.listaTexto.forEach(texto=>{
-  
-      var Texto = new Image;
-  
-      Texto.src=this.value;
-  
-      this.ctx.drawImage(Texto,texto.imagenX,texto.imagenY,texto.imagenWidth,texto.imagenHeight);
-  
-      this.ctx.fillText(texto.textoString,texto.textoX,texto.textoY);
-  
-  
-    })
+  removeTexto(id) {
     
+    console.log("ANTES:")
+    this.listaTexto.forEach(element=>{
+      console.log("String: "+element.textoString+" ID: "+element.textoID)
+    })
+
+    this.listaTexto = this.listaTexto.filter(item => item.textoID !== id);
+    console.log("LONGITUD DEL TEXTO: "+this.listaTexto.length)
+    console.log("DESPUES:")
+    this.listaTexto.forEach(element=>{
+      console.log("String: "+element.textoString+" ID: "+element.textoID)
+    })
+
+    
+
+    document.getElementById(id).remove();
+    
+}
+  removeTextoDesdeLista(element:any){
+    var id = parseFloat(element.getAttribute("id"));
   
+    console.log("Id a eliminar: "+id)
+
+    this.removeTexto(id)
+
+    this.seleccionarfondo(this.fondoElegido);
+
+      
   }
+  eliminarTexto(){
+    this.contadorTexto=this.contadorTexto-1;
+    var IDmasGrande='0' 
+    this.listaTexto.forEach(texto=>{
+      if(texto.textoID>=IDmasGrande){
+        IDmasGrande=texto.textoID
+      }
+    })
+      this.removeTexto(parseFloat(IDmasGrande));
+      
+      this.seleccionarfondo(this.fondoElegido);
+    
+    }
 
-
-//Arrastro de momento todos los objetos que he añadido a la funcion listaFOtosDeEscena//
+//Arrastro de momento todos los objetos que he aÃ±adido a la funcion listaFOtosDeEscena//
 primeroArrastro=false;
 
 arrastrar22222222222(){
 this.primeroArrastro=true;
 
-  this.clase="draggable";
     console.log("llamamos a funcion arrastrar");
     console.log(this.listaFotosDeEscena);
 
@@ -1207,6 +1218,7 @@ this.primeroArrastro=true;
     document.getElementById(element.nombre).classList.add('draggable');
     document.getElementById(element.nombre).classList.remove('resize-drag');
     document.getElementById(element.nombre).classList.remove('cajita');
+    document.getElementById(element.nombre).classList.remove('cajitaInvertida');
     });
 
     //document.getElementById("hola").classList.add('draggable');
@@ -1269,7 +1281,7 @@ this.primeroArrastro=true;
   
    var j = target.dataset.angle;
 
-   console.log("ANGULO: "+j)
+   
   
    
     // translate the element
@@ -1296,7 +1308,7 @@ this.primeroArrastro=true;
 //Funcion que sirve para arrastrar la imagen//
 ////
 arrastrar(){
-  this.clase="draggable";
+ 
     console.log("llamamos a funcion arrastrar");
     //document.getElementById("hola").classList.add('draggable');
     document.getElementById("prueba").classList.remove('#rotate-area');
@@ -1370,6 +1382,18 @@ declare global {
 }
 
 //let FB = window.dragMoveListener; // ok now
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
