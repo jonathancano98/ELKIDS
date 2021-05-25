@@ -18,18 +18,22 @@ export class VisorDeEscenasPage implements OnInit {
   recursoCargadoPregunta: any = false;
   recursoCargado: any;
 
-  ngOnInit() {
+
+   async ngOnInit() {
     console.log("lets go")
-    this.obtengoImagenesEscenas()
+    await this.obtengoImagenesEscenas();
+
+    await this.traeImagenesRecursoLibro();
+
     console.log(this.listaEscenasVisor);
 
   }
 
 
-  obtengoImagenesEscenas()
+  async obtengoImagenesEscenas()
 {
 
-  this.dBservice.obtenerImagenesEscena(localStorage.getItem("contenedor"))
+ /*this.dBservice.obtenerImagenesEscena(localStorage.getItem("contenedor"))
   .subscribe((res) => {
     console.log(res);
     this.listaEscenasVisor=res;
@@ -39,7 +43,15 @@ export class VisorDeEscenasPage implements OnInit {
   }, (err) => {
     console.log("ERROR")
 
-  })
+  })*/
+
+  this.listaEscenasVisor = await this.dBservice.obtenerImagenesEscena(localStorage.getItem("contenedor")).toPromise();
+  
+  console.log("llegado");
+  console.log(this.listaEscenasVisor);
+
+
+
 
 }
 
@@ -54,7 +66,7 @@ traeImagenesRecursoLibro(){
   console.log('This');
  // this.recursoCargado = this.listaRecursos.filter (recuro => recuro.id === Number(this.recursoId))[0];
 console.log('id: ')
-console.log(this.listaEscenasVisor[1].name);
+//console.log(this.listaEscenasVisor[1].name);
 
 // this.recursoCargado = this.listaEscenasVisor.filter (recuro => recuro.id === this.listaEscenasVisor[0].id)[0];
 
@@ -64,9 +76,9 @@ console.log(this.listaEscenasVisor[1].name);
   //console.log(this.recursoCargado);
 
  // this.listaEscenasVisor
-  this.listaEscenasVisor.forEach(element => {
+  this.listaEscenasVisor.forEach(async element => {
     
-    this.dBservice.getEscenasDeRecurso(localStorage.getItem("contenedor"), element.name)
+   /* this.dBservice.getEscenasDeRecurso(localStorage.getItem("contenedor"), element.name)
     .subscribe((res)=>{
       
       const blob = new Blob([res.blob()], { type: 'image/png' });
@@ -96,16 +108,46 @@ console.log(this.listaEscenasVisor[1].name);
     }, (err)=>{
 
       console.log(err);
-    })
+    }) */
+
+    let res = await this.dBservice.getEscenasDeRecurso(localStorage.getItem("contenedor"), element.name).toPromise()
+
+    const blob = new Blob([res.blob()], { type: 'image/png' });
+      const reader = new FileReader();
+
+      reader.addEventListener('load',  () => {
+
+        var foto = null;
+        foto = reader.result.toString();
+        var fotoProps = new ImagenToBackend();
+        fotoProps.url = foto;
+        
+
+        fotoProps.nombre = element.name
+
+
+
+        this.listaEscenasVisor2.push(fotoProps);
+
+      });
+
+      if (blob) {
+        reader.readAsDataURL(blob);
+      }
+
+
 
   });
 
   console.log(this.listaEscenasVisor2);
   console.log('end')
-  
+
 }
 
 
+delay(ms: number) {
+  return new Promise( resolve => setTimeout(resolve, ms) );
+}
 
 
 

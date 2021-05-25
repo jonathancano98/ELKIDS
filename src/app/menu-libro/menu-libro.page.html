@@ -1,18 +1,10 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Classpipkids</ion-title>
-  </ion-toolbar>
-</ion-header>
+
 
 <ion-content>
-  <ion-text> ESTAS DENTRO DEL LIBRO---> VISOR O EDITOR</ion-text>
-  <ion-row style="height: 25px"></ion-row>
-
-  <ion-button  (click)="irVisorEscenas()" >Visor de Escenas</ion-button>
-  <ion-row style="height: 50px"></ion-row>
-  <ion-button  (click)="irCuento()" >Crear Escena</ion-button>
-  <ion-row style="height: 50px"></ion-row>
-
-  <ion-button  (click)="Atras()" >Atras </ion-button>
+  <ion-grid class="padding">
+  <ion-button class="boton1" (click)="irVisorEscenas()" >VISOR DE ESCENAS <ion-icon class="posicion-icono" name="eye-sharp"></ion-icon></ion-button>
+  <ion-button class="boton2"  (click)="irCuento()" >CREAR ESCENA <ion-icon class="posicion-icono" name="pencil-sharp"></ion-icon></ion-button>
+</ion-grid>
+  <ion-button class='backbutton' (click)="Atras()" >BACK </ion-button>
 
 </ion-content>

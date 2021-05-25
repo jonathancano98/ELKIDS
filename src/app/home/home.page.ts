@@ -12,6 +12,7 @@ import{Imagen}from'../home/clases/imagen';
 
 
 import { ViewChild,ElementRef } from '@angular/core';
+import { escena } from './clases/escena';
 
 
 @Component({
@@ -52,7 +53,7 @@ export class HomePage {
   recursoCargadoPregunta: any = false;
   recursoCargado: any;
   personajePagina: PersonajesPagina;
-
+  idEscenaPrueba: Number;
 
   mark: string;
   prueba34=-1;
@@ -60,18 +61,24 @@ export class HomePage {
   //Ambas variables utilizadas para declarar el source de los tÃ­tulos Personajes y Objetos en pantalla.
   imagenPersonajes='';
   imagenObjetos=''
+  deviceCanvasX=1000;
+  deviceCanvasY=500;
 
   async ngOnInit() {
    var resY= window.screen.availHeight
    var resX= window.screen.availWidth
+   this.delay(50);
    console.log("Resolucion:" + resX+","+resY)
-   if(resX==1024)
-   document.getElementById("canvas").classList.add("canvasSize");
-   else
-   document.getElementById("canvas").classList.add("canvasSizeOriginal");
+    
+   if(resX<=1024){
+    this.deviceCanvasX=500;
+    this.deviceCanvasY=150;
+    }
+
     
     //Recuperamos la lista de recursos donde se encuentran las imagenes para la app//
     await this.recuperarListaRecursos();
+    this.obtengoNumeroEscenas();
 
     //Cargamos la imagen que vamos a usar para realizar los bocadillos de texto.
     var bocadilloImagen = new Image;
@@ -236,12 +243,64 @@ voltearImagen(objeto:any,event)
 
 }
 
-//Contador utilizado para aÃ±adir ID propia por pÃ¡gina a cada Personaje/Objeto que hay en pantalla.
+
+listaElementosApi: any[];
+subimosAPIElementos(){
+  
+  this.listaElementosApi=this.listaPersonajesPagina;
+
+  this.listaElementosApi.forEach(elemento=>{
+
+    elemento.url='';
+    elemento.fondoUrl='';
+
+//PUSH A LA API
+
+this.dBservice.postElemento(localStorage.getItem("idEscena"),elemento)
+  .subscribe((res) => {
+    //console.log("ok")
+    //console.log(res.id)
+    //localStorage.setItem("idEscena",res.id);
+  }
+     , (err) => {
+        console.log("Error al crear escena");
+        console.log('Error : ' + err);
+     })
+
+
+  })
+
+}
+  
+
+//Contador utilizado para añadir ID propia por pagina a cada Personaje/Objeto que hay en pantalla.
 contadorIDPersonajes=0;
 
 numeroPaginas=0;
-//FunciÃ³n encargada de pintar todo en el canvas y guardar imagen.
-crearPagina(){
+//Función encargada de pintar todo en el canvas y guardar imagen.
+async crearPagina(){
+
+  let res= await this.dBservice.postEscena(localStorage.getItem("idLibroDelAlumno"),new escena)
+  .toPromise();
+  localStorage.setItem("idEscena",res.id);
+  /*
+  ((res) => {
+
+    console.log("ok")
+    console.log(res.id)
+    this.idEscenaPrueba=res.id;
+    this.delay(50);
+    localStorage.setItem("idEscena",res.id);
+    
+  }
+     , (err) => {
+        console.log("Error al crear escena");
+        console.log('Error : ' + err);
+     });
+     await this.delay(50);
+
+     */
+
  //Recorremos la lista encargada de mostrar los Personajes/Objetos en pantalla.
 this.listaFotosDeEscena.forEach(obj=>{
  //Por cada personaje/objeto que hay en la lista, creamos un nuevo personaje/objeto
@@ -250,7 +309,7 @@ this.listaFotosDeEscena.forEach(obj=>{
   imagendeEscena.personajeID=this.contadorIDPersonajes;
   this.contadorIDPersonajes=this.contadorIDPersonajes+1;
   imagendeEscena.nombre=obj.nombre;
-  //Por cada personaje/objeto guardamos su informaciÃ³n en el elemento creado previamente.
+  //Por cada personaje/objeto guardamos su información en el elemento creado previamente.
   var imagenObjeto = document.getElementById(obj.nombre) as HTMLImageElement & HTMLCanvasElement
   imagendeEscena.imagenWidth=imagenObjeto.width;
   imagendeEscena.imagenHeight=imagenObjeto.height;
@@ -259,7 +318,7 @@ this.listaFotosDeEscena.forEach(obj=>{
   imagendeEscena.zindex=imagenObjeto.style.zIndex.valueOf();
   imagendeEscena.canvasX=imagenObjeto.getBoundingClientRect().left;
   imagendeEscena.canvasY=imagenObjeto.getBoundingClientRect().top;
-  //Guardamos tambiÃ©n el fondo en el que se encuentra el personaje/objeto
+  //Guardamos también el fondo en el que se encuentra el personaje/objeto
   imagendeEscena.fondoUrl=this.fondoElegido;
   imagendeEscena.imagenDataX =parseFloat(imagenObjeto.getAttribute('data-x'));
   imagendeEscena.imagenDataY = parseFloat(imagenObjeto.getAttribute('data-y'));
@@ -270,10 +329,24 @@ this.listaFotosDeEscena.forEach(obj=>{
   imagendeEscena.positionlista=obj.positionlista;
   imagendeEscena.translate=imagenObjeto.getAttribute('style');
 
-  //AÃ±adimos cada personaje/objeto a la lista
+  //Añadimos cada personaje/objeto a la lista
   this.listaPersonajesPagina.push(imagendeEscena);
 
+  /*this.dBservice.postElemento(localStorage.getItem("idEscena"),imagendeEscena)
+  .subscribe((res) => {
+    //console.log("ok")
+    //console.log(res.id)
+    //localStorage.setItem("idEscena",res.id);
+  }
+     , (err) => {
+        console.log("Error al crear escena");
+        console.log('Error : ' + err);
+     });*/
+
 })
+
+
+
 
 /*
 Vaciamos la lista que muestras los Personajes/Objetos, para asÃ­
@@ -290,10 +363,74 @@ this.contadorIDPersonajes=0;
 
 //llamamos a las funciones encargadas de pintar el canvas
 this.drawCanvas();
+
+
+/*
+for(let i=0; i<this.listaPersonajesPagina.length;i++)
+{
+  var elemento = new PersonajesPagina;
+
+
+
+  elemento.personajeID=this.listaPersonajesPagina[i].personajeID;
+  elemento.nombre=this.listaPersonajesPagina[i].nombre;
+  elemento.imagenWidth=this.listaPersonajesPagina[i].imagenWidth;
+  elemento.imagenHeight=this.listaPersonajesPagina[i].imagenHeight;
+  elemento.invertir=this.listaPersonajesPagina[i].invertir;
+  elemento.rotate=this.listaPersonajesPagina[i].rotate;
+  elemento.zindex=this.listaPersonajesPagina[i].zindex;
+  elemento.canvasX=this.listaPersonajesPagina[i].canvasX;
+  elemento.canvasY=this.listaPersonajesPagina[i].canvasY;
+  //Guardamos también el fondo en el que se encuentra el personaje/objeto
+  elemento.fondoUrl='';
+  elemento.imagenDataX =this.listaPersonajesPagina[i].imagenDataX;
+  elemento.imagenDataY = this.listaPersonajesPagina[i].imagenDataY;
+  elemento.especial=this.listaPersonajesPagina[i].especial;
+  elemento.id=this.listaPersonajesPagina[i].id;
+  elemento.tipo=this.listaPersonajesPagina[i].tipo;
+  elemento.url='';
+  elemento.positionlista=this.listaPersonajesPagina[i].positionlista;
+  elemento.translate=this.listaPersonajesPagina[i].translate;
+
+
+  this.dBservice.postElemento(localStorage.getItem("idEscena"), elemento)
+  .subscribe((res) => {
+    console.log("ok1111")
+    //console.log(res.id)
+    //localStorage.setItem("idEscena",res.id);
+  }
+     , (err) => {
+        console.log("Error al crear escena");
+        console.log('Error : ' + err);
+     });
+
+
+}*/
+
+this.listaPersonajesPagina.forEach(elemento=>{
+  elemento.url='';
+  elemento.fondoUrl='';
+  console.log("Hola imagen "+elemento.nombre+"Con url : "+elemento.url)
+
+
+  this.dBservice.postElemento(localStorage.getItem("idEscena"), elemento)
+  .subscribe((res) => {
+    console.log("ok1111")
+    //console.log(res.id)
+  }
+     , (err) => {
+        console.log("Error al crear escena");
+        console.log('Error : ' + err);
+     });
+})
+this.listaPersonajesPagina=[]
+
+
+
 this.pruebaCanvasUrl();
 
 //AÃ±adimos un delay para darle tiempo a leer todo el cÃ³digo
-this.delay(50);
+await this.delay(50);
 
 //Reiniciamos los contadores encargardos de recolocar los Personajes/objetos en pantalla
 this.contadorColocadorObjetoX=0;
@@ -407,7 +544,7 @@ drawCanvas(){
   this.listaReordenarCanvas=this.listaPersonajesPagina
   this.listaModoEdicion=this.listaPersonajesPagina
 
-  this.listaPersonajesPagina=[]
+  //this.listaPersonajesPagina=[]
 
   var Imagen = new Image;
   var angle=0;
@@ -731,7 +868,7 @@ fondoElegido='';
    Imagen.src=urlrwae
    this.fondoElegido=urlrwae;
     this.ctx = this.canvas.nativeElement.getContext('2d');
-    this.ctx.drawImage(Imagen,0,0,1000,500)
+    this.ctx.drawImage(Imagen,0,0,this.deviceCanvasX,this.deviceCanvasY)
 
     this.listaTexto.forEach(texto=>{
 
@@ -766,8 +903,8 @@ fondoElegido='';
     this.recursoCargadoPregunta = true;
     console.log('This');
    // this.recursoCargado = this.listaRecursos.filter (recuro => recuro.id === Number(this.recursoId))[0];
-console.log('id: ')
-console.log(this.listaRecursos[0].id);
+/*console.log('id: ')
+console.log(this.listaRecursos[0].id);*/
 
    this.recursoCargado = this.listaRecursos.filter (recuro => recuro.id === this.listaRecursos[0].id)[0];
 

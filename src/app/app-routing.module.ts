@@ -8,7 +8,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'inicio',
+    redirectTo: 'login',
     pathMatch: 'full'
   },
   {
@@ -34,6 +34,10 @@ const routes: Routes = [
   {
     path: 'menu-principal',
     loadChildren: () => import('./menu-principal/menu-principal.module').then( m => m.MenuPrincipalPageModule)
+  },
+  {
+    path: 'mis-juegos',
+    loadChildren: () => import('./mis-juegos/mis-juegos.module').then( m => m.MisJuegosPageModule)
   },
 ];
 

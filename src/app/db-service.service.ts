@@ -7,20 +7,26 @@ import { ResponseContentType, Http} from '@angular/http';
 import {Alumnojuegodecuento} from '../app/home/clases/Alumnojuegodecuento';
 import{Libro} from '../app/home/clases/libro';
 import{imagenEscena}from '../app/home/clases/imagenEscena';
+import{juegolibro}from '../app/home/clases/juegolibro';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DbServiceService {
 
+  private base='http://192.168.1.65:3000';
+  //private base='http://localhost:3000';
+
   private APIUrlhost = 'http://localhost:3000/api/Profesores/8/recursosLibros';
-  private APIUrlProfesoresHost ='http://localhost:3000/api/Profesores';
-  private APIUrlRecursoJuego ='http://localhost:3000/api/juegodelibro';
-  private APIUrlEscena='http://localhost:3000/api/escenas';
-  private APIurlImagenesLibrosHost ='http://localhost:3000/api/imagenes';
-  private APIurlAlumnoJuego = 'http://localhost:3000/api/alumnojuegodecuento';
-  private APIurllibro = 'http://localhost:3000/api/libro';
-  private APIurlAlumnos= 'http://localhost:3000/api/Alumnos';
+  private APIUrlProfesoresHost =this.base+'/api/Profesores';
+  private APIUrlRecursoJuego =this.base+'/api/juegodelibro';
+  private APIUrlEscena=this.base+'/api/libro';
+  private APIUrlElemento=this.base+'/api/escenas'
+  private APIurlImagenesLibrosHost =this.base+'/api/imagenes';
+  private APIurlAlumnoJuego = this.base+'/api/alumnojuegodecuento';
+  private APIurllibro = this.base+'/api/libro';
+  private APIurlAlumnos= this.base+'/api/Alumnos';
+  //private APIurlJuegos= this.base +'/api/juegodelibro';
  
   
   private APIUrl = 'http://147.83.249.79:3000/api/Profesores/8/recursosLibros';
@@ -60,10 +66,23 @@ export class DbServiceService {
   
     }
 
-    public postEscena(escena: any): Observable<any> {
-      return this.http.post<any>(this.APIUrlEscena + '/' + escena.id, escena);
+    public postEscena(libroId, escenas: any): Observable<any> {
+      return this.http.post<any>(this.APIUrlEscena + '/' + libroId + '/escenas', escenas);
+
+      //http://localhost:3000/api/libro/21/escenas
+      //return this.http.post<Libro>(this.APIurlAlumnoJuego + '/' + idalumno + '/Libro', libro);
   
     }
+
+    public postElemento(escenaId, frames: any): Observable<any> {
+      return this.http.post<any>(this.APIUrlElemento + '/' + escenaId + '/frames', frames);
+
+      //http://localhost:3000/api/libro/21/escenas
+      //return this.http.post<Libro>(this.APIurlAlumnoJuego + '/' + idalumno + '/Libro', libro);
+  
+    }
+
+
 
     /**
      * 
@@ -113,6 +132,21 @@ export class DbServiceService {
       return this.http.get<any[]>(this.APIurllibro+ '?filter[where][idAlumno]=' + idalumno);
 
     }
+
+    public dameAlumnosJuegoDeCuento(idalumno): Observable<any> 
+    {
+      return this.http.get<any[]>(this.APIurlAlumnoJuego+ '?filter[where][alumnoID]=' + idalumno);
+
+    }
+
+    public dameJuegosDelAlumno(idJuegos): Observable<juegolibro>
+    {
+      return this.http.get<juegolibro>(this.APIUrlRecursoJuego+ '/'+ idJuegos);
+
+
+    }
+
+
 
 
    

@@ -8,11 +8,25 @@ import { Router } from '@angular/router';
   styleUrls: ['./menu-principal.page.scss'],
 })
 export class MenuPrincipalPage implements OnInit {
+  
 
   constructor(private router: Router, private dBservice: DbServiceService) { }
 
   ngOnInit() {
      console.log("Estamos en el menu-LOGIN");
+  }
+
+
+  irJuegos(){        
+    
+    this.router.navigate(['/mis-juegos']);
+  }
+
+
+
+  atras(){
+    this.router.navigate(['/login']);
+
   }
 
 }

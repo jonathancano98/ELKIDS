@@ -6,7 +6,7 @@
     
     <div  >
 
-      <canvas #canvas id="canvas" class="canvasStyle" (click)="canvasClick2($event)"  width="1000px" height="500px" style="border-style: solid; " position="absolute" crossorigin="anonymous" ></canvas>
+      <canvas #canvas id="canvas" class="canvasStyle" (click)="canvasClick2($event)"  [width]="deviceCanvasX" [height]="deviceCanvasY" style="border-style: solid; " position="absolute" crossorigin="anonymous" ></canvas>
 
     <!-- <div *ngFor="let imageE of listaFotosDeEscena" >-->
         <img id={{imageE.nombre}} class="positionAbsolute responsiveImage" z-index="3" width="65px" height="65px" [src]= "imageE.url" *ngFor="let imageE of listaFotosDeEscena" (dblclick)="voltearImagen(imageE.nombre,$event)"(click)="organizarEjeZ(imageE.nombre,$event)"crossorigin="anonymous">
@@ -24,7 +24,7 @@
   <div class="fondoMover">
   <ion-card class ="ion-card">
     <ion-card-header>
-      <ion-card-title class="ion-title" >Â¡DESLIZA!</ion-card-title >
+      <ion-card-title class="ion-title" >¡DESLIZA!</ion-card-title >
     </ion-card-header>
   
     <ion-card-content>
@@ -56,7 +56,7 @@
  
   <ion-button style = "width: 3%; height: 40pt" class="ranking-btn  resposniveButtons" (click)="arrastrar22222222222()"><ion-icon name="move-outline"></ion-icon></ion-button> 
   <ion-button color="warning" style = "width: 3%; height: 40pt" class="ranking-btn  resposniveButtons" (click)="allMight()"><ion-icon name="move-outline"></ion-icon></ion-button> 
-  <ion-button color="warning" (click)="crearPagina()"class="moverCrearPagina">Crear PÃ¡gina</ion-button>
+  <ion-button color="warning" (click)="crearPagina()"class="moverCrearPagina">Crear Página</ion-button>
   <!--
   <ion-button color="warning" (click)="recuperarPagina()">Recuperar Pagina</ion-button>
   <ion-button color="warning" (click)="recolocar()">Recolocar</ion-button>

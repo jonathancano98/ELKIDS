@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>misJuegos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list>
+    <ion-list-header>
+      MIS JUEGOS
+    </ion-list-header>
+
+    <ion-item *ngFor="let juego of listaAuxiliar; let i = index">
+      <ion-avatar slot="start">
+       <!-- <img src="https://ionicframework.com/docs/demos/api/list/avatar-finn.png">--> 
+        <img src="../../assets/icon/game.PNG">
+        
+      </ion-avatar>
+      <ion-label>
+        <h2>Nombre: {{juego.NombreJuego}}</h2>
+        <h3>Grupo: {{juego.grupoId}} </h3>
+        <p>Descripción: {{juego.descripcion}}  </p>
+      </ion-label>
+      <ion-checkbox [disabled]="categorias[i]"  (click)="selection(i);" ></ion-checkbox> 
+    </ion-item>
+
+
+
+
+
+
+  </ion-list>
+  <ion-button  (click)="irJuego()" >Siguiente</ion-button>
+
+
+</ion-content>

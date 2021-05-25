@@ -22,14 +22,14 @@ export class LoginPage implements OnInit {
 
   Autentificar () {
     this.dBservice.loginAlumno(this.nombre, this.pass)
-    .subscribe (persona => {
+    .subscribe ( persona => {
 
       if (persona.length != 0){
 
         
         console.log("si");
         console.log(persona);
-        //localStorage.setItem.(id)
+        localStorage.setItem("alumnoID", persona[0].id)
         this.router.navigate(['/menu-principal']);
 
       }

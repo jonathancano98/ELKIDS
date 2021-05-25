@@ -40,11 +40,12 @@
 
 
 </ion-slides>
-
-  <ion-button  (click)="Atras()" >Volver</ion-button>
-  <ion-button  (click)="EditarEscena()" >Editar Escena</ion-button>
+  <ion-grid>
+  <ion-button  (click)="Atras()" ><ion-icon  name="arrow-back-sharp"></ion-icon>Volver </ion-button>
+  <ion-button  (click)="EditarEscena()" ><ion-icon name="pencil-sharp"></ion-icon> Editar Escena  </ion-button>
+  <ion-button  (click)="eliminarEscena()" > <ion-icon  name="trash-bin-sharp"></ion-icon> Eliminar Escena </ion-button>
   <ion-button  (click)="traeImagenesRecursoLibro()" >trae</ion-button>
-
+  </ion-grid>
 
   
 
