@@ -144,6 +144,32 @@ console.log('id: ')
 
 }
 
+async eliminarEscena(nombre:string, i:number)
+{
+  console.log(nombre);
+
+  if(nombre)
+  {
+    await this.dBservice.BorraImagenEscena(localStorage.getItem("contenedor"),nombre).toPromise();
+    this.listaEscenasVisor2.splice(i,1);
+    let res = nombre.split(".", 1);
+    await this.dBservice.BorrarFramesDeEscena(res).toPromise();
+    await this.dBservice.BorrarEscena(res).toPromise();
+    
+    console.log("hola")
+    //this.router.navigate(['/visor-de-escenas']);
+    
+
+  }
+  else console.log("no hay foto")
+  //this.dBservice.BorraImagenEscena(localStorage.getItem("contenedero"),)
+
+
+
+
+}
+
+
 
 delay(ms: number) {
   return new Promise( resolve => setTimeout(resolve, ms) );

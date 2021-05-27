@@ -47,7 +47,7 @@ export class MisJuegosPage implements OnInit {
   
   }
 
-
+//buscar el elemento que tenga la clase checkbox xD
   selection(x: any) {
 
     this.contador++;

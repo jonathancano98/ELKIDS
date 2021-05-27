@@ -116,6 +116,24 @@ export class DbServiceService {
   
     }
 
+    public BorraImagenEscena (contenedor, file):Observable<any>{
+      return this.http.delete<any>(this.APIurlImagenesLibrosHost + '/' + contenedor + '/files/' + file) ;
+    }
+
+    public BorrarFramesDeEscena(escenaId):Observable<any> {
+
+      return this.http.delete<any>(this.APIUrlElemento + '/' + escenaId + '/frames') ;
+
+    }
+
+    public BorrarEscena(escenaId):Observable<any>{
+
+      return this.http.delete<any>(this.APIUrlElemento + '/' + escenaId) ;
+    }
+
+
+
+
 
 
      public comprobarTituloLibro(nombre: string){

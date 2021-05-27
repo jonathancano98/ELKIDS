@@ -461,7 +461,7 @@ async pruebaCanvasUrl(){
   const formData: FormData = new FormData();
   var micanvas = document.getElementById("canvas") as HTMLCanvasElement;
   var dataURL = micanvas.toDataURL();
-  var file = this.dataURLtoFile(dataURL,this.numeroPaginas + '.png')
+  var file = this.dataURLtoFile(dataURL,localStorage.getItem("idEscena") + '.png')
   this.numeroPaginas++;
 
   formData.append('fotoFrame', file);
