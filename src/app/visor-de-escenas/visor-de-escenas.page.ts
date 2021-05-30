@@ -17,6 +17,7 @@ export class VisorDeEscenasPage implements OnInit {
   listaEscenasVisor2: any[] = [];
   recursoCargadoPregunta: any = false;
   recursoCargado: any;
+  x:number;
 
 
    async ngOnInit() {
@@ -50,7 +51,8 @@ export class VisorDeEscenasPage implements OnInit {
   console.log("llegado");
   console.log(this.listaEscenasVisor);
 
-
+  
+  
 
 
 }

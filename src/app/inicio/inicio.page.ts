@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import{DbServiceService} from 'src/app/db-service.service'
+import{DbServiceService} from 'src/app/db-service.service';
+import { AlertController, NavController } from '@ionic/angular';
 import { Alumnojuegodecuento } from '../home/clases/Alumnojuegodecuento';
 import { Router } from '@angular/router';
+import { LifecycleHooks } from '@angular/compiler/src/lifecycle_reflector';
 
 
 @Component({
@@ -17,18 +19,24 @@ export class InicioPage implements OnInit {
   nivel3;
   listaDeLibrosAlumnoJuego: any[] = [];
   seleccionado: boolean[];
+  cuentoCreado: boolean;
 
 
-  constructor(private router: Router, private dBservice: DbServiceService) { }
+  constructor(private router: Router, private dBservice: DbServiceService , public alertController: AlertController) { }
 
   ngOnInit() {
     
    this.obtenemosAlumnoJuegoLibro();
 
-    this.obtenemosLosLibrosAlumnoJuego();
+    //this.obtenemosLosLibrosAlumnoJuego();
 
    
   }
+
+  ionViewWillEnter() {
+    this.obtenemosLosLibrosAlumnoJuego();
+    console.log('ionViewWillEnter les goooooo');
+ }
 
   //Forzamos el alumno con id 17 ya que sabemos que tiene un juego y ahora mismo no esta implementado el login
   obtenemosAlumnoJuegoLibro()
@@ -50,10 +58,12 @@ export class InicioPage implements OnInit {
 
   obtenemosLosLibrosAlumnoJuego()
   {
+    this.cuentoCreado=false;
     this.dBservice.dameLibrosAlumnoJuego(localStorage.getItem("idAlumnoJuego")).subscribe(res => {
       
      // this.crearCarpeta(res.id);
-      this.listaDeLibrosAlumnoJuego = res;
+     if(res.length>0) this.cuentoCreado=true;
+      this.listaDeLibrosAlumnoJuego = res
       console.log("yA HA LLEGADO");
       console.log(this.listaDeLibrosAlumnoJuego);
       this.seleccionado = Array(this.listaDeLibrosAlumnoJuego.length).fill(false);
@@ -89,8 +99,21 @@ export class InicioPage implements OnInit {
   //Esta funcion nos lleva al html de formulario-libro
   public crearCuento() {
 
-    this.router.navigate(['/formulario-libro']);
+    if(this.cuentoCreado) this.alertaCuentoYaCreado();    
+    else this.router.navigate(['/formulario-libro']);
 
+  }
+
+  async alertaCuentoYaCreado() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Cuento ya creado!!',
+      //subHeader: 'El nombre ya está ocupado',
+      message: 'Solo puedes crear un cuento por juego',
+      buttons: ['Aceptar']
+    });
+
+    await alert.present();
   }
   
 

@@ -43,6 +43,12 @@ export class DbServiceService {
     return this.http.get<any>(this.APIurlAlumnos + '?filter[where][Username]=' + username + '&filter[where][Password]=' + password);
   }
 
+  dameAlumnoPorId (id): Observable<any> {
+    return this.http.get<any>(this.APIurlAlumnos + '/' + id);
+  }
+
+
+
 
     recuperarListaRecursos(profesorId): Observable<RecursoLibro[]> {
       return this.http.get<RecursoLibro[]>(this.APIUrlProfesoresHost  + '/' + profesorId + '/recursosLibros');

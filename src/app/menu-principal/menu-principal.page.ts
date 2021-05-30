@@ -22,6 +22,11 @@ export class MenuPrincipalPage implements OnInit {
     this.router.navigate(['/mis-juegos']);
   }
 
+  irPerfil(){
+
+    this.router.navigate(['/mi-perfil']);
+  }
+
 
 
   atras(){

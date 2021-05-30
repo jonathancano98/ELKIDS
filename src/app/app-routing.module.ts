@@ -39,6 +39,10 @@ const routes: Routes = [
     path: 'mis-juegos',
     loadChildren: () => import('./mis-juegos/mis-juegos.module').then( m => m.MisJuegosPageModule)
   },
+  {
+    path: 'mi-perfil',
+    loadChildren: () => import('./mi-perfil/mi-perfil.module').then( m => m.MiPerfilPageModule)
+  },
 ];
 
 @NgModule({
