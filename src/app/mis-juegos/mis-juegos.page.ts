@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import{DbServiceService} from 'src/app/db-service.service'
 import { Router } from '@angular/router';
 import{juegolibro} from '../home/clases/juegolibro'
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-mis-juegos',
@@ -17,12 +18,37 @@ export class MisJuegosPage implements OnInit {
   categorias: boolean[];
   contador: number = 0;
 
-  constructor(private router: Router, private dBservice: DbServiceService) { }
+  constructor(private router: Router, private dBservice: DbServiceService, private alertController: AlertController) { }
 
     async ngOnInit() {
-
     //await this.obtengoAlumnos()
     
+    /*this.listaDeJuegosDeAlumno = await this.dBservice.dameAlumnosJuegoDeCuento(localStorage.getItem("alumnoID")).toPromise();
+
+
+    console.log("sIIIIII")
+    console.log(this.listaDeJuegosDeAlumno);
+    
+    for(let i=0; i<this.listaDeJuegosDeAlumno.length;i++)
+    {
+      this.lista = await this.dBservice.dameJuegosDelAlumno(this.listaDeJuegosDeAlumno[i].juegoId).toPromise();
+      console.log("me llega lista")
+      console.log(this.lista);
+      this.listaAuxiliar.push(this.lista);
+      this.seleccionado = Array(this.listaAuxiliar.length).fill(false);
+      this.categorias = Array(this.listaAuxiliar.length).fill(false);
+
+    }
+
+
+
+    console.log(this.listaAuxiliar);
+    console.log(this.seleccionado);
+  */
+  }
+
+  async ionViewWillEnter()
+  {
     this.listaDeJuegosDeAlumno = await this.dBservice.dameAlumnosJuegoDeCuento(localStorage.getItem("alumnoID")).toPromise();
 
 
@@ -44,7 +70,10 @@ export class MisJuegosPage implements OnInit {
 
     console.log(this.listaAuxiliar);
     console.log(this.seleccionado);
-  
+
+
+
+
   }
 
 //buscar el elemento que tenga la clase checkbox xD
@@ -92,7 +121,13 @@ export class MisJuegosPage implements OnInit {
 
       }
 
-      if(count) this.router.navigate(['/inicio']);
+      if(count){ 
+        this.listaAuxiliar=[];
+        this.contador=0;
+        this.router.navigate(['/inicio']);
+    }else
+    
+      this.alertaJuegoNoSeleccionado()
 
 
 
@@ -101,7 +136,20 @@ export class MisJuegosPage implements OnInit {
 
   irMenuPrincipal()
   {
+    this.listaAuxiliar=[];
+    this.contador=0;
     this.router.navigate(['/menu-principal'])
+  }
+
+  async alertaJuegoNoSeleccionado() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'ERROR',
+      message: 'Debes seleccionar un juego',
+      buttons: ['Aceptar']
+    });
+
+    await alert.present();
   }
 
 

@@ -26,7 +26,7 @@ export class InicioPage implements OnInit {
 
   ngOnInit() {
     
-   this.obtenemosAlumnoJuegoLibro();
+   //this.obtenemosAlumnoJuegoLibro();
 
     //this.obtenemosLosLibrosAlumnoJuego();
 
@@ -34,6 +34,7 @@ export class InicioPage implements OnInit {
   }
 
   ionViewWillEnter() {
+    this.obtenemosAlumnoJuegoLibro();
     this.obtenemosLosLibrosAlumnoJuego();
     console.log('ionViewWillEnter les goooooo');
  }
@@ -92,6 +93,14 @@ export class InicioPage implements OnInit {
       }
 
       if(count) this.router.navigate(['/menu-libro']);
+
+  }
+
+  irMisJuegos()
+  {
+
+    this.router.navigate(['/mis-juegos']);
+
 
   }
 

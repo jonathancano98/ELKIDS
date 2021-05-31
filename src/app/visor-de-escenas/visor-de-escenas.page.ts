@@ -21,14 +21,28 @@ export class VisorDeEscenasPage implements OnInit {
 
 
    async ngOnInit() {
-    console.log("lets go")
+    /*console.log("lets go")
     await this.obtengoImagenesEscenas();
 
     await this.traeImagenesRecursoLibro();
 
     console.log(this.listaEscenasVisor);
+    */
+  }
+
+  async ionViewWillEnter()
+  {
+
+    console.log("lets go")
+  await this.obtengoImagenesEscenas();
+
+  await this.traeImagenesRecursoLibro();
+
+  console.log(this.listaEscenasVisor);
+
 
   }
+
 
 
   async obtengoImagenesEscenas()

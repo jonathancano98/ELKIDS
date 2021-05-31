@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import{DbServiceService} from 'src/app/db-service.service'
 import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,7 @@ export class LoginPage implements OnInit {
   pass: string;
 
 
-  constructor(private router: Router, private dBservice: DbServiceService) { }
+  constructor(private router: Router, private dBservice: DbServiceService, public alertController: AlertController) { }
 
   ngOnInit() {
     console.log("LOGIN");
@@ -33,8 +34,10 @@ export class LoginPage implements OnInit {
         this.router.navigate(['/menu-principal']);
 
       }
-      else console.log("no");
-
+      else {
+        this.alertaCuentoYaCreado()
+        console.log("no");
+      }
 
 
                              /* if (persona != null) {
@@ -48,6 +51,17 @@ export class LoginPage implements OnInit {
                             }
                 );
 
+  }
+
+  async alertaCuentoYaCreado() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Contraseña incorrecta',
+      message: 'Contraseña incorrecta',
+      buttons: ['Aceptar']
+    });
+
+    await alert.present();
   }
 
 

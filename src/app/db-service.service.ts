@@ -138,6 +138,10 @@ export class DbServiceService {
 
     }
 
+
+
+
+
     public BorrarEscena(escenaId):Observable<any>{
 
       return this.http.delete<any>(this.APIUrlElemento + '/' + escenaId) ;
