@@ -43,6 +43,10 @@ const routes: Routes = [
     path: 'mi-perfil',
     loadChildren: () => import('./mi-perfil/mi-perfil.module').then( m => m.MiPerfilPageModule)
   },
+  {
+    path: 'mis-grupos',
+    loadChildren: () => import('./mis-grupos/mis-grupos.module').then( m => m.MisGruposPageModule)
+  },
 ];
 
 @NgModule({

@@ -99,6 +99,11 @@ export class MisJuegosPage implements OnInit {
 
   }
 
+  irMenuPrincipal()
+  {
+    this.router.navigate(['/menu-principal'])
+  }
+
 
 
 

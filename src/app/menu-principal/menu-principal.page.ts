@@ -27,6 +27,10 @@ export class MenuPrincipalPage implements OnInit {
     this.router.navigate(['/mi-perfil']);
   }
 
+  irGrupos(){
+    this.router.navigate(['/mis-grupos'])
+  }
+
 
 
   atras(){

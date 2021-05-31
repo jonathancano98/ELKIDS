@@ -47,6 +47,12 @@ export class DbServiceService {
     return this.http.get<any>(this.APIurlAlumnos + '/' + id);
   }
 
+  dameGruposDeAlumno(id):Observable<any[]>{
+    
+    return this.http.get<any[]>(this.APIurlAlumnos+ '/'+id+'/grupos')
+
+  }
+
 
 
 

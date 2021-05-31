@@ -3,12 +3,16 @@
 
 
 <ion-content [fullscreen]="true"  padding>
+
+
+
   <form #form="ngForm" (ngSubmit)="Autentificar();">
     <ion-grid >
       <ion-row color="primary" justify-content-center>
         <ion-col    >
           <div >
-            <h1 class="login">LOGIN</h1>
+            <!--<h1 class="login">LOGIN</h1>-->
+            <img class="logo" src="../../assets/icon/mascotaCLASSPIPKIDS.png" >
           </div>
           <div >
             <h5 class="login" >Usuario</h5> 
@@ -20,6 +24,7 @@
               <ion-input class="login" name="password" type="password" placeholder="Contraseña"  required [(ngModel)]="pass" ></ion-input>
             </ion-item>
           </div>
+          <ion-row style="height: 30px"></ion-row>
           <div class="padding">
             <ion-button class="prueba" size="large"  type="submit" [disabled]="form.invalid" expand="block">LOGIN</ion-button>
           </div>
@@ -27,4 +32,7 @@
       </ion-row>
     </ion-grid>
   </form>
+
+
 </ion-content>
+
