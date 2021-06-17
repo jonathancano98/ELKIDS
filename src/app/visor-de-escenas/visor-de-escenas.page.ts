@@ -18,6 +18,7 @@ export class VisorDeEscenasPage implements OnInit {
   recursoCargadoPregunta: any = false;
   recursoCargado: any;
   x:number;
+  espiando: boolean;
 
 
    async ngOnInit() {
@@ -32,6 +33,8 @@ export class VisorDeEscenasPage implements OnInit {
 
   async ionViewWillEnter()
   {
+    if(localStorage.getItem("espiando")=="true") this.espiando=true;
+    else this.espiando=false;
 
     console.log("lets go")
   await this.obtengoImagenesEscenas();
@@ -193,7 +196,11 @@ delay(ms: number) {
 
 
 
+  AtrasEspia(){
 
+    this.router.navigate(['/cuentos-a-espiar']);
+
+  }
 
   Atras()
   {

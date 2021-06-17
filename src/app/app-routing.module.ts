@@ -47,6 +47,10 @@ const routes: Routes = [
     path: 'mis-grupos',
     loadChildren: () => import('./mis-grupos/mis-grupos.module').then( m => m.MisGruposPageModule)
   },
+  {
+    path: 'cuentos-a-espiar',
+    loadChildren: () => import('./cuentos-a-espiar/cuentos-a-espiar.module').then( m => m.CuentosAEspiarPageModule)
+  },
 ];
 
 @NgModule({

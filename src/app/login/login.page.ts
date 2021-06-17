@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import{DbServiceService} from 'src/app/db-service.service'
 import { Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { AlertController, LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +14,13 @@ export class LoginPage implements OnInit {
   pass: string;
 
 
-  constructor(private router: Router, private dBservice: DbServiceService, public alertController: AlertController) { }
+  constructor(
+    private router: Router,
+    private dBservice: DbServiceService,
+    public loadingController: LoadingController,
+    public alertController: AlertController
+  )    
+  { }
 
   ngOnInit() {
     console.log("LOGIN");
@@ -22,6 +28,7 @@ export class LoginPage implements OnInit {
 
 
   Autentificar () {
+    
     this.dBservice.loginAlumno(this.nombre, this.pass)
     .subscribe ( persona => {
 
@@ -53,12 +60,24 @@ export class LoginPage implements OnInit {
 
   }
 
+
+  async presentLoading() {
+    const loading = await this.loadingController.create({
+      message: 'Verificando Usuario',
+      duration: 1500
+    });
+    await loading.present();
+
+    const { role, data } = await loading.onDidDismiss();
+
+    console.log('Loading dismissed!');
+  }
+
   async alertaCuentoYaCreado() {
     const alert = await this.alertController.create({
-      cssClass: 'my-custom-class',
-      header: 'Contraseña incorrecta',
+      header: 'Error',
       message: 'Contraseña incorrecta',
-      buttons: ['Aceptar']
+      buttons: ['OK']
     });
 
     await alert.present();

@@ -53,6 +53,11 @@ export class DbServiceService {
 
   }
 
+  public DameAlumnosJuegoLibro(id): Observable<any>  {
+    return this.http.get<Alumnojuegodecuento>(this.APIUrlRecursoJuego + '/' + id + '/alumnojuegodecuento');
+  
+   }
+
 
 
 
@@ -160,12 +165,17 @@ export class DbServiceService {
       return this.http.post<Libro>(this.APIurlAlumnoJuego + '/' + idalumno + '/Libro', libro);
     }
 
+    public dameLibro(idJuegoAlumnoLibro): Observable<any> {
+      return this.http.get<any>(this.APIurlAlumnoJuego + '/' + idJuegoAlumnoLibro + '/Libro');
+  
+    }
     //arreglar esta funcion, conseguir que me pase esa lista
     public dameLibrosAlumnoJuego(idalumno): Observable<any> 
     {
       return this.http.get<any[]>(this.APIurllibro+ '?filter[where][idAlumno]=' + idalumno);
 
     }
+    
 
     public dameAlumnosJuegoDeCuento(idalumno): Observable<any> 
     {

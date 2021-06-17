@@ -35,8 +35,8 @@
       <ion-row > Escena {{i}}</ion-row>
       <ion-grid>
        
-        <ion-button  (click)="EditarEscena()" ><ion-icon name="pencil-sharp"></ion-icon> Editar Escena  </ion-button>
-        <ion-button  (click)="eliminarEscena(imageP.nombre,i)" > <ion-icon  name="trash-bin-sharp"></ion-icon> Eliminar Escena </ion-button>
+        <ion-button *ngIf="!this.espiando" (click)="EditarEscena()" ><ion-icon name="pencil-sharp"></ion-icon> Editar Escena  </ion-button>
+        <ion-button *ngIf="!this.espiando" (click)="eliminarEscena(imageP.nombre,i)" > <ion-icon  name="trash-bin-sharp"></ion-icon> Eliminar Escena </ion-button>
         
         </ion-grid>
     </div>
@@ -50,7 +50,8 @@
 </ion-slides>
 
   <ion-grid>
-  <ion-button  (click)="Atras()" ><ion-icon  name="arrow-back-sharp"></ion-icon>Volver </ion-button>
+  <ion-button *ngIf="!this.espiando" (click)="Atras()" ><ion-icon  name="arrow-back-sharp"></ion-icon>Volver </ion-button>
+  <ion-button *ngIf="this.espiando" (click)="AtrasEspia()" ><ion-icon  name="arrow-back-sharp"></ion-icon>Volver </ion-button>
   <!--<ion-button  (click)="EditarEscena()" ><ion-icon name="pencil-sharp"></ion-icon> Editar Escena  </ion-button> -->
   <!--<ion-button  (click)="eliminarEscena(imageP.nombre,i)" > <ion-icon  name="trash-bin-sharp"></ion-icon> Eliminar Escena </ion-button>-->
   <!--<ion-button  (click)="traeImagenesRecursoLibro()" >trae</ion-button>-->

@@ -22,7 +22,12 @@ export class InicioPage implements OnInit {
   cuentoCreado: boolean;
 
 
-  constructor(private router: Router, private dBservice: DbServiceService , public alertController: AlertController) { }
+  constructor(
+    private router: Router,
+    private dBservice: DbServiceService ,
+    public alertController: AlertController
+  )
+  { }
 
   ngOnInit() {
     
@@ -32,6 +37,7 @@ export class InicioPage implements OnInit {
 
    
   }
+
 
   ionViewWillEnter() {
     this.obtenemosAlumnoJuegoLibro();
@@ -56,6 +62,7 @@ export class InicioPage implements OnInit {
 
     
   }
+
 
   obtenemosLosLibrosAlumnoJuego()
   {
@@ -92,16 +99,25 @@ export class InicioPage implements OnInit {
 
       }
 
-      if(count) this.router.navigate(['/menu-libro']);
+      if(count) {
+        localStorage.setItem("espiando","false");
+        this.router.navigate(['/menu-libro']);
 
+      }
+
+  }
+
+  irEspiarCuentos(){
+    console.log(this.alumnoJuegoDeLibro.permisoparaver)
+    if(this.alumnoJuegoDeLibro.permisoparaver)
+    this.router.navigate(['/cuentos-a-espiar']);
+    else this.alertaNoTienesPermisoParaEspiar();
+    
   }
 
   irMisJuegos()
   {
-
     this.router.navigate(['/mis-juegos']);
-
-
   }
 
 
@@ -113,6 +129,17 @@ export class InicioPage implements OnInit {
 
   }
 
+  async alertaNoTienesPermisoParaEspiar() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'No tienes permiso para espiar!!',
+      //subHeader: 'El nombre ya está ocupado',
+      message: 'Necesitas el permiso para poder espiar',
+      buttons: ['Aceptar']
+    });
+
+    await alert.present();
+  }
   async alertaCuentoYaCreado() {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
