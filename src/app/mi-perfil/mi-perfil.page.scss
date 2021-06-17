@@ -85,8 +85,36 @@ ion-chip {
 .texto2{
 
     font-weight: bold;
+    font-size: 15px;
     text-align: center;
 }
+
+.textoInput{
+    --justify-content: center;
+    --padding-start: 0;
+    --padding-end: 0;
+    --padding-top: 0;
+    --padding-bottom: 2px;
+    font-weight: bold;
+    font-size: 15px;
+    text-align: center;
+
+}
+
+.hola{
+    display: flex;
+    justify-content: center;
+}
+
+.native-input sc-ion-input-md{
+    padding-bottom: 0px;
+    padding-top: 0px;
+    padding-left: 0px;
+    margin: 2px;
+
+}
+
+
 
 .texto3{
 
@@ -94,3 +122,5 @@ ion-chip {
     font-size: 100%;
 
   }
+
+  

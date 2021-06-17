@@ -8,6 +8,7 @@ import {Alumnojuegodecuento} from '../app/home/clases/Alumnojuegodecuento';
 import{Libro} from '../app/home/clases/libro';
 import{imagenEscena}from '../app/home/clases/imagenEscena';
 import{juegolibro}from '../app/home/clases/juegolibro';
+import { Alumno } from './home/clases/alumno';
 
 @Injectable({
   providedIn: 'root'
@@ -57,6 +58,10 @@ export class DbServiceService {
     return this.http.get<Alumnojuegodecuento>(this.APIUrlRecursoJuego + '/' + id + '/alumnojuegodecuento');
   
    }
+
+   public ModificaAlumno(alumno: Alumno): Observable<Alumno> {
+    return this.http.put<Alumno>(this.APIurlAlumnos+ '/' + alumno.id, alumno);
+  }
 
 
 
