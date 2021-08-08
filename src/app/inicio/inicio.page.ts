@@ -151,6 +151,27 @@ export class InicioPage implements OnInit {
 
     await alert.present();
   }
+
+  async alertaCriteriosDeCuento() {
+    this.dBservice.dameJuegosDelAlumno(localStorage.getItem("idJuego"))
+    .subscribe(async res =>{
+     
+      const alert =  this.alertController.create({
+        header: 'Criterio1: ' + res.criterioprivilegio1,
+
+        subHeader: 'Criterio2: ' + res.criterioprivilegio2 ,
+        message: 'Criterio3: ' +  res.criterioprivilegio3,
+        
+       
+       // message: 'Criterio3 : ' + res.criterioprivilegio3,
+        buttons: ['Aceptar']
+      });
+       (await alert).present();
+
+    });
+
+    
+  }
   
 
 

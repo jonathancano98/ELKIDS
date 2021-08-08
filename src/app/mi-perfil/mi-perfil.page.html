@@ -23,7 +23,7 @@
             
             <ion-label >
               <h2 class="texto1" >Nombre</h2>
-             <ion-input  class="textoInput" style="border-bottom: 1px solid rgb(216, 213, 213);" type="text" value="" name="nombre" placeholder="Nombre" requiered [(ngModel)]="perfil.Nombre"></ion-input>
+             <ion-input  class="textoInput" style="border-bottom: 1px solid rgb(216, 213, 213);" type="text" value="" name="nombre" placeholder="Nombre" requiered [(ngModel)]="perfil.Nombre" (ngModelChange)= "cambio = true"></ion-input>
             </ion-label>
        
 
@@ -64,7 +64,7 @@
 
               <ion-label *ngIf = "cambioPass" lines="none">
                 <h2 class="texto1" >Repite contraseña </h2>
-                <ion-input class="textoInput" type="text" name="contrasenaRep" placeholder="Repite la contraseña" requiered [(ngModel)]="contrasenaRep" (ngModelChange)= "cambio = true"></ion-input>
+                <ion-input class="textoInput" type="text" style="border-bottom: 1px solid rgb(216, 213, 213);" name="contrasenaRep"  placeholder="Repite la contraseña" requiered [(ngModel)]="contrasenaRep" (ngModelChange)= "cambio = true"></ion-input>
               </ion-label>
 
               <ion-button *ngIf = "cambio" style="justify-content: center;" (click)="CambiarDatos();" class="ranking-btn">Cambiar tus datos</ion-button>
