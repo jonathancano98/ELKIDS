@@ -130,23 +130,28 @@ console.log('id: ')
     }) */
 
     let res = await this.dBservice.getEscenasDeRecurso(localStorage.getItem("contenedor"), element.name).toPromise()
-
+  
     const blob = new Blob([res.blob()], { type: 'image/png' });
       const reader = new FileReader();
 
       reader.addEventListener('load',  () => {
-
+        let elementNombre: string;
         var foto = null;
         foto = reader.result.toString();
         var fotoProps = new ImagenToBackend();
         fotoProps.url = foto;
-        
 
+        elementNombre=element.name;
+        element.name=elementNombre.split(".",1);
         fotoProps.nombre = element.name
-
-
-
         this.listaEscenasVisor2.push(fotoProps);
+        
+        this.listaEscenasVisor2.sort(function(a,b){
+          console.log("wdawdada          "+a.nombre)
+          return a.nombre-b.nombre;
+        })
+        
+        console.log("wdawdadad"+ this.listaEscenasVisor2[0].nombre)
 
       });
 
@@ -157,7 +162,6 @@ console.log('id: ')
 
 
   });
-
   console.log(this.listaEscenasVisor2);
   console.log('end')
 
