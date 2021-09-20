@@ -32,6 +32,9 @@ export class MiPerfilPage implements OnInit {
 
   }
 
+  /**
+   * Va a la pantalla menu principal
+   */
   irMenuPrincipal()
   {
     this.cambio=false;
@@ -39,11 +42,19 @@ export class MiPerfilPage implements OnInit {
     this.router.navigate(['/menu-principal'])
   }
 
+  /**
+   * Comprueba que el email sea correcto
+   * @param email email del alumno
+   * @returns devuelve el email testeado
+   */
   EmailCorrecto(email) {
     const re = /\S+@\S+\.\S+/;
     return re.test(email);
   }
 
+  /**
+   * Permite al alumno cambiar los datos del alumno
+   */
   async CambiarDatos () {
 
 

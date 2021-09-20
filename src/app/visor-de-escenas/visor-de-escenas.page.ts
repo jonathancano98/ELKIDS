@@ -22,13 +22,7 @@ export class VisorDeEscenasPage implements OnInit {
 
 
    async ngOnInit() {
-    /*console.log("lets go")
-    await this.obtengoImagenesEscenas();
 
-    await this.traeImagenesRecursoLibro();
-
-    console.log(this.listaEscenasVisor);
-    */
   }
 
   async ionViewWillEnter()
@@ -37,52 +31,33 @@ export class VisorDeEscenasPage implements OnInit {
     else this.espiando=false;
 
     console.log("lets go")
-  await this.obtengoImagenesEscenas();
-
-  await this.traeImagenesRecursoLibro();
-
-  console.log(this.listaEscenasVisor);
+    await this.obtengoImagenesEscenas();
+    await this.traeImagenesRecursoLibro();
+    console.log(this.listaEscenasVisor);
 
 
   }
 
 
-
-  async obtengoImagenesEscenas()
+/**
+ * Obtengo las imagenes de escenas del cuento
+ */
+async obtengoImagenesEscenas()
 {
-
- /*this.dBservice.obtenerImagenesEscena(localStorage.getItem("contenedor"))
-  .subscribe((res) => {
-    console.log(res);
-    this.listaEscenasVisor=res;
-    console.log(this.listaEscenasVisor);
-  
-  
-  }, (err) => {
-    console.log("ERROR")
-
-  })*/
-
   this.listaEscenasVisor = await this.dBservice.obtenerImagenesEscena(localStorage.getItem("contenedor")).toPromise();
-  
   console.log("llegado");
   console.log(this.listaEscenasVisor);
 
-  
-  
-
-
 }
 
-
+/**
+ * Trae las imagenes para poder mostrarlas por el visor de escenas
+ */
 traeImagenesRecursoLibro(){
-  
 
-  this.listaEscenasVisor2 = [];
-
-
-  this.recursoCargadoPregunta = true;
-  console.log('This');
+this.listaEscenasVisor2 = [];
+this.recursoCargadoPregunta = true;
+console.log('This');
  // this.recursoCargado = this.listaRecursos.filter (recuro => recuro.id === Number(this.recursoId))[0];
 console.log('id: ')
 //console.log(this.listaEscenasVisor[1].name);
@@ -96,38 +71,6 @@ console.log('id: ')
 
  // this.listaEscenasVisor
   this.listaEscenasVisor.forEach(async element => {
-    
-   /* this.dBservice.getEscenasDeRecurso(localStorage.getItem("contenedor"), element.name)
-    .subscribe((res)=>{
-      
-      const blob = new Blob([res.blob()], { type: 'image/png' });
-      const reader = new FileReader();
-
-      reader.addEventListener('load', () => {
-
-        var foto = null;
-        foto = reader.result.toString();
-        var fotoProps = new ImagenToBackend();
-        fotoProps.url = foto;
-        
-
-        fotoProps.nombre = element.name
-
-
-
-        this.listaEscenasVisor2.push(fotoProps);
-
-      });
-
-      if (blob) {
-        reader.readAsDataURL(blob);
-      }
-
-
-    }, (err)=>{
-
-      console.log(err);
-    }) */
 
     let res = await this.dBservice.getEscenasDeRecurso(localStorage.getItem("contenedor"), element.name).toPromise()
   
@@ -146,6 +89,7 @@ console.log('id: ')
         fotoProps.nombre = element.name
         this.listaEscenasVisor2.push(fotoProps);
         
+        //Se ordenan las escenas, ya que a veces nos llegan desordenadas desde la API
         this.listaEscenasVisor2.sort(function(a,b){
           console.log("wdawdada          "+a.nombre)
           return a.nombre-b.nombre;
@@ -167,6 +111,11 @@ console.log('id: ')
 
 }
 
+/**
+ * Eliminamos la escena seleccionada
+ * @param nombre nombre de la escena
+ * @param i posicion en la lista
+ */
 async eliminarEscena(nombre:string, i:number)
 {
   console.log(nombre);
@@ -180,36 +129,37 @@ async eliminarEscena(nombre:string, i:number)
     await this.dBservice.BorrarEscena(res).toPromise();
     
     console.log("hola")
-    //this.router.navigate(['/visor-de-escenas']);
-    
-
+    //this.router.navigate(['/visor-de-escenas']);  
   }
   else console.log("no hay foto")
   //this.dBservice.BorraImagenEscena(localStorage.getItem("contenedero"),)
-
-
-
-
 }
 
 
-
+/**
+ * Añade un sleep a la aplicación antes de ejecutar la siguiente linea de codigo
+ * @param ms Tiempo en ms que queremos
+ * @returns Devuelve el delay
+ */
 delay(ms: number) {
   return new Promise( resolve => setTimeout(resolve, ms) );
 }
 
-
-
-  AtrasEspia(){
+/**
+ * Vuelvo a la pantalla cuentos-a-espiar, ya que habia entrado como espia
+ */
+AtrasEspia(){
 
     this.router.navigate(['/cuentos-a-espiar']);
 
-  }
+}
 
-  Atras()
+/**
+ * Vuelvo a la pantalla menu-libro
+ */
+Atras()
   {
     this.router.navigate(['/menu-libro']);
-
   }
 
 }

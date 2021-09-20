@@ -40,13 +40,15 @@ export class InicioPage implements OnInit {
 
 
   ionViewWillEnter() {
-    this.obtenemosAlumnoJuegoLibro();
-    this.obtenemosLosLibrosAlumnoJuego();
-    console.log('ionViewWillEnter les goooooo');
+    this.obtenemosAlumnoJuegoCuento();
+    this.obtenemosCuentoAlumnoJuego();
+    console.log('ionViewWillEnter entra');
  }
 
-  //Forzamos el alumno con id 17 ya que sabemos que tiene un juego y ahora mismo no esta implementado el login
-  obtenemosAlumnoJuegoLibro()
+  /**
+   * Pedimos la informacion del alumno juego de cuento
+   */
+  obtenemosAlumnoJuegoCuento()
   {
     this.dBservice.dameAlumnoJuegoLibro(localStorage.getItem("idAlumnoJuego"))
     .subscribe(res => {
@@ -64,7 +66,10 @@ export class InicioPage implements OnInit {
   }
 
 
-  obtenemosLosLibrosAlumnoJuego()
+  /**
+   * Obtenemos el cuento del alumno
+   */
+  obtenemosCuentoAlumnoJuego()
   {
     this.cuentoCreado=false;
     this.dBservice.dameLibrosAlumnoJuego(localStorage.getItem("idAlumnoJuego")).subscribe(res => {
@@ -79,6 +84,10 @@ export class InicioPage implements OnInit {
     });
 
   }
+
+  /**
+   * Vamos a la pantalla menu-libro del cuento seleccionado
+   */
   irCuento(){
     let count: boolean;
     count = false;
@@ -93,10 +102,7 @@ export class InicioPage implements OnInit {
           localStorage.setItem("contenedor",this.listaDeLibrosAlumnoJuego[i].titulo);
           count = true;
           //this.router.navigate(['/menu-libro']);
-
         }
-
-
       }
 
       if(count) {
@@ -107,6 +113,9 @@ export class InicioPage implements OnInit {
 
   }
 
+  /**
+   * Vamos a la pantalla cuentos-a-espiar del alumno
+   */
   irEspiarCuentos(){
     console.log(this.alumnoJuegoDeLibro.permisoparaver)
     if(this.alumnoJuegoDeLibro.permisoparaver)
@@ -115,13 +124,17 @@ export class InicioPage implements OnInit {
     
   }
 
+  /**
+   * Volvemos a la pantalla mi-juegos del alumno
+   */
   irMisJuegos()
   {
     this.router.navigate(['/mis-juegos']);
   }
 
-
-  //Esta funcion nos lleva al html de formulario-libro
+  /**
+  * Esta función nos lleva al html de formulario-libro
+  */
   public crearCuento() {
 
     if(this.cuentoCreado) this.alertaCuentoYaCreado();    
@@ -129,6 +142,9 @@ export class InicioPage implements OnInit {
 
   }
 
+  /**
+   * Alerta que avisa al alumno que no tiene el privilegio de poder espiar cuentos de otros alumnos
+   */
   async alertaNoTienesPermisoParaEspiar() {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
@@ -137,9 +153,12 @@ export class InicioPage implements OnInit {
       message: 'Necesitas el permiso para poder espiar',
       buttons: ['Aceptar']
     });
-
     await alert.present();
   }
+
+  /**
+   * Avisa al alumno ya que tiene un cuento creado
+   */
   async alertaCuentoYaCreado() {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
@@ -152,6 +171,9 @@ export class InicioPage implements OnInit {
     await alert.present();
   }
 
+  /**
+   * Avisa al alumno de los criterios establecidos por el profesor para poder conseguir los privilegios
+   */
   async alertaCriteriosDeCuento() {
     this.dBservice.dameJuegosDelAlumno(localStorage.getItem("idJuego"))
     .subscribe(async res =>{

@@ -19,14 +19,14 @@ export class MisGruposPage implements OnInit {
 
   async ionViewWillEnter()
   {
-
     console.log("Entramos al Perfil");
+    //Pedimos a la API los grupos a los que el alumno pertenece
     this.listaGrupos = await this.dBservice.dameGruposDeAlumno(localStorage.getItem("alumnoID")).toPromise();
-
-
   }
 
-
+  /**
+   * Vuelve al a la pantalla menu-principal
+   */
   irMenuPrincipal()
   {
     this.router.navigate(['/menu-principal'])

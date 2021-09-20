@@ -15,21 +15,25 @@ export class MenuLibroPage implements OnInit {
     console.log("Entramos a menuLibro")
   }
 
+  /**
+   * Vamos al visor de escenas como espias
+   */
   public irVisorEscenas() {
-
     this.router.navigate(['/visor-de-escenas']);
-
   }
 
+  /**
+   * Vamos a la pantalla home para crear una escena
+   */
   public irCuento(){
-
     this.router.navigate(['/home']);
   }
-
+  
+  /**
+  * Volvemos a la pantalla inicio
+  */
   public Atras() {
-
     this.router.navigate(['/inicio']);
-
   }
 
 }

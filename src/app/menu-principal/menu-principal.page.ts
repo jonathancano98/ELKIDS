@@ -16,26 +16,32 @@ export class MenuPrincipalPage implements OnInit {
      console.log("Estamos en el menu-LOGIN");
   }
 
-
+  /**
+  * Va a la pantalla mis-juegos
+  */
   irJuegos(){        
-    
     this.router.navigate(['/mis-juegos']);
   }
 
+  /**
+  * Va a la pantalla mi-perfil
+  */
   irPerfil(){
-
     this.router.navigate(['/mi-perfil']);
   }
 
+  /**
+  * Va a la pantalla mis-grupos
+  */
   irGrupos(){
     this.router.navigate(['/mis-grupos'])
   }
 
-
-
+  /**
+  * Vuelve a la pantalla login
+  */
   atras(){
     this.router.navigate(['/login']);
-
   }
 
 }

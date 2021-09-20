@@ -21,34 +21,12 @@ export class MisJuegosPage implements OnInit {
   constructor(private router: Router, private dBservice: DbServiceService, private alertController: AlertController) { }
 
     async ngOnInit() {
-    //await this.obtengoAlumnos()
-    
-    /*this.listaDeJuegosDeAlumno = await this.dBservice.dameAlumnosJuegoDeCuento(localStorage.getItem("alumnoID")).toPromise();
 
-
-    console.log("sIIIIII")
-    console.log(this.listaDeJuegosDeAlumno);
-    
-    for(let i=0; i<this.listaDeJuegosDeAlumno.length;i++)
-    {
-      this.lista = await this.dBservice.dameJuegosDelAlumno(this.listaDeJuegosDeAlumno[i].juegoId).toPromise();
-      console.log("me llega lista")
-      console.log(this.lista);
-      this.listaAuxiliar.push(this.lista);
-      this.seleccionado = Array(this.listaAuxiliar.length).fill(false);
-      this.categorias = Array(this.listaAuxiliar.length).fill(false);
-
-    }
-
-
-
-    console.log(this.listaAuxiliar);
-    console.log(this.seleccionado);
-  */
   }
 
   async ionViewWillEnter()
   {
+    //Pedimos a la base de datos todos los juegos a los que pertenece nuestro alumno
     this.listaDeJuegosDeAlumno = await this.dBservice.dameAlumnosJuegoDeCuento(localStorage.getItem("alumnoID")).toPromise();
 
 
@@ -57,6 +35,7 @@ export class MisJuegosPage implements OnInit {
     
     for(let i=0; i<this.listaDeJuegosDeAlumno.length;i++)
     {
+      //pido informacion de cada juego
       this.lista = await this.dBservice.dameJuegosDelAlumno(this.listaDeJuegosDeAlumno[i].juegoId).toPromise();
       console.log("me llega lista")
       console.log(this.lista);
@@ -66,17 +45,16 @@ export class MisJuegosPage implements OnInit {
 
     }
 
-
-
     console.log(this.listaAuxiliar);
     console.log(this.seleccionado);
 
 
-
-
   }
 
-//buscar el elemento que tenga la clase checkbox xD
+  /**
+   * Cuando se selecciona un checkbox, los otros checkbox restantes son desactivados
+   * @param x Posición del checkbox seleccionado
+   */
   selection(x: any) {
 
     this.contador++;
@@ -99,6 +77,9 @@ export class MisJuegosPage implements OnInit {
   }
 
 
+  /**
+   * Vamos al juego seleccionado por el alumno
+   */
   irJuego()
   {
 
@@ -117,8 +98,6 @@ export class MisJuegosPage implements OnInit {
 
         }
 
-
-
       }
 
       if(count){ 
@@ -127,13 +106,13 @@ export class MisJuegosPage implements OnInit {
         this.router.navigate(['/inicio']);
     }else
     
-      this.alertaJuegoNoSeleccionado()
-
-
-
+      this.alertaJuegoNoSeleccionado();
 
   }
 
+  /**
+   * Vuelve al menu-principal
+   */
   irMenuPrincipal()
   {
     this.listaAuxiliar=[];
@@ -141,6 +120,9 @@ export class MisJuegosPage implements OnInit {
     this.router.navigate(['/menu-principal'])
   }
 
+  /**
+   * Alerta que avisa que no se ha seleccionado ningún juego
+   */
   async alertaJuegoNoSeleccionado() {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
@@ -152,11 +134,9 @@ export class MisJuegosPage implements OnInit {
     await alert.present();
   }
 
-
-
-
-
-
+  /**
+   * Pedimos a la base de datos todos los juegos a los que pertenece nuestro alumno
+   */
  async obtengoAlumnos(){
 
     this.dBservice.dameAlumnosJuegoDeCuento(localStorage.getItem("alumnoID")).subscribe ( juegos => {
@@ -169,14 +149,8 @@ export class MisJuegosPage implements OnInit {
       }
       else console.log("no tiene juegos disponibles");
 
-
-
                             }
                 );
-
-
   }
-
-
 
 }

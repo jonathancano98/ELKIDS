@@ -27,6 +27,11 @@ export class LoginPage implements OnInit {
   }
 
 
+  /**
+   * Comrprueba que se han introducido bien el usuario y contraseño
+   * Si va bien, el alumno avanza a la pantalla menu-principal
+   * Si va mal, aparece una alerta indicandolo
+   */
   Autentificar () {
     
     this.dBservice.loginAlumno(this.nombre, this.pass)
@@ -42,7 +47,7 @@ export class LoginPage implements OnInit {
 
       }
       else {
-        this.alertaCuentoYaCreado()
+        this.alertaConttraseñaIncorrecta()
         console.log("no");
       }
 
@@ -61,6 +66,9 @@ export class LoginPage implements OnInit {
   }
 
 
+  /**
+   * Pantalla de carga mientras se esta haciendo la consulta a la base de datos
+   */
   async presentLoading() {
     const loading = await this.loadingController.create({
       message: 'Verificando Usuario',
@@ -73,7 +81,10 @@ export class LoginPage implements OnInit {
     console.log('Loading dismissed!');
   }
 
-  async alertaCuentoYaCreado() {
+  /**
+   * Alerta que se activa cuando los datos(usuario/contraseña) introducidos por el alumno son incorrectos
+   */
+  async alertaConttraseñaIncorrecta() {
     const alert = await this.alertController.create({
       header: 'Error',
       message: 'Contraseña incorrecta',
