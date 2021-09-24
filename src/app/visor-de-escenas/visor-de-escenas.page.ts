@@ -21,9 +21,12 @@ export class VisorDeEscenasPage implements OnInit {
   espiando: boolean;
 
 
-   async ngOnInit() {
-
-  }
+	async ngOnInit() {
+		if (localStorage.getItem('GoToVisor') == 'true') {
+			localStorage.setItem('GoToVisor', 'false');
+			window.location.reload();
+		}
+	}
 
   async ionViewWillEnter()
   {
@@ -42,12 +45,13 @@ export class VisorDeEscenasPage implements OnInit {
 /**
  * Obtengo las imagenes de escenas del cuento
  */
-async obtengoImagenesEscenas()
-{
-  this.listaEscenasVisor = await this.dBservice.obtenerImagenesEscena(localStorage.getItem("contenedor")).toPromise();
-  console.log("llegado");
-  console.log(this.listaEscenasVisor);
+ async obtengoImagenesEscenas() {
+  this.listaEscenasVisor = await this.dBservice
+    .obtenerImagenesEscena(localStorage.getItem('contenedor'))
+    .toPromise();
 
+  console.log('llegado');
+  console.log(this.listaEscenasVisor);
 }
 
 /**
@@ -58,18 +62,9 @@ traeImagenesRecursoLibro(){
 this.listaEscenasVisor2 = [];
 this.recursoCargadoPregunta = true;
 console.log('This');
- // this.recursoCargado = this.listaRecursos.filter (recuro => recuro.id === Number(this.recursoId))[0];
-console.log('id: ')
-//console.log(this.listaEscenasVisor[1].name);
-
-// this.recursoCargado = this.listaEscenasVisor.filter (recuro => recuro.id === this.listaEscenasVisor[0].id)[0];
-
-
  
-  //console.log(this.listaEscenasVisor);
-  //console.log(this.recursoCargado);
+console.log('id: ')
 
- // this.listaEscenasVisor
   this.listaEscenasVisor.forEach(async element => {
 
     let res = await this.dBservice.getEscenasDeRecurso(localStorage.getItem("contenedor"), element.name).toPromise()
@@ -118,6 +113,7 @@ console.log('id: ')
  */
 async eliminarEscena(nombre:string, i:number)
 {
+  nombre = nombre+".png";
   console.log(nombre);
 
   if(nombre)
@@ -134,6 +130,16 @@ async eliminarEscena(nombre:string, i:number)
   else console.log("no hay foto")
   //this.dBservice.BorraImagenEscena(localStorage.getItem("contenedero"),)
 }
+
+//Boton para editar una escena
+	async editarEscena(nombre: string) {
+		let res =nombre;
+		console.log('Resultado del splice: ' + res);
+		localStorage.setItem('idEditar', '' + res + '');
+		localStorage.setItem('modoEditar', 'true');
+
+		this.router.navigate(['/home']);
+	}
 
 
 /**
@@ -159,6 +165,7 @@ AtrasEspia(){
  */
 Atras()
   {
+    localStorage.setItem('GoToVisor', 'false');
     this.router.navigate(['/menu-libro']);
   }
 

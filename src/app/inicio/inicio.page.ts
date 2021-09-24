@@ -30,10 +30,6 @@ export class InicioPage implements OnInit {
   { }
 
   ngOnInit() {
-    
-   //this.obtenemosAlumnoJuegoLibro();
-
-    //this.obtenemosLosLibrosAlumnoJuego();
 
    
   }
@@ -58,7 +54,10 @@ export class InicioPage implements OnInit {
       console.log(res.id);
       console.log(res.juegoId);
       localStorage.setItem("idAlumnoJuego", res.id);
-      localStorage.setItem("idJuego",res.juegoId)
+      localStorage.setItem("idJuego",res.juegoId);
+      localStorage.setItem("nivel1",res.nivel1);
+      localStorage.setItem("nivel2",res.nivel2);
+      localStorage.setItem("nivel3",res.nivel3);
 
     });
 

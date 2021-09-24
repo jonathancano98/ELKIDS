@@ -1,63 +1,42 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>visorDeEscenas</ion-title>
-  </ion-toolbar>
+	<ion-toolbar>
+		<ion-title class="texto1">Visor De Escenas</ion-title>
+	</ion-toolbar>
 </ion-header>
 
-<ion-content >
+<ion-content>
+	<ion-slides>
+		<ion-slide *ngFor="let imageP of listaEscenasVisor2; let i = index">
+			<div class="slide">
+				<img src="{{imageP.url}}" class="center" />
+				<ion-row> Escena {{i}}</ion-row>
+			</div>
 
-  <!--<ion-slides>
-    
-
-    <ion-slide>
-      <div class="slide">
-        <img src="https://haciendofotos.com/wp-content/uploads/mejores-fotos-del-mar-2019-playa-de-portugal.jpg"/>
-        <h2>Welcome</h2>
-        <p>The <b>ionic conference app</b> is a practical preview of the ionic framework in action, and a demonstration of proper code use.</p>
-      </div>
-    </ion-slide>
-
-    <ion-slide>
-      <img src="https://haciendofotos.com/wp-content/uploads/mejores-fotos-del-mar-2019-puesta-de-sol.jpg"/>
-      <h2>What is Ionic?</h2>
-      <p><b>Ionic Framework</b> is an open source SDK that enables developers to build high quality mobile apps with web technologies like HTML, CSS, and JavaScript.</p>
-    </ion-slide>
-
-
-  </ion-slides>
--->
-<ion-slides >
-
-  <ion-slide  *ngFor="let imageP of listaEscenasVisor2; let i = index ;" >
-    <div class="slide"  >
-      
-      <img src={{imageP.url}}   class="center">
-      <ion-row > Escena {{i}}</ion-row>
-      <ion-grid>
-       
-        <ion-button *ngIf="!this.espiando" (click)="EditarEscena()" ><ion-icon name="pencil-sharp"></ion-icon> Editar Escena  </ion-button>
-        <ion-button *ngIf="!this.espiando" (click)="eliminarEscena(imageP.nombre,i)" > <ion-icon  name="trash-bin-sharp"></ion-icon> Eliminar Escena </ion-button>
-        
-        </ion-grid>
-    </div>
-
-  </ion-slide>
-  
-
-  
-
-
-</ion-slides>
-
-  <ion-grid>
-  <ion-button *ngIf="!this.espiando" (click)="Atras()" ><ion-icon  name="arrow-back-sharp"></ion-icon>Volver </ion-button>
-  <ion-button *ngIf="this.espiando" (click)="AtrasEspia()" ><ion-icon  name="arrow-back-sharp"></ion-icon>Volver </ion-button>
-  <!--<ion-button  (click)="EditarEscena()" ><ion-icon name="pencil-sharp"></ion-icon> Editar Escena  </ion-button> -->
-  <!--<ion-button  (click)="eliminarEscena(imageP.nombre,i)" > <ion-icon  name="trash-bin-sharp"></ion-icon> Eliminar Escena </ion-button>-->
-  <!--<ion-button  (click)="traeImagenesRecursoLibro()" >trae</ion-button>-->
-  </ion-grid>
-
-  
-
-
+			<div>
+				<ion-button
+					*ngIf="!this.espiando"
+					(click)="eliminarEscena(imageP.nombre,i)"
+					color="danger"
+				>
+					<ion-icon name="trash-bin-sharp"></ion-icon>
+				</ion-button>
+			</div>
+			<div>
+				<ion-button
+					*ngIf="!this.espiando"
+					(click)="editarEscena(imageP.nombre)"
+					color="warning"
+					><ion-icon name="pencil-sharp"></ion-icon>
+				</ion-button>
+			</div>
+		</ion-slide>
+	</ion-slides>
+	<ion-grid>
+		<ion-button *ngIf="!this.espiando" (click)="Atras()"
+			><ion-icon name="arrow-back-sharp"></ion-icon>Volver
+		</ion-button>
+		<ion-button *ngIf="this.espiando" (click)="AtrasEspia()"
+			><ion-icon name="arrow-back-sharp"></ion-icon>Volver
+		</ion-button>
+	</ion-grid>
 </ion-content>

@@ -158,9 +158,10 @@ export class DbServiceService {
     }
 
 
-
-
-
+    public getElemento(escenaId, frames: any): Observable<any> {
+      return this.http.get<any>(this.APIUrlElemento + '/' + escenaId + '/frames');
+  
+    }
 
      public comprobarTituloLibro(nombre: string){
       return this.http.get<any>(this.APIurllibro + '?filter[where][titulo]=' + nombre);
