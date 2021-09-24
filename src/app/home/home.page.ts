@@ -1596,11 +1596,7 @@ AdemÃ¡s si la imagen se encuentra girada, y te encuentras en el modo resize, c
 			var rotate = 0;
 			lista.forEach((element) => {
 				if (document.getElementById(element.nombre) == event.target) {
-					console.log('EL INVERTIR DE LOS COJONES ES ' + element.invertir);
-					console.log(
-						'EL INVERTIR DE LOS COJONES QUE QUIERO PROBAR ES ' +
-							target.dataset.scaleX
-					);
+
 					invertir = element.invertir;
 					rotate = element.rotate;
 				}
