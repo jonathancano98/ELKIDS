@@ -54,7 +54,7 @@ export class HomePage {
 	//Ambas variables utilizadas para declarar el source de los tÃ­tulos Personajes y Objetos en pantalla.
 	imagenPersonajes = '';
 	imagenObjetos = '';
-	deviceCanvasX = 1000;
+	deviceCanvasX = 800;
 	deviceCanvasY = 500;
 	imagenSizeDeInicioWidth = 65;
 	imagenSizeDeInicioHeight = 65;
@@ -80,9 +80,9 @@ export class HomePage {
 		this.resY = resY;
 
 		//Con esta condicion cambiaremos las dimensiones del canvas
-		if (resX >= 1024) {
+		if (resX <= 1024) {
 			this.deviceCanvasX = 690;
-			this.deviceCanvasY = 450;
+			this.deviceCanvasY = 440;
 			this.imagenSizeDeInicioHeight = 45;
 			this.imagenSizeDeInicioWidth = 45;
 
