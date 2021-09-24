@@ -498,7 +498,7 @@ AdemÃ¡s si la imagen se encuentra girada, y te encuentras en el modo resize, c
 			elemento.url = '';
 
 			if (localStorage.getItem('modoEditar') == 'true') {
-				await this.dBservice.BorrarFramesDeEscena(this.idEditar).toPromise();
+				await this.dBservice.BorrarElementosDeEscena(this.idEditar).toPromise();
 				let res = this.dBservice
 					.postElemento(localStorage.getItem('idEditar'), elemento)
 					.toPromise();

@@ -121,7 +121,7 @@ async eliminarEscena(nombre:string, i:number)
     await this.dBservice.BorraImagenEscena(localStorage.getItem("contenedor"),nombre).toPromise();
     this.listaEscenasVisor2.splice(i,1);
     let res = nombre.split(".", 1);
-    await this.dBservice.BorrarFramesDeEscena(res).toPromise();
+    await this.dBservice.BorrarElementosDeEscena(res).toPromise();
     await this.dBservice.BorrarEscena(res).toPromise();
     
     console.log("hola")

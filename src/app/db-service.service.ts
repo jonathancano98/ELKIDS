@@ -96,8 +96,8 @@ export class DbServiceService {
   
     }
 
-    public postElemento(escenaId, frames: any): Observable<any> {
-      return this.http.post<any>(this.APIUrlElemento + '/' + escenaId + '/frames', frames);
+    public postElemento(escenaId, elementos: any): Observable<any> {
+      return this.http.post<any>(this.APIUrlElemento + '/' + escenaId + '/elementos', elementos);
 
       //http://localhost:3000/api/libro/21/escenas
       //return this.http.post<Libro>(this.APIurlAlumnoJuego + '/' + idalumno + '/Libro', libro);
@@ -142,9 +142,9 @@ export class DbServiceService {
       return this.http.delete<any>(this.APIurlImagenesLibrosHost + '/' + contenedor + '/files/' + file) ;
     }
 
-    public BorrarFramesDeEscena(escenaId):Observable<any> {
+    public BorrarElementosDeEscena(escenaId):Observable<any> {
 
-      return this.http.delete<any>(this.APIUrlElemento + '/' + escenaId + '/frames') ;
+      return this.http.delete<any>(this.APIUrlElemento + '/' + escenaId + '/elementos') ;
 
     }
 
@@ -159,7 +159,7 @@ export class DbServiceService {
 
 
     public getElemento(escenaId, frames: any): Observable<any> {
-      return this.http.get<any>(this.APIUrlElemento + '/' + escenaId + '/frames');
+      return this.http.get<any>(this.APIUrlElemento + '/' + escenaId + '/elementos');
   
     }
 
