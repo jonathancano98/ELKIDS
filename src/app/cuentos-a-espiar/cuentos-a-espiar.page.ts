@@ -27,7 +27,7 @@ export class CuentosAEspiarPage implements OnInit {
 
 
   obtenerAlumnosJuegoCuento() {
-    this.dBservice.DameAlumnosJuegoLibro(localStorage.getItem("idJuego"))
+    this.dBservice.DameAlumnosJuegoCuento(localStorage.getItem("idJuego"))
       .subscribe(res => {
 
         this.listaJuegoAlumnosCuentos = res;
@@ -37,15 +37,15 @@ export class CuentosAEspiarPage implements OnInit {
 
         this.listaJuegoAlumnosCuentos.forEach(element => {
 
-          this.getLibro(element);
+          this.getCuento(element);
         
 
         });
       });
   }
 
-  getLibro(element) {
-    this.dBservice.dameLibro(element.id)
+  getCuento(element) {
+    this.dBservice.dameCuento(element.id)
       .subscribe((res) => {
 
         if (res.length != 0 && res[0].idAlumno!=localStorage.getItem("idAlumnoJuego")) {

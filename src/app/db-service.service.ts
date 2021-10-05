@@ -20,12 +20,12 @@ export class DbServiceService {
 
   private APIUrlhost = 'http://localhost:3000/api/Profesores/8/recursosLibros';
   private APIUrlProfesoresHost =this.base+'/api/Profesores';
-  private APIUrlRecursoJuego =this.base+'/api/juegodelibro';
-  private APIUrlEscena=this.base+'/api/libro';
-  private APIUrlElemento=this.base+'/api/escenas'
+  private APIUrlRecursoJuego =this.base+'/api/JuegosDeCuento';
+  private APIUrlEscena=this.base+'/api/Cuentos';
+  private APIUrlElemento=this.base+'/api/Escenas'
   private APIurlImagenesLibrosHost =this.base+'/api/imagenes';
-  private APIurlAlumnoJuego = this.base+'/api/alumnojuegodecuento';
-  private APIurllibro = this.base+'/api/libro';
+  private APIurlAlumnoJuego = this.base+'/api/AlumnosJuegoDeCuento';
+  private APIurlCuento = this.base+'/api/Cuentos';
   private APIurlAlumnos= this.base+'/api/Alumnos';
   //private APIurlJuegos= this.base +'/api/juegodelibro';
  
@@ -54,8 +54,8 @@ export class DbServiceService {
 
   }
 
-  public DameAlumnosJuegoLibro(id): Observable<any>  {
-    return this.http.get<Alumnojuegodecuento>(this.APIUrlRecursoJuego + '/' + id + '/alumnojuegodecuento');
+  public DameAlumnosJuegoCuento(id): Observable<any>  {
+    return this.http.get<Alumnojuegodecuento>(this.APIUrlRecursoJuego + '/' + id + '/AlumnosJuegoDeCuento');
   
    }
 
@@ -67,13 +67,13 @@ export class DbServiceService {
 
 
     recuperarListaRecursos(profesorId): Observable<RecursoLibro[]> {
-      return this.http.get<RecursoLibro[]>(this.APIUrlProfesoresHost  + '/' + profesorId + '/recursosLibros');
+      return this.http.get<RecursoLibro[]>(this.APIUrlProfesoresHost  + '/' + profesorId + '/recursosCuentos');
     }
 
 
 
     recuperarListaRecursosJuego(juegoId):Observable<RecursoLibroJuego[]>{
-      return this.http.get<RecursoLibroJuego[]>(this.APIUrlRecursoJuego  + '/' + juegoId +'/recursosJuegoLibro');
+      return this.http.get<RecursoLibroJuego[]>(this.APIUrlRecursoJuego  + '/' + juegoId +'/RecursosJuegoDeCuentos');
 
     }
 
@@ -89,7 +89,7 @@ export class DbServiceService {
     }
 
     public postEscena(libroId, escenas: any): Observable<any> {
-      return this.http.post<any>(this.APIUrlEscena + '/' + libroId + '/escenas', escenas);
+      return this.http.post<any>(this.APIUrlEscena + '/' + libroId + '/Escenas', escenas);
 
       //http://localhost:3000/api/libro/21/escenas
       //return this.http.post<Libro>(this.APIurlAlumnoJuego + '/' + idalumno + '/Libro', libro);
@@ -97,7 +97,7 @@ export class DbServiceService {
     }
 
     public postElemento(escenaId, elementos: any): Observable<any> {
-      return this.http.post<any>(this.APIUrlElemento + '/' + escenaId + '/elementos', elementos);
+      return this.http.post<any>(this.APIUrlElemento + '/' + escenaId + '/Elementos', elementos);
 
       //http://localhost:3000/api/libro/21/escenas
       //return this.http.post<Libro>(this.APIurlAlumnoJuego + '/' + idalumno + '/Libro', libro);
@@ -124,7 +124,7 @@ export class DbServiceService {
      * @param id 
      * @returns 
      */
-    public dameAlumnoJuegoLibro(id): Observable<any>  {
+    public dameAlumnoJuegoCuento(id): Observable<any>  {
       return this.http.get<Alumnojuegodecuento>(this.APIurlAlumnoJuego+ '/' + id);
       
      }
@@ -144,7 +144,7 @@ export class DbServiceService {
 
     public BorrarElementosDeEscena(escenaId):Observable<any> {
 
-      return this.http.delete<any>(this.APIUrlElemento + '/' + escenaId + '/elementos') ;
+      return this.http.delete<any>(this.APIUrlElemento + '/' + escenaId + '/Elementos') ;
 
     }
 
@@ -159,26 +159,26 @@ export class DbServiceService {
 
 
     public getElemento(escenaId, frames: any): Observable<any> {
-      return this.http.get<any>(this.APIUrlElemento + '/' + escenaId + '/elementos');
+      return this.http.get<any>(this.APIUrlElemento + '/' + escenaId + '/Elementos');
   
     }
 
-     public comprobarTituloLibro(nombre: string){
-      return this.http.get<any>(this.APIurllibro + '?filter[where][titulo]=' + nombre);
+     public comprobarTituloCuento(nombre: string){
+      return this.http.get<any>(this.APIurlCuento + '?filter[where][titulo]=' + nombre);
     
     }
-    public publicarlibro(idalumno: string, libro: Libro): Observable<Libro> {
-      return this.http.post<Libro>(this.APIurlAlumnoJuego + '/' + idalumno + '/Libro', libro);
+    public publicarCuento(idalumno: string, libro: Libro): Observable<Libro> {
+      return this.http.post<Libro>(this.APIurlAlumnoJuego + '/' + idalumno + '/Cuento', libro);
     }
 
-    public dameLibro(idJuegoAlumnoLibro): Observable<any> {
-      return this.http.get<any>(this.APIurlAlumnoJuego + '/' + idJuegoAlumnoLibro + '/Libro');
+    public dameCuento(idJuegoAlumnoLibro): Observable<any> {
+      return this.http.get<any>(this.APIurlAlumnoJuego + '/' + idJuegoAlumnoLibro + '/Cuento');
   
     }
     //arreglar esta funcion, conseguir que me pase esa lista
-    public dameLibrosAlumnoJuego(idalumno): Observable<any> 
+    public dameCuentosAlumnoJuego(idalumno): Observable<any> 
     {
-      return this.http.get<any[]>(this.APIurllibro+ '?filter[where][idAlumno]=' + idalumno);
+      return this.http.get<any[]>(this.APIurlCuento+ '?filter[where][idAlumno]=' + idalumno);
 
     }
     

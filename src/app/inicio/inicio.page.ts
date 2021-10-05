@@ -46,7 +46,7 @@ export class InicioPage implements OnInit {
    */
   obtenemosAlumnoJuegoCuento()
   {
-    this.dBservice.dameAlumnoJuegoLibro(localStorage.getItem("idAlumnoJuego"))
+    this.dBservice.dameAlumnoJuegoCuento(localStorage.getItem("idAlumnoJuego"))
     .subscribe(res => {
       console.log(res);
       this.alumnoJuegoDeLibro=res;
@@ -71,7 +71,7 @@ export class InicioPage implements OnInit {
   obtenemosCuentoAlumnoJuego()
   {
     this.cuentoCreado=false;
-    this.dBservice.dameLibrosAlumnoJuego(localStorage.getItem("idAlumnoJuego")).subscribe(res => {
+    this.dBservice.dameCuentosAlumnoJuego(localStorage.getItem("idAlumnoJuego")).subscribe(res => {
       
      // this.crearCarpeta(res.id);
      if(res.length>0) this.cuentoCreado=true;

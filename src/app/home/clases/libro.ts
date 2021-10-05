@@ -17,11 +17,7 @@ export class Libro{
     criterio3: any;
     criteriototal: any;
     listavotantesconcurso: any;
-    inscrito: any;
-    puntostotalesc1:any;
-    puntostotalesc2:any;
-    puntostotalesc3:any;
-    alumnjoJuegoLibroId: any;
+    alumnoJuegoCuentoId: any;
     foto: any;
 
     constructor( 
@@ -31,11 +27,7 @@ export class Libro{
         portada = '',
         numeropag = '',
         idAlumno = '',
-        puntuacion = [],
         finalizado ='',
-        listavotantes = [],
-        listavotantesconcurso = [],
-        inscrito = '',
         criterio1 = 0,
         criterio2 = 0,
         criterio3 = 0,
@@ -48,11 +40,7 @@ export class Libro{
         this.portada = portada,
         this.numeropag = numeropag,
         this.idAlumno = idAlumno,
-        this.puntuacion = puntuacion,
         this.finalizado = finalizado,
-        this.listavotantes = listavotantes,
-        this.listavotantesconcurso = listavotantesconcurso,
-        this.inscrito = inscrito,
         this.criterio1 = criterio1,
         this.criterio2 = criterio2,
         this.criterio3 = criterio3,

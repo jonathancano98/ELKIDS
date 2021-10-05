@@ -417,7 +417,7 @@ AdemÃ¡s si la imagen se encuentra girada, y te encuentras en el modo resize, c
 		if (nivel2 == 'true') {
 			console.log('Puedes crear ilimitadas páginas');
 		} else if (nivel1 == 'true' && modoEditar == 'false') {
-			if (listaEscenasVisor.length == 3) {
+			if (listaEscenasVisor.length == 4) {
 				this.alertaNoTienesPermisoParaEspiar();
 				console.log('Número máximo de escenas creadas');
 				return;
@@ -425,7 +425,7 @@ AdemÃ¡s si la imagen se encuentra girada, y te encuentras en el modo resize, c
 				console.log('Puedes seguir creando escenas');
 			}
 		} else {
-			if (listaEscenasVisor.length == 2 && modoEditar == 'false') {
+			if (listaEscenasVisor.length == 3 && modoEditar == 'false') {
 				this.alertaNoTienesPermisoParaEspiar();
 				console.log('Número máximo de escenas creadas');
 				return;

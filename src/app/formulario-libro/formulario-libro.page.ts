@@ -14,7 +14,7 @@ import { Alumnojuegodecuento } from '../home/clases/Alumnojuegodecuento';
 })
 export class FormularioLibroPage implements OnInit {
 
-    libro;
+    cuento;
     alumno: Alumno;
     idAlumnoJuego;
 
@@ -54,30 +54,30 @@ export class FormularioLibroPage implements OnInit {
   }
 
 
-  public crearlibro(form: NgForm) {
+  public crearCuento(form: NgForm) {
 
-    this.libro = new Libro;
+    this.cuento = new Libro;
     
       if (form.value.titulo != null) {
-        this.libro.titulo = form.value.titulo;
+        this.cuento.titulo = form.value.titulo;
         console.log("perf");
-        console.log(this.libro.titulo);
+        console.log(this.cuento.titulo);
       }
       if (form.value.textarea != null) {
-        this.libro.resumen = form.value.textarea;
-        console.log(this.libro.resumen);
+        this.cuento.resumen = form.value.textarea;
+        console.log(this.cuento.resumen);
       }
-      this.libro.autor = this.alumno.Nombre;
-      this.libro.portada = 'aa';
-      this.libro.idAlumno = this.alumno.id;
-      this.libro.numeropag = '32';
+      this.cuento.autor = this.alumno.Nombre;
+      this.cuento.portada = 'aa';
+      this.cuento.idAlumno = this.alumno.id;
+      this.cuento.numeropag = '32';
   
 
       
-      this.dBservice.comprobarTituloLibro(this.libro.titulo)
+      this.dBservice.comprobarTituloCuento(this.cuento.titulo)
         .subscribe(res => {
           if(res[0] == null){
-          this.publicarLibro();
+          this.publicarCuento();
           }
           else{
             this.alertaNombreIgual();
@@ -91,7 +91,7 @@ export class FormularioLibroPage implements OnInit {
     crearCarp() {
 
       const name = {
-        "name": this.libro.titulo
+        "name": this.cuento.titulo
      }
 
 
@@ -104,11 +104,11 @@ export class FormularioLibroPage implements OnInit {
    }
     
 
-    public publicarLibro()
+    public publicarCuento()
     {
       this.idAlumnoJuego=localStorage.getItem("idAlumnoJuego")
   
-      this.dBservice.publicarlibro(this.idAlumnoJuego, this.libro)
+      this.dBservice.publicarCuento(this.idAlumnoJuego, this.cuento)
         .subscribe(res => {
           console.log(res);
          // this.crearCarpeta(res.id);
