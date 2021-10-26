@@ -12,8 +12,12 @@ import { AlertController } from '@ionic/angular';
 export class MisJuegosPage implements OnInit {
 
   listaDeJuegosDeAlumno: any[] = [];
+  listaDeJuegoColeccionDeAlumno: any[]=[];
   lista:  juegolibro;
-  listaAuxiliar:  juegolibro[] = [];
+  listaColeccion: any;
+  listaAuxiliar:  any[] = []; // No veo ningun Cambio poniendola en Any en vez de juegolibro[]
+  //listaAuxiliar:  juegolibro[] = [];
+
   seleccionado: boolean[];
   categorias: boolean[];
   contador: number = 0;
@@ -26,24 +30,51 @@ export class MisJuegosPage implements OnInit {
 
   async ionViewWillEnter()
   {
+    this.listaDeJuegoColeccionDeAlumno = await this.dBservice.dameAlumnosJuegoDeColeccion(localStorage.getItem("alumnoID")).toPromise();
+    console.log("listaDeJuegoColeccionAlumno: ",this.listaDeJuegoColeccionDeAlumno);
+    console.log('Lenght:',this.listaDeJuegoColeccionDeAlumno.length);
+
     //Pedimos a la base de datos todos los juegos a los que pertenece nuestro alumno
     this.listaDeJuegosDeAlumno = await this.dBservice.dameAlumnosJuegoDeCuento(localStorage.getItem("alumnoID")).toPromise();
-
-
-    console.log("sIIIIII")
-    console.log(this.listaDeJuegosDeAlumno);
+    console.log("listaDeJuegoCuentosAlumno: ",this.listaDeJuegosDeAlumno);
     
+    console.log('Lenght:',this.listaDeJuegosDeAlumno.length);
+
     for(let i=0; i<this.listaDeJuegosDeAlumno.length;i++)
     {
       //pido informacion de cada juego
       this.lista = await this.dBservice.dameJuegosDelAlumno(this.listaDeJuegosDeAlumno[i].juegoId).toPromise();
-      console.log("me llega lista")
-      console.log(this.lista);
-      this.listaAuxiliar.push(this.lista);
+      console.log("Lista:",this.lista);
+
+      /////////////////////////////////////////////////////AÑADIDO
+      if(this.lista.JuegoActivo === true){
+        console.log('Hola:',this.lista.JuegoActivo);
+        this.listaAuxiliar.push(this.lista);
+        }
+      /////////////////////////////////////////////////////AÑADIDO
       this.seleccionado = Array(this.listaAuxiliar.length).fill(false);
       this.categorias = Array(this.listaAuxiliar.length).fill(false);
 
     }
+
+    for(let j=0; j<this.listaDeJuegoColeccionDeAlumno.length;j++)
+    {
+      //pido informacion de cada juego
+      this.listaColeccion = await this.dBservice.dameJuegosColeccionDelAlumno(this.listaDeJuegoColeccionDeAlumno[j].juegoDeColeccionId).toPromise();
+      console.log("Lista:",this.listaColeccion);
+
+      /////////////////////////////////////////////////////AÑADIDO
+      if(this.listaColeccion.JuegoActivo === true){
+        console.log('Hola:',this.listaColeccion.JuegoActivo);
+        this.listaAuxiliar.push(this.listaColeccion);
+        }
+      /////////////////////////////////////////////////////AÑADIDO
+
+      this.seleccionado = Array(this.listaAuxiliar.length).fill(false);
+      this.categorias = Array(this.listaAuxiliar.length).fill(false);
+
+    }
+
 
     console.log(this.listaAuxiliar);
     console.log(this.seleccionado);

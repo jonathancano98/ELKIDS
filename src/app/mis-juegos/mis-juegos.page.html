@@ -21,6 +21,7 @@
       <ion-label>
         <h2>Nombre: {{juego.NombreJuego}}</h2> 
         <h3>Grupo: {{juego.grupoId}} </h3>
+        <p>Tipo: {{juego.Tipo}}  </p>
         <p>Descripción: {{juego.descripcion}}  </p>
       </ion-label>
       <ion-checkbox [disabled]="categorias[i]"  (click)="selection(i);" ></ion-checkbox> 

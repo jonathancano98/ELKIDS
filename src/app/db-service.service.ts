@@ -15,16 +15,18 @@ import { Alumno } from './home/clases/alumno';
 })
 export class DbServiceService {
 
-  private base='http://192.168.1.65:3000';
-  //private base='http://localhost:3000';
+  //private base='http://192.168.1.65:3000';
+  private base='http://localhost:3000';
 
   private APIUrlhost = 'http://localhost:3000/api/Profesores/8/recursosLibros';
   private APIUrlProfesoresHost =this.base+'/api/Profesores';
   private APIUrlRecursoJuego =this.base+'/api/JuegosDeCuento';
+  private APIUrlRecursoJuegoColeccion =this.base+'/api/JuegosDeColeccion';
   private APIUrlEscena=this.base+'/api/Cuentos';
   private APIUrlElemento=this.base+'/api/Escenas'
   private APIurlImagenesLibrosHost =this.base+'/api/imagenes';
   private APIurlAlumnoJuego = this.base+'/api/AlumnosJuegoDeCuento';
+  private APIurlAlumnoJuegoColeccion=this.base+'/api/AlumnosJuegoDeColeccion';
   private APIurlCuento = this.base+'/api/Cuentos';
   private APIurlAlumnos= this.base+'/api/Alumnos';
   //private APIurlJuegos= this.base +'/api/juegodelibro';
@@ -189,14 +191,40 @@ export class DbServiceService {
 
     }
 
-    public dameJuegosDelAlumno(idJuegos): Observable<juegolibro>
-    {
-      return this.http.get<juegolibro>(this.APIUrlRecursoJuego+ '/'+ idJuegos);
+
+//////////////////////////////////////////////////////////////////AÑADIDO
+public dameAlumnosJuegoDeColeccion(idalumno): Observable<any> 
+{
+  console.log('Juegos de Coleccion del Alumno: ',this.APIurlAlumnoJuegoColeccion+ '?filter[where][alumnoId]=' + idalumno);
+  return this.http.get<any[]>(this.APIurlAlumnoJuegoColeccion+ '?filter[where][alumnoId]=' + idalumno);
+
+}
+//////////////////////////////////////////////////////////////////AÑADIDO
 
 
-    }
+///////////////////////////////////////////////////////////////////////////ARREGLAADO
 
+public dameJuegosDelAlumno(idJuegos): Observable<any>
+{
+  console.log('Juegos del Alumno:',this.APIUrlRecursoJuego+ '/'+ idJuegos);
+  return this.http.get<any>(this.APIUrlRecursoJuego+ '/'+ idJuegos);
 
+}
+
+ public dameJuegosColeccionDelAlumno(idJuegos): Observable<any>
+ {
+   console.log('Informacion del Juego de Coleccion del Alumno:',this.APIUrlRecursoJuegoColeccion+ '/'+ idJuegos);
+   return this.http.get<any>(this.APIUrlRecursoJuegoColeccion+ '/'+ idJuegos);
+
+ }
+// public dameJuegosDelAlumno(idJuegos): Observable<juegolibro>
+// {
+//   console.log('Juegos del Alumno:',this.APIUrlRecursoJuego+ '/'+ idJuegos);
+//   return this.http.get<juegolibro>(this.APIUrlRecursoJuego+ '/'+ idJuegos);
+
+// }
+
+///////////////////////////////////////////////////////////////////////////ARREGLAADO
 
 
    
