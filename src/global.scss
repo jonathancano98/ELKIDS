@@ -24,3 +24,225 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+/* ++++++++++++++++++++++++ 2.7 JUEGO COLECCION +++++++++++++++++++++++++++*/
+.juegocoleccion-content {
+    --background: #fffafaff;
+    text-align: center;
+    /* entire container, keeps perspective */
+      .logo-liga {
+        margin-top: 10%;
+      }
+      h2 {
+        font-size: 14px;
+        color: #354f7bff;
+        margin-top: -8px;
+      }
+      .card-cromo {
+        width: 312px;
+        height: 450px;
+        background: mediumspringgreen;
+        border-radius: 10px;
+        img {
+          width: 100%;
+          height: 100%;
+        }
+        p {
+          font-size: 12px;
+        }
+      }
+      .card-cromo-reves {
+        width: 312px;
+        height: 450px;
+        background-color: mediumspringgreen;
+        border-radius: 10px;
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+      .MeFalta-bg {
+        width: 312px;
+        height: 450px;
+        background: lightgrey;
+        border-radius: 10px;
+        img {
+          width: 100%;
+          height: 100%;
+          opacity: 0.3;
+        }
+        p {
+          font-size: 12px;
+        }
+      }
+      .falta-cromo-reves {
+        width: 312px;
+        height: 450px;
+        background-color: lightgrey;
+        border-radius: 10px;
+      }
+      .cofre-icono {
+        margin-top: 10%;
+        width: 70px;
+        margin: auto;
+        margin-bottom: 30%;
+        margin-top: 10%;
+      }
+      #box {
+        width: 90%;
+        position: relative;
+        margin: auto;
+      }
+      .ranking-acordeon {
+        background: aquamarine;
+        margin: auto;
+        margin-bottom: 3%;
+        width: 100%;
+        .span{
+          display: flex;
+          align-items: center;
+        }
+        .mat-expansion-panel-header.mat-expanded {
+          background: cadetblue;
+          border-bottom-left-radius: 0px;
+          border-bottom-right-radius: 0px;
+          h2{
+            color: white;
+            font-size: 17px;
+          }
+          .avatar {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+            border: 2px solid;
+            border-color: greenyellow;
+          }
+        }
+        .mat-expansion-panel-content {
+          background: rgba(47, 79, 79, 0.4);
+          display: flex;
+          .mat-expansion-panel-body {
+            margin-top: 15px;
+          }
+        }
+        .avatar {
+          width: 40px;
+          height: 40px;
+          margin-right: 20px;
+          border: 2px solid;
+          border-color: white;
+        }
+      }
+      .opciones-ranking {
+        display: flex;
+      }
+      .ranking-alumno-btn {
+        width: 200px;
+        text-transform: initial;
+      }
+      // para mostrar los alumnos de cada grupo
+      .alumnos-grupo {
+        display: flex;
+        margin: auto;
+        .alumno-image {
+          margin: auto;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          .border {
+            border: 3px solid lightpink;
+            border-radius: 50%;
+            width: fit-content;
+            background-color: bisque;
+            .img-box {
+              height: 50px;
+              width: 50px;
+              border-radius: 50%;
+              overflow: hidden;
+            }
+          }
+          p {
+            color: #354f7b;
+            font-weight: bold;
+          }
+          .border-conectado {
+              border: 3px solid rgb(64, 98, 155);
+              border-radius: 50%;
+              width: fit-content;
+              background-color: lightblue;
+            .img-box {
+              height: 50px;
+              width: 50px;
+              border-radius: 50%;
+              overflow: hidden;
+            }
+          }
+        }
+      }
+      .coleccion-equipo {
+        margin-bottom: 15%;
+        h2 {
+          font-size: 15px;
+          color: #354f7bff;
+        }
+      }
+    }
+  
+    .flip-card-container {
+      width: 468px;
+      height: 675px;
+      margin-top: 15%;
+      margin-bottom: 15%;
+    }
+  
+    /* Esta és la parte css del efecto flip para los cromos */
+    .flip-card {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 1.5s; // time duration of the flip
+      transform-style: preserve-3d; // Specifies that child elements will preserve its 3D position
+    }
+    .flip-card-container:hover .flip-card {
+      transform: rotateY(180deg);
+    }
+    /* Position the front and back side */
+    .flip-card-front, .flip-card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      -webkit-backface-visibility: hidden; /* Safari */
+      backface-visibility: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .flip-card-front {
+      background-color: transparent;
+      color: #fff;
+    }
+    .flip-card-back {
+      background-color: transparent;
+      color: #fff;
+      transform: rotateY(180deg);
+      width: 100%;
+      height: 100%;
+      .card-content-md {
+        padding-left: unset;
+        padding-right: unset;
+        -webkit-padding-start: unset;
+        padding-inline-start: unset;
+        -webkit-padding-end: unset;
+        padding-inline-end: unset;
+        padding-left: 0px;
+        padding-right: 0px;
+        padding-top: 0px;
+        padding-bottom: 0px;
+      }
+    }
+  
+  /* ++++++++++++++++++++++++ 2.8 CAMBIAR CROMOS +++++++++++++++++++++++++++*/
+  
+  .intercambiarcromos-content {
+    text-align: center;
+  }
+  

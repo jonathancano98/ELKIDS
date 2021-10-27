@@ -151,6 +151,8 @@ export class MisJuegosPage implements OnInit {
             console.log(this.elementoauxiliarirjuego[0].id);
 
             localStorage.setItem("idAlumnoJuego", this.elementoauxiliarirjuego[0].id);
+            localStorage.setItem("idjuegodecoleccion", this.elementoauxiliarirjuego[0].juegoDeColeccionId);
+
             console.log("Id : ",this.elementoauxiliarirjuego[0].id);
             count = true; 
             this.valori=i; 

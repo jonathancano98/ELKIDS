@@ -28,7 +28,9 @@ export class DbServiceService {
   private APIurlAlumnoJuego = this.base+'/api/AlumnosJuegoDeCuento';
   private APIurlAlumnoJuegoColeccion=this.base+'/api/AlumnosJuegoDeColeccion';
   private APIurlCuento = this.base+'/api/Cuentos';
+  private APIRUrlColecciones = this.base + '/api/Colecciones';
   private APIurlAlumnos= this.base+'/api/Alumnos';
+  
   //private APIurlJuegos= this.base +'/api/juegodelibro';
  
   
@@ -223,6 +225,38 @@ public dameAlumnosJuegoDeCuentoxjuegocoleid(idalumno,id): Observable<any>
 
   //EJEMPLO:http://localhost:3000/api/AlumnosJuegoDeColeccion?filter[where][alumnoId]=136&filter[where][juegoDeColeccionId]=140
 
+public dameAlumnoporidalumno(idalumno): Observable<any>
+{
+  console.log('URL Datos Alumno:',this.APIurlAlumnos+ '?filter[where][id]='+ idalumno);
+  return this.http.get<any>(this.APIurlAlumnos+ '?filter[where][id]='+ idalumno);
+
+}
+public dameJuegoporidjuego(idjuego): Observable<any>
+{
+  console.log('URL Datos Alumno:',this.APIUrlRecursoJuegoColeccion+ '?filter[where][id]='+ idjuego);
+  return this.http.get<any>(this.APIUrlRecursoJuegoColeccion+ '?filter[where][id]='+ idjuego);
+
+}
+
+public DameColeccionPromise(coleccionId: number): Promise<any> {
+  return this.http.get<any>(this.APIRUrlColecciones + '/' + coleccionId).toPromise();
+}
+
+public DameInscripcionAlumnoJuegoDeColeccion(juegoDeColeccionId: number, alumnoId: number): Observable<any> {
+  console.log("URL DameInscripcionAlumnoJuegoColeccion: ",this.APIurlAlumnoJuegoColeccion + '?filter[where][juegoDeColeccionId]='
+  + juegoDeColeccionId + '&filter[where][alumnoId]=' + alumnoId);
+  return this.http.get<any>(this.APIurlAlumnoJuegoColeccion + '?filter[where][juegoDeColeccionId]='
+    + juegoDeColeccionId + '&filter[where][alumnoId]=' + alumnoId);
+}
+
+public DameCromosAlumno(alumnoJuegoDeColeccionId: number): Observable<any[]> {
+
+  console.log("Dame cromos ALumno:",this.APIurlAlumnoJuegoColeccion + '/' + alumnoJuegoDeColeccionId + '/cromos');
+  return this.http.get<any[]>(this.APIurlAlumnoJuegoColeccion + '/' + alumnoJuegoDeColeccionId + '/cromos');
+}
+public DameCromosColeccion(coleccionId: number): Observable<any[]> {
+  return this.http.get<any[]>(this.APIRUrlColecciones + '/' + coleccionId + '/cromos');
+}
 
 //////////////////////////////////////////////////////////////////AÑADIDO
 
