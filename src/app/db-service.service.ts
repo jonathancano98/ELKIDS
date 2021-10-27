@@ -127,9 +127,20 @@ export class DbServiceService {
      * @returns 
      */
     public dameAlumnoJuegoCuento(id): Observable<any>  {
+
+      console.log("Dame Alumno Juego Cuento URL: ",this.APIurlAlumnoJuego+ '/' + id);
       return this.http.get<Alumnojuegodecuento>(this.APIurlAlumnoJuego+ '/' + id);
       
      }
+   
+     ////////////////////////////////////////////////////////////////////////AÑADIDO
+     public dameAlumnoJuegoColeccion(id): Observable<any>  {
+
+      console.log("Dame Alumno Juego Coleccion URL: ",this.APIurlAlumnoJuegoColeccion+ '/' + id);
+      return this.http.get<any>(this.APIurlAlumnoJuegoColeccion+ '/' + id);
+      
+     }
+     ////////////////////////////////////////////////////////////////////////AÑADIDO
 
      public dameAlumnoJuego(id): Observable<any> {
       return this.http.get<any>(this.APIurlAlumnoJuego+ '/' + id);
@@ -199,7 +210,22 @@ public dameAlumnosJuegoDeColeccion(idalumno): Observable<any>
   return this.http.get<any[]>(this.APIurlAlumnoJuegoColeccion+ '?filter[where][alumnoId]=' + idalumno);
 
 }
+public dameAlumnosJuegoDeColeccionxjuegocoleid(idalumno,id): Observable<any> 
+{
+ return this.http.get<any[]>(this.APIurlAlumnoJuegoColeccion+ '?filter[where][alumnoId]=' + idalumno +'&filter[where][juegoDeColeccionId]='+id);
+}
+
+public dameAlumnosJuegoDeCuentoxjuegocoleid(idalumno,id): Observable<any> 
+{
+  console.log("Ir Juego Cuento",this.APIurlAlumnoJuego+ '?filter[where][alumnoID]=' + idalumno +'&filter[where][juegoId]='+id);
+  return this.http.get<any[]>(this.APIurlAlumnoJuego+ '?filter[where][alumnoID]=' + idalumno +'&filter[where][juegoId]='+id);
+}
+
+  //EJEMPLO:http://localhost:3000/api/AlumnosJuegoDeColeccion?filter[where][alumnoId]=136&filter[where][juegoDeColeccionId]=140
+
+
 //////////////////////////////////////////////////////////////////AÑADIDO
+
 
 
 ///////////////////////////////////////////////////////////////////////////ARREGLAADO

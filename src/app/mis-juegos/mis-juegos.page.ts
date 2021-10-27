@@ -16,11 +16,14 @@ export class MisJuegosPage implements OnInit {
   lista:  juegolibro;
   listaColeccion: any;
   listaAuxiliar:  any[] = []; // No veo ningun Cambio poniendola en Any en vez de juegolibro[]
+  elementoauxiliarirjuego: any[] = [];
+  valori: number;
   //listaAuxiliar:  juegolibro[] = [];
 
   seleccionado: boolean[];
   categorias: boolean[];
   contador: number = 0;
+  id: number=0;
 
   constructor(private router: Router, private dBservice: DbServiceService, private alertController: AlertController) { }
 
@@ -48,7 +51,7 @@ export class MisJuegosPage implements OnInit {
 
       /////////////////////////////////////////////////////AÑADIDO
       if(this.lista.JuegoActivo === true){
-        console.log('Hola:',this.lista.JuegoActivo);
+        console.log('Juego Cuento Añadido a Lista Auxiliar:',this.lista.JuegoActivo);
         this.listaAuxiliar.push(this.lista);
         }
       /////////////////////////////////////////////////////AÑADIDO
@@ -57,26 +60,28 @@ export class MisJuegosPage implements OnInit {
 
     }
 
+  /////////////////////////////////////////////////////AÑADIDO Juego Coleecion
+
+
     for(let j=0; j<this.listaDeJuegoColeccionDeAlumno.length;j++)
     {
       //pido informacion de cada juego
       this.listaColeccion = await this.dBservice.dameJuegosColeccionDelAlumno(this.listaDeJuegoColeccionDeAlumno[j].juegoDeColeccionId).toPromise();
       console.log("Lista:",this.listaColeccion);
 
-      /////////////////////////////////////////////////////AÑADIDO
       if(this.listaColeccion.JuegoActivo === true){
-        console.log('Hola:',this.listaColeccion.JuegoActivo);
+        console.log('Juego Coleccion Añadido a Lista Auxiliar:',this.listaColeccion.JuegoActivo);
         this.listaAuxiliar.push(this.listaColeccion);
         }
-      /////////////////////////////////////////////////////AÑADIDO
 
       this.seleccionado = Array(this.listaAuxiliar.length).fill(false);
       this.categorias = Array(this.listaAuxiliar.length).fill(false);
 
     }
+  /////////////////////////////////////////////////////AÑADIDO Juego Coleecion
 
 
-    console.log(this.listaAuxiliar);
+    console.log("ListaAuxiliar: ",this.listaAuxiliar);
     console.log(this.seleccionado);
 
 
@@ -111,30 +116,67 @@ export class MisJuegosPage implements OnInit {
   /**
    * Vamos al juego seleccionado por el alumno
    */
-  irJuego()
+
+  //////////////////////////////////////AÑADIDO: Le he añadido el async porquesino en elementoauxiliar me salia todo el rato observable en ve de un valor
+  async irJuego()
+  
   {
 
     let count: boolean;
     count = false;
-  
-    console.log(this.seleccionado);
 
       for(let i = 0; i < this.seleccionado.length; i++)
       {
         if(this.seleccionado[i])
         {
-          localStorage.setItem("idAlumnoJuego", this.listaDeJuegosDeAlumno[i].id);
-          count = true;
-          //this.router.navigate(['/menu-libro']);
+
+          if(this.listaAuxiliar[i].Tipo === "Juego De Cuentos")
+          {
+            // CUENTOS
+            this.elementoauxiliarirjuego = await this.dBservice.dameAlumnosJuegoDeCuentoxjuegocoleid(localStorage.getItem("alumnoID"),this.listaAuxiliar[i].id).toPromise();
+            console.log("ELEMENTO JUEGO CUENTO: ",this.elementoauxiliarirjuego);
+            console.log(this.elementoauxiliarirjuego[0].id);
+
+            localStorage.setItem("idAlumnoJuego", this.elementoauxiliarirjuego[0].id);
+            console.log("Id : ",this.elementoauxiliarirjuego[0].id);
+            count = true;
+            this.valori=i; 
+
+          }
+          else
+          {
+            //COLECCION
+            this.elementoauxiliarirjuego = await this.dBservice.dameAlumnosJuegoDeColeccionxjuegocoleid(localStorage.getItem("alumnoID"),this.listaAuxiliar[i].id).toPromise();
+            console.log("ELEMENTO JUEGO COLECCION: ",this.elementoauxiliarirjuego);
+            console.log(this.elementoauxiliarirjuego[0].id);
+
+            localStorage.setItem("idAlumnoJuego", this.elementoauxiliarirjuego[0].id);
+            console.log("Id : ",this.elementoauxiliarirjuego[0].id);
+            count = true; 
+            this.valori=i; 
+
+          }
 
         }
 
       }
 
       if(count){ 
-        this.listaAuxiliar=[];
-        this.contador=0;
-        this.router.navigate(['/inicio']);
+
+        if(this.listaAuxiliar[this.valori].Tipo === "Juego De Cuentos")
+        {
+          this.listaAuxiliar=[];
+          this.contador=0;
+          console.log("Estoy en el count = true(CUENTO)")
+          this.router.navigate(['/inicio']);
+        }
+        else{
+          
+          this.listaAuxiliar=[];
+          this.contador=0;
+          console.log("Estoy en el count = true(COLECCION)")
+          this.router.navigate(['/inicio-juego-coleccion']);
+        }
     }else
     
       this.alertaJuegoNoSeleccionado();

@@ -36,9 +36,9 @@ export class InicioPage implements OnInit {
 
 
   ionViewWillEnter() {
+    console.log('ionViewWillEnter Inicio entra');
     this.obtenemosAlumnoJuegoCuento();
     this.obtenemosCuentoAlumnoJuego();
-    console.log('ionViewWillEnter entra');
  }
 
   /**
@@ -46,8 +46,8 @@ export class InicioPage implements OnInit {
    */
   obtenemosAlumnoJuegoCuento()
   {
-    this.dBservice.dameAlumnoJuegoCuento(localStorage.getItem("idAlumnoJuego"))
-    .subscribe(res => {
+    this.dBservice.dameAlumnoJuegoCuento(localStorage.getItem("idAlumnoJuego")) //creo que lo que hace es crear una variable con el nombre que sea
+    .subscribe(res => {                                                         // Y la deja almacenada ahi para poder pasar ese valor entre pages
       console.log(res);
       this.alumnoJuegoDeLibro=res;
       console.log(res.Nombre);
@@ -64,6 +64,8 @@ export class InicioPage implements OnInit {
     
   }
 
+
+ 
 
   /**
    * Obtenemos el cuento del alumno

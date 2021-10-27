@@ -50,7 +50,11 @@ const routes: Routes = [
   {
     path: 'cuentos-a-espiar',
     loadChildren: () => import('./cuentos-a-espiar/cuentos-a-espiar.module').then( m => m.CuentosAEspiarPageModule)
+  },  {
+    path: 'inicio-juego-coleccion',
+    loadChildren: () => import('./inicio-juego-coleccion/inicio-juego-coleccion.module').then( m => m.InicioJuegoColeccionPageModule)
   },
+
 ];
 
 @NgModule({
