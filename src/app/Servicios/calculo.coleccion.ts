@@ -8,17 +8,24 @@ import { analyzeAndValidateNgModules } from '@angular/compiler';
 import { stringify } from 'querystring';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
+import { DbServiceService } from '../db-service.service';
+import { element } from 'protractor';
+import { Album } from '../home/clases/Album';
+import { AlbumEquipo } from '../home/clases/Albumequipo';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class CalculosService {
 
-  
+
   puntos: number;
   MiImagenCromo: string;
   constructor(
-    public https: Http
+    public https: Http,
+    private dbService: DbServiceService
+
   ) {
   }
 
@@ -50,4 +57,79 @@ export class CalculosService {
     }
     return CromosQueNoTengo;
   }
+
+  public RegalaCromoAlumnos(cromo: any, alumnoDestinatarioId: number, alumnoQueRegalaId: number, juegoSeleccionado: any) {
+    
+
+    // No entiendo muy bien por qué esta petición devuelve un vector de inscripciones y no una sola.
+    // por eso indexo la inscripcion con [0]
+    // Lo mismo pasa al pedir los cromos del alumno (DameAlbumAlumno)
+    this.dbService.DameInscripcionAlumnoJuegoDeColeccion(juegoSeleccionado.id, alumnoDestinatarioId)
+    .subscribe( inscripcion => 
+                                this.dbService.AsignarCromoAlumno(new Album(inscripcion[0].id, cromo.id))
+                                .subscribe()
+             );
+     this.dbService.DameInscripcionAlumnoJuegoDeColeccion(juegoSeleccionado.id, alumnoQueRegalaId)
+    .subscribe( inscripcion => 
+                                this.dbService.DameAlbumAlumno(cromo.id, inscripcion[0].id)
+                                .subscribe( album => 
+                                                    this.dbService.BorrarAlbumAlumno(album[0].id).subscribe()));
+  }
+
+  public RegalaCromoEquipos(cromo: any, equipoDestinatarioId: number, equipoQueRegalaId: number, juegoSeleccionado: any) {
+
+    // No entiendo muy bien por qué esta petición devuelve un vector de inscripciones y no una sola.
+    // por eso indexo la inscripcion con [0]
+    // Lo mismo pasa al pedir los cromos del equipo (DameAlbumEquipo)
+    this.dbService.DameInscripcionEquipoJuegoDeColeccion(juegoSeleccionado.id, equipoDestinatarioId)
+    .subscribe( inscripcion => 
+                            this.dbService.AsignarCromoEquipo(new AlbumEquipo(inscripcion[0].id, cromo.id))
+                            .subscribe()
+              );
+    this.dbService.DameInscripcionEquipoJuegoDeColeccion(juegoSeleccionado.id, equipoQueRegalaId)
+    .subscribe( inscripcion => 
+                                this.dbService.DameAlbumEquipo(cromo.id, inscripcion[0].id)
+                                .subscribe( album => 
+                                                    this.dbService.BorrarAlbumEquipo(album[0].id)
+                                                    .subscribe()));
+  }
+
+  public RegalaCromoAlumnoEquipo(cromo: any, alumnoDestinatarioId: number, alumnoQueRegalaId: number, juegoSeleccionado: any) {
+    // Es un juego en equipo pero asignación individual. Por tanto hay que quitar el cromo de los albunes de los equipos
+    this.DameEquipoAlumnoEnJuegoDeColeccion (alumnoDestinatarioId, juegoSeleccionado.id)
+    .subscribe ( equipoDestinatorio => {
+      this.DameEquipoAlumnoEnJuegoDeColeccion (alumnoQueRegalaId, juegoSeleccionado.id)
+      .subscribe ( equipoDeAlumnoQueRegala => {
+        this.RegalaCromoEquipos (cromo, equipoDestinatorio.id, equipoDeAlumnoQueRegala.id, juegoSeleccionado);
+      });
+    });
+  }
+  public DameEquipoAlumnoEnJuegoDeColeccion(alumnoId: number, juegoId: number): any {
+    const equipoObservable = new Observable(obs => {
+      console.log ('voy a por el equipo de este alumno en el juego');
+      // primero traigo los equipos que participan en el juego
+      this.dbService.DameEquiposJuegoDeColeccion (juegoId)
+      .subscribe (equiposJuego => {
+        console.log ('equipos del juego');
+        console.log (equiposJuego);
+        // ahora traigo los equipos a los que pertenece el alumno
+        this.dbService.DameEquiposDelAlumno (alumnoId)
+        .subscribe (equiposAlumno => {
+          console.log ('equipos del alumno');
+          console.log (equiposAlumno);
+          // ahora miro cual es el equipo que está en ambas listas
+          const equipo = equiposAlumno.filter(e => equiposJuego.some(a => a.id === e.id))[0];
+          console.log ('interseccion');
+          console.log (equipo);
+          obs.next (equipo);
+        });
+
+      });
+
+    });
+    return equipoObservable;
+  }
+ 
+
+
 }

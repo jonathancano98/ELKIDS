@@ -54,6 +54,10 @@ const routes: Routes = [
     path: 'inicio-juego-coleccion',
     loadChildren: () => import('./inicio-juego-coleccion/inicio-juego-coleccion.module').then( m => m.InicioJuegoColeccionPageModule)
   },
+  {
+    path: 'album-alumno',
+    loadChildren: () => import('./album-alumno/album-alumno.module').then( m => m.AlbumAlumnoPageModule)
+  },
 
 ];
 

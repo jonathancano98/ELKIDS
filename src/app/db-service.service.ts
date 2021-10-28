@@ -18,7 +18,10 @@ export class DbServiceService {
   //private base='http://192.168.1.65:3000';
   private base='http://localhost:3000';
 
+
   private APIUrlhost = 'http://localhost:3000/api/Profesores/8/recursosLibros';
+
+  private APIUrlGrupos = this.base + '/api/Grupos';
   private APIUrlProfesoresHost =this.base+'/api/Profesores';
   private APIUrlRecursoJuego =this.base+'/api/JuegosDeCuento';
   private APIUrlRecursoJuegoColeccion =this.base+'/api/JuegosDeColeccion';
@@ -30,6 +33,12 @@ export class DbServiceService {
   private APIurlCuento = this.base+'/api/Cuentos';
   private APIRUrlColecciones = this.base + '/api/Colecciones';
   private APIurlAlumnos= this.base+'/api/Alumnos';
+  private APIRUrlAlbum = this.base + '/api/Albumes';
+  private APIUrlEquipoJuegoDeColeccion = this.base + '3000/api/EquiposJuegoDeColeccion';
+  private APIRUrlAlbumEquipo = this.base + '/api/albumsEquipo';
+
+
+
   
   //private APIurlJuegos= this.base +'/api/juegodelibro';
  
@@ -256,6 +265,58 @@ public DameCromosAlumno(alumnoJuegoDeColeccionId: number): Observable<any[]> {
 }
 public DameCromosColeccion(coleccionId: number): Observable<any[]> {
   return this.http.get<any[]>(this.APIRUrlColecciones + '/' + coleccionId + '/cromos');
+}
+
+public DameAlumnosJuegoDeColeccion(juegoDeColeccionId: number): Observable<any[]> {
+  console.log('Voy a por los alumnoooooos',this.APIUrlRecursoJuegoColeccion + '/' + juegoDeColeccionId + '/alumnos');
+  return this.http.get<any[]>(this.APIUrlRecursoJuegoColeccion + '/' + juegoDeColeccionId + '/alumnos');
+}
+
+// DEVUELVE LOS EQUIPOS QUE FORMAN PARTE DE UN JUEGO DE COLECCIÓN DETERMINADO
+public DameEquiposJuegoDeColeccion(juegoDeColeccionId: number): Observable<any[]> {
+  return this.http.get<any[]>(this.APIUrlRecursoJuegoColeccion + '/' + juegoDeColeccionId + '/equipos');
+}
+
+ // NOS DEVUELVE LOS ALUMNOS DEL GRUPO CUYO IDENTIFICADOR PASAMOS COMO PARÁMETRO
+ public DameAlumnosGrupo(grupoId: number): Observable<any[]> {
+  return this.http.get<any[]>(this.APIUrlGrupos + '/' + grupoId + '/alumnos');
+}
+// ASIGNAMOS UN NUEVO CROMO PARA EL ÁLBUM DEL ALUMNO
+public AsignarCromoAlumno(album: any) {
+  return this.http.post<any>(this.APIRUrlAlbum, album);
+}
+public DameAlbumAlumno(cromoId: number, alumnoJuegoDeColeccionId: number): Observable<any> {
+  // tslint:disable-next-line:max-line-length
+  return this.http.get<any>(this.APIRUrlAlbum + '?filter[where][cromoId]=' + cromoId + '&filter[where][alumnoJuegoDeColeccionId]=' + alumnoJuegoDeColeccionId);
+}
+public BorrarAlbumAlumno(AlbumId: number) {
+  return this.http.delete<any>(this.APIRUrlAlbum + '/' + AlbumId);
+}
+
+  // DEVUELVE UN ARRAY CON LAS INCRIPCIONES DE LOS EQUIPOS A UN JUEGO DE COLECCIÓN DETERMINADO
+  public DameInscripcionEquipoJuegoDeColeccion(juegoDeColeccionId: number, equipoId: number): Observable<any> {
+    return this.http.get<any>(this.APIUrlEquipoJuegoDeColeccion + '?filter[where][juegoDeColeccionId]='
+      + juegoDeColeccionId + '&filter[where][equipoId]=' + equipoId);
+  }
+ // ASIGNAMOS UN NUEVO CROMO PARA EL ÁLBUM DEL EQUIPO
+ public AsignarCromoEquipo(album: any) {
+  return this.http.post<any>(this.APIRUrlAlbumEquipo, album);
+}
+// Lo mismo para equipos
+public DameAlbumEquipo(cromoId: number, equipoJuegoDeColeccionId: number): Observable<any> {
+  // tslint:disable-next-line:max-line-length
+  return this.http.get<any>(this.APIRUrlAlbumEquipo + '?filter[where][cromoId]=' + cromoId + '&filter[where][equipoJuegoDeColeccionId]=' + equipoJuegoDeColeccionId);
+}
+public BorrarAlbumEquipo(AlbumEquipoId: number) {
+  return this.http.delete<any>(this.APIRUrlAlbumEquipo + '/' + AlbumEquipoId);
+}
+// Devuelve los equipos a los que pertenece un alumno
+public DameEquiposDelAlumno(alumnoId: number): Observable<any[]> {
+  return this.http.get<any[]>(this.APIurlAlumnos + '/' + alumnoId + '/equipos');
+}
+ // NOS DEVUELVE LOS CROMOS QUE TIENE UN EQUIPO CONCRETO EN UN JUEGO DE COLECCIÓN CONCRETO
+ public DameCromosEquipo(equipoJuegoDeColeccionId: number): Observable<any[]> {
+  return this.http.get<any[]>(this.APIUrlEquipoJuegoDeColeccion + '/' + equipoJuegoDeColeccionId + '/cromos');
 }
 
 //////////////////////////////////////////////////////////////////AÑADIDO
