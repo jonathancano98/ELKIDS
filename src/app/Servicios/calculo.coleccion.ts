@@ -104,27 +104,33 @@ export class CalculosService {
       });
     });
   }
-  public DameEquipoAlumnoEnJuegoDeColeccion(alumnoId: number, juegoId: number): any {
+  public DameEquipoAlumnoEnJuegoDeColeccion(alumnoId: any, juegoId: any): any {
     const equipoObservable = new Observable(obs => {
-      console.log ('voy a por el equipo de este alumno en el juego');
+      console.log ('HOLAAAAAAAAAAAAAAAavoy a por el equipo de este alumno en el juego');
+      console.log ('Parametros de entrada: alumnoId:',alumnoId,'juegoId:',juegoId);
+
       // primero traigo los equipos que participan en el juego
+     
       this.dbService.DameEquiposJuegoDeColeccion (juegoId)
       .subscribe (equiposJuego => {
-        console.log ('equipos del juego');
-        console.log (equiposJuego);
-        // ahora traigo los equipos a los que pertenece el alumno
-        this.dbService.DameEquiposDelAlumno (alumnoId)
-        .subscribe (equiposAlumno => {
-          console.log ('equipos del alumno');
-          console.log (equiposAlumno);
-          // ahora miro cual es el equipo que está en ambas listas
-          const equipo = equiposAlumno.filter(e => equiposJuego.some(a => a.id === e.id))[0];
-          console.log ('interseccion');
-          console.log (equipo);
-          obs.next (equipo);
-        });
+                                    console.log ('equipos del juego',equiposJuego);
+                                    
+                                    console.log("FALLO1");
+                                   
 
-      });
+                                    // ahora traigo los equipos a los que pertenece el alumno
+                                    this.dbService.DameEquiposDelAlumno (alumnoId)
+                                    .subscribe (equiposAlumno => {
+                                                                  console.log("FALLO2")
+                                                                  console.log ('equipos del alumno:',equiposAlumno);
+                                                                  // ahora miro cual es el equipo que está en ambas listas
+                                                                  const equipo = equiposAlumno.filter(e => equiposJuego.some(a => a.id === e.id))[0];
+                                                                  console.log ('interseccion');
+                                                                  console.log (equipo);
+                                                                  obs.next (equipo);
+                                                                  });
+
+                                  });
 
     });
     return equipoObservable;

@@ -6,6 +6,7 @@ import { IonSlides } from '@ionic/angular';
 import { NavController, IonContent, LoadingController, AlertController } from '@ionic/angular';
  import { SesionService } from '../Servicios/sesion.service'; 
 import { Router } from '@angular/router';
+import { Console } from 'console';
 
 
 
@@ -101,6 +102,9 @@ export class InicioJuegoColeccionPage implements OnInit {
       }
 
       if (this.juegoseleccionado[0].Modo === 'Individual') {
+        console.log("<----------Hola Individual---------->");
+        console.log("Juego Seleccionado ID: ",this.juegoseleccionado[0].id);
+
         this.dbService.DameAlumnosJuegoDeColeccion(this.juegoseleccionado[0].id)
         .subscribe (alumnos => {
                                 this.alumnosJuegoDeColeccion = alumnos;
@@ -110,6 +114,9 @@ export class InicioJuegoColeccionPage implements OnInit {
       }
 
       else if ((this.juegoseleccionado[0].Modo === 'Equipos') && (this.juegoseleccionado[0].Asignacion === 'Equipo')) {
+        console.log("<----------Hola Equipos asignacion Equipo---------->");
+        console.log("Juego Seleccionado ID: ",this.juegoseleccionado[0].id);
+        
         this.dbService.DameEquiposJuegoDeColeccion(this.juegoseleccionado[0].id)
         .subscribe (equipos => {
                                 this.equiposJuegoDeColeccion = equipos;
@@ -121,6 +128,9 @@ export class InicioJuegoColeccionPage implements OnInit {
       else {
         // se trata de un juego de equipo pero con asignación individual
         // recuperamos los alumnos del grupo
+        console.log("<----------Hola Equipos asignacion Individual---------->");
+        console.log("Juego Seleccionado ID: ",this.juegoseleccionado[0].id);
+        
         this.dbService.DameAlumnosGrupo(this.juegoseleccionado[0].grupoId)
         .subscribe (alumnos => {
               this.alumnosJuegoDeColeccion = alumnos;
@@ -317,7 +327,7 @@ stopInterval() {
 }
 
  MostrarAlbum() {
-   
+
   this.sesion.TomaColeccion (this.coleccion);
   this.sesion.TomaCromos (this.cromosQueTengo);
          
@@ -429,12 +439,16 @@ DameLosCromosDelAlumno() {
     console.log ('voy a por los cromos del equipo');
 
     // primero me traigo el equipo del alumno que participa en el juego
-    this.calculos.DameEquipoAlumnoEnJuegoDeColeccion (this.alumno.id, this.juegoseleccionado[0].id)
+    console.log(this.alumno.id)
+    this.calculos.DameEquipoAlumnoEnJuegoDeColeccion (this.alumnoID, this.juegoseleccionado[0].id)
     .subscribe (equipo => {
+                            console.log("Hola");
                             this.equipo = equipo;
+                            console.log("Identidad Equipo",equipo.id);
                             // Ahora traigo la inscripcion del equipo en el juego
                             this.dbService.DameInscripcionEquipoJuegoDeColeccion(this.juegoseleccionado[0].id, equipo.id)
                             .subscribe(inscripcionEquipo => {
+                                                               console.log("error");
                                                               // Y ahora me traigo los cromos del equipo
                                                                this.dbService.DameCromosEquipo(inscripcionEquipo[0].id)
                                                               .subscribe(CromosEquipo => {

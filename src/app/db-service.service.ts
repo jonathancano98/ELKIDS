@@ -34,7 +34,7 @@ export class DbServiceService {
   private APIRUrlColecciones = this.base + '/api/Colecciones';
   private APIurlAlumnos= this.base+'/api/Alumnos';
   private APIRUrlAlbum = this.base + '/api/Albumes';
-  private APIUrlEquipoJuegoDeColeccion = this.base + '3000/api/EquiposJuegoDeColeccion';
+  private APIUrlEquipoJuegoDeColeccion = this.base + '/api/EquiposJuegoDeColeccion';
   private APIRUrlAlbumEquipo = this.base + '/api/albumsEquipo';
 
 
@@ -215,6 +215,18 @@ export class DbServiceService {
 
 
 //////////////////////////////////////////////////////////////////AÑADIDO
+
+public GruposJuegoColecciondealumno(idgrupo:any,alumnonombre:any): Observable<any[]>
+{
+  console.log(" GruposJuegoColecciondealumno: ",this.APIUrlGrupos+'/'+idgrupo+'/alumnos?filter[where][Nombre]='+alumnonombre);
+  return this.http.get<any[]>(this.APIUrlGrupos+'/'+idgrupo+'/alumnos?filter[where][Nombre]='+alumnonombre);
+}
+
+public dameJuegosdeColeccionEquipoActivos(): Observable<any>
+{
+  console.log("Url Datos Juegos de Colecciones Equipos:",this.APIUrlRecursoJuegoColeccion+'?filter[where][Modo]=Equipos&filter[where][JuegoActivo]=true');
+  return this.http.get<any[]>(this.APIUrlRecursoJuegoColeccion+'?filter[where][Modo]=Equipos&filter[where][JuegoActivo]=true');
+}
 public dameAlumnosJuegoDeColeccion(idalumno): Observable<any> 
 {
   console.log('Juegos de Coleccion del Alumno: ',this.APIurlAlumnoJuegoColeccion+ '?filter[where][alumnoId]=' + idalumno);
@@ -223,6 +235,7 @@ public dameAlumnosJuegoDeColeccion(idalumno): Observable<any>
 }
 public dameAlumnosJuegoDeColeccionxjuegocoleid(idalumno,id): Observable<any> 
 {
+  console.log("Alumnos:",this.APIurlAlumnoJuegoColeccion+ '?filter[where][alumnoId]=' + idalumno +'&filter[where][juegoDeColeccionId]='+id);
  return this.http.get<any[]>(this.APIurlAlumnoJuegoColeccion+ '?filter[where][alumnoId]=' + idalumno +'&filter[where][juegoDeColeccionId]='+id);
 }
 
@@ -279,6 +292,7 @@ public DameEquiposJuegoDeColeccion(juegoDeColeccionId: number): Observable<any[]
 
  // NOS DEVUELVE LOS ALUMNOS DEL GRUPO CUYO IDENTIFICADOR PASAMOS COMO PARÁMETRO
  public DameAlumnosGrupo(grupoId: number): Observable<any[]> {
+   console.log(" ALUMNOS DEL GRUPO:",this.APIUrlGrupos + '/' + grupoId + '/alumnos');
   return this.http.get<any[]>(this.APIUrlGrupos + '/' + grupoId + '/alumnos');
 }
 // ASIGNAMOS UN NUEVO CROMO PARA EL ÁLBUM DEL ALUMNO
@@ -295,6 +309,8 @@ public BorrarAlbumAlumno(AlbumId: number) {
 
   // DEVUELVE UN ARRAY CON LAS INCRIPCIONES DE LOS EQUIPOS A UN JUEGO DE COLECCIÓN DETERMINADO
   public DameInscripcionEquipoJuegoDeColeccion(juegoDeColeccionId: number, equipoId: number): Observable<any> {
+    console.log("URL INCRIPCIONES DE LOS EQUIPOS JUEGO DE COLECCIÓN",this.APIUrlEquipoJuegoDeColeccion + '?filter[where][juegoDeColeccionId]='
+    + juegoDeColeccionId + '&filter[where][equipoId]=' + equipoId);
     return this.http.get<any>(this.APIUrlEquipoJuegoDeColeccion + '?filter[where][juegoDeColeccionId]='
       + juegoDeColeccionId + '&filter[where][equipoId]=' + equipoId);
   }
@@ -311,7 +327,8 @@ public BorrarAlbumEquipo(AlbumEquipoId: number) {
   return this.http.delete<any>(this.APIRUrlAlbumEquipo + '/' + AlbumEquipoId);
 }
 // Devuelve los equipos a los que pertenece un alumno
-public DameEquiposDelAlumno(alumnoId: number): Observable<any[]> {
+public DameEquiposDelAlumno(alumnoId: any): Observable<any[]> {
+  console.log(" equipos a los que pertenece un alumno",this.APIurlAlumnos + '/' + alumnoId + '/equipos');
   return this.http.get<any[]>(this.APIurlAlumnos + '/' + alumnoId + '/equipos');
 }
  // NOS DEVUELVE LOS CROMOS QUE TIENE UN EQUIPO CONCRETO EN UN JUEGO DE COLECCIÓN CONCRETO

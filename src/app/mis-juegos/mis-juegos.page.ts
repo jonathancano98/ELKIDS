@@ -3,6 +3,7 @@ import{DbServiceService} from 'src/app/db-service.service'
 import { Router } from '@angular/router';
 import{juegolibro} from '../home/clases/juegolibro'
 import { AlertController } from '@ionic/angular';
+import { element } from 'protractor';
 
 @Component({
   selector: 'app-mis-juegos',
@@ -13,6 +14,7 @@ export class MisJuegosPage implements OnInit {
 
   listaDeJuegosDeAlumno: any[] = [];
   listaDeJuegoColeccionDeAlumno: any[]=[];
+  listaDeJuegoColeccionDeAlumno2: any[]=[];
   lista:  juegolibro;
   listaColeccion: any;
   listaAuxiliar:  any[] = []; // No veo ningun Cambio poniendola en Any en vez de juegolibro[]
@@ -25,6 +27,12 @@ export class MisJuegosPage implements OnInit {
   contador: number = 0;
   id: number=0;
 
+  gruposId: number;
+  listaparaversiestaalumno: any[]=[];
+  alumno:any;
+  juegosalumnoestaenelgrupo: any[]=[];
+
+
   constructor(private router: Router, private dBservice: DbServiceService, private alertController: AlertController) { }
 
     async ngOnInit() {
@@ -33,8 +41,63 @@ export class MisJuegosPage implements OnInit {
 
   async ionViewWillEnter()
   {
+
+
+
+    // this.id = this.dBservice.DameAlumno().id;
+    // console.log('Este es el id del alumno que se ha logado: ' + this.id);
+    // this.calculos.DameJuegosAlumno(this.id)
+    //   .subscribe(listas => {
+    //     console.log('Listas de DameJuegosAlumno: ',listas);
+    //     this.JuegosActivos = listas.activos;
+    //     console.log('SIUUUUUUUUUUUU-Juegos del ALumno: ',this.JuegosActivos);
+    // });
+
+
+    //RECIBO TODOS LOS JUEGOS DE COLECCION EN EQUIPOS QUE SEAN TRUE:
+
+    this.listaDeJuegoColeccionDeAlumno2 = await this.dBservice.dameJuegosdeColeccionEquipoActivos().toPromise();
+    console.log("listaDeJuegoColeccionEquipo2: ",this.listaDeJuegoColeccionDeAlumno2);
+       
+    // Y RECIBO ESTO POR CADA JUEGO:
+    // 5:
+        // Asignacion: "Equipo"
+        // JuegoActivo: true
+        // Modo: "Equipos"
+        // NombreJuego: "JuegocoleccionEquipoA2"
+        // Tipo: "Juego De Colección"
+        // coleccionId: 22
+        // grupoId: 85
+        // id: 168
+
+
+    this.alumno = await this.dBservice.dameAlumnoPorId(localStorage.getItem("alumnoID")).toPromise();
+    console.log("Nombre Alumno:",this.alumno.Nombre);
+
+    //AHORA DEBO MIRAR SI EN ESTOS JUEGOS PARTICIPA EL ALUMNO:
+
+    for(let i=0;this.listaDeJuegoColeccionDeAlumno2.length>i;i++)
+    {
+      this.gruposId=this.listaDeJuegoColeccionDeAlumno2[i].grupoId;
+      this.listaparaversiestaalumno.push(await this.dBservice.GruposJuegoColecciondealumno(this.gruposId,this.alumno.Nombre).toPromise());
+      console.log("Longitud:",this.listaparaversiestaalumno[i].length);
+      
+      if(this.listaparaversiestaalumno[i].length>0){
+
+        this.juegosalumnoestaenelgrupo.push(this.listaDeJuegoColeccionDeAlumno2[i]);
+        this.listaAuxiliar.push( this.juegosalumnoestaenelgrupo[i]);
+
+      }
+      this.seleccionado = Array(this.listaAuxiliar.length).fill(false);
+      this.categorias = Array(this.listaAuxiliar.length).fill(false);
+    }
+
+    console.log("Juegos donde está el Alumno:",this.juegosalumnoestaenelgrupo);
+
+
     this.listaDeJuegoColeccionDeAlumno = await this.dBservice.dameAlumnosJuegoDeColeccion(localStorage.getItem("alumnoID")).toPromise();
     console.log("listaDeJuegoColeccionAlumno: ",this.listaDeJuegoColeccionDeAlumno);
+    
     console.log('Lenght:',this.listaDeJuegoColeccionDeAlumno.length);
 
     //Pedimos a la base de datos todos los juegos a los que pertenece nuestro alumno
@@ -47,7 +110,6 @@ export class MisJuegosPage implements OnInit {
     {
       //pido informacion de cada juego
       this.lista = await this.dBservice.dameJuegosDelAlumno(this.listaDeJuegosDeAlumno[i].juegoId).toPromise();
-      console.log("Lista:",this.lista);
 
       /////////////////////////////////////////////////////AÑADIDO
       if(this.lista.JuegoActivo === true){
@@ -60,6 +122,8 @@ export class MisJuegosPage implements OnInit {
 
     }
 
+    console.log("Lista Cuentos:",this.lista);
+
   /////////////////////////////////////////////////////AÑADIDO Juego Coleecion
 
 
@@ -67,7 +131,6 @@ export class MisJuegosPage implements OnInit {
     {
       //pido informacion de cada juego
       this.listaColeccion = await this.dBservice.dameJuegosColeccionDelAlumno(this.listaDeJuegoColeccionDeAlumno[j].juegoDeColeccionId).toPromise();
-      console.log("Lista:",this.listaColeccion);
 
       if(this.listaColeccion.JuegoActivo === true){
         console.log('Juego Coleccion Añadido a Lista Auxiliar:',this.listaColeccion.JuegoActivo);
@@ -78,6 +141,8 @@ export class MisJuegosPage implements OnInit {
       this.categorias = Array(this.listaAuxiliar.length).fill(false);
 
     }
+    console.log("Lista Coleccion:",this.listaColeccion);
+
   /////////////////////////////////////////////////////AÑADIDO Juego Coleecion
 
 
@@ -146,16 +211,25 @@ export class MisJuegosPage implements OnInit {
           else
           {
             //COLECCION
-            this.elementoauxiliarirjuego = await this.dBservice.dameAlumnosJuegoDeColeccionxjuegocoleid(localStorage.getItem("alumnoID"),this.listaAuxiliar[i].id).toPromise();
-            console.log("ELEMENTO JUEGO COLECCION: ",this.elementoauxiliarirjuego);
-            console.log(this.elementoauxiliarirjuego[0].id);
 
-            localStorage.setItem("idAlumnoJuego", this.elementoauxiliarirjuego[0].id);
-            localStorage.setItem("idjuegodecoleccion", this.elementoauxiliarirjuego[0].juegoDeColeccionId);
+            if(this.listaAuxiliar[i].Modo === "Equipos")
+              {
+                   localStorage.setItem("idjuegodecoleccion", this.listaAuxiliar[i].id);
+              }
+            
+              else
+              {
+                
+                this.elementoauxiliarirjuego = await this.dBservice.dameAlumnosJuegoDeColeccionxjuegocoleid(localStorage.getItem("alumnoID"),this.listaAuxiliar[i].id).toPromise();
+                localStorage.setItem("idjuegodecoleccion", this.elementoauxiliarirjuego[0].juegoDeColeccionId);
+              } 
+              
+              console.log( "Identificador juego coleccion:",localStorage.getItem("idjuegodecoleccion"));
 
-            console.log("Id : ",this.elementoauxiliarirjuego[0].id);
-            count = true; 
-            this.valori=i; 
+
+            // console.log("idAlumnoJuego : ",this.elementoauxiliarirjuego[0].id,"idjuegodecoleccion:",localStorage.getItem("idjuegodecoleccion"));
+             count = true; 
+             this.valori=i; 
 
           }
 
