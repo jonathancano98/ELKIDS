@@ -50,13 +50,18 @@ const routes: Routes = [
   {
     path: 'cuentos-a-espiar',
     loadChildren: () => import('./cuentos-a-espiar/cuentos-a-espiar.module').then( m => m.CuentosAEspiarPageModule)
-  },  {
+  },
+  {
     path: 'inicio-juego-coleccion',
     loadChildren: () => import('./inicio-juego-coleccion/inicio-juego-coleccion.module').then( m => m.InicioJuegoColeccionPageModule)
   },
   {
     path: 'album-alumno',
     loadChildren: () => import('./album-alumno/album-alumno.module').then( m => m.AlbumAlumnoPageModule)
+  },
+  {
+    path: 'inicio-juego-puntos',
+    loadChildren: () => import('./inicio-juego-puntos/inicio-juego-puntos.module').then( m => m.InicioJuegoPuntosPageModule)
   },
 
 ];

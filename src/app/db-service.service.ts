@@ -247,6 +247,8 @@ public dameAlumnosJuegoDeCuentoxjuegocoleid(idalumno,id): Observable<any>
 
   //EJEMPLO:http://localhost:3000/api/AlumnosJuegoDeColeccion?filter[where][alumnoId]=136&filter[where][juegoDeColeccionId]=140
 
+////////////////////////////////////////////////////////////////////////////////COLECCION
+
 public dameAlumnoporidalumno(idalumno): Observable<any>
 {
   console.log('URL Datos Alumno:',this.APIurlAlumnos+ '?filter[where][id]='+ idalumno);
@@ -334,6 +336,17 @@ public DameEquiposDelAlumno(alumnoId: any): Observable<any[]> {
  // NOS DEVUELVE LOS CROMOS QUE TIENE UN EQUIPO CONCRETO EN UN JUEGO DE COLECCIÓN CONCRETO
  public DameCromosEquipo(equipoJuegoDeColeccionId: number): Observable<any[]> {
   return this.http.get<any[]>(this.APIUrlEquipoJuegoDeColeccion + '/' + equipoJuegoDeColeccionId + '/cromos');
+
+}
+////////////////////////////////////////////////////////////////////////////////COLECCION
+
+////////////////////////////////////////////////////////////////////////////////PUNTOS
+ // Devuelve los juegos de puntos del Alumno
+ public DameJuegoDePuntosAlumno(alumnoId: any): Observable<any[]> {
+  console.log('DameJuegoDePuntosAlumno: ',this.APIurlAlumnos + '/' + alumnoId + '/juegoDePuntos');
+  return this.http.get<any[]>(this.APIurlAlumnos + '/' + alumnoId + '/juegoDePuntos');
+  ////////////////////////////////////////////////////////////////////////////////PUNTOS
+
 }
 
 //////////////////////////////////////////////////////////////////AÑADIDO

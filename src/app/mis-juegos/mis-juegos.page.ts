@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import{juegolibro} from '../home/clases/juegolibro'
 import { AlertController } from '@ionic/angular';
 import { element } from 'protractor';
+import { CalculosService } from '../Servicios/calculo.coleccion';
 
 @Component({
   selector: 'app-mis-juegos',
@@ -31,18 +32,22 @@ export class MisJuegosPage implements OnInit {
   listaparaversiestaalumno: any[]=[];
   alumno:any;
   juegosalumnoestaenelgrupo: any[]=[];
+  juegosdePuntos: any[]=[];
 
 
-  constructor(private router: Router, private dBservice: DbServiceService, private alertController: AlertController) { }
+  constructor(private router: Router, private dBservice: DbServiceService, private alertController: AlertController,private calculos: CalculosService) { }
 
     async ngOnInit() {
 
   }
 
+  
+
   async ionViewWillEnter()
   {
 
-
+   this.juegosdePuntos=this.calculos.JuegoPuntosAlumno(localStorage.getItem("alumnoID"));
+   console.log("Juego de Puntos:",this.juegosdePuntos);
 
     // this.id = this.dBservice.DameAlumno().id;
     // console.log('Este es el id del alumno que se ha logado: ' + this.id);
@@ -152,6 +157,7 @@ export class MisJuegosPage implements OnInit {
 
   }
 
+ 
   /**
    * Cuando se selecciona un checkbox, los otros checkbox restantes son desactivados
    * @param x Posición del checkbox seleccionado
@@ -237,7 +243,8 @@ export class MisJuegosPage implements OnInit {
 
       }
 
-      if(count){ 
+      if(count)
+      { 
 
         if(this.listaAuxiliar[this.valori].Tipo === "Juego De Cuentos")
         {
@@ -246,14 +253,22 @@ export class MisJuegosPage implements OnInit {
           console.log("Estoy en el count = true(CUENTO)")
           this.router.navigate(['/inicio']);
         }
-        else{
+        else if(this.listaAuxiliar[this.valori].Tipo === "Juego De Colección"){
           
           this.listaAuxiliar=[];
           this.contador=0;
           console.log("Estoy en el count = true(COLECCION)")
           this.router.navigate(['/inicio-juego-coleccion']);
         }
-    }else
+        else{
+          this.listaAuxiliar=[];
+          this.contador=0;
+          console.log("Estoy en el count = true(COLECCION)")
+          this.router.navigate(['/inicio-juego-puntos']);
+        }
+    }
+    
+    else
     
       this.alertaJuegoNoSeleccionado();
 

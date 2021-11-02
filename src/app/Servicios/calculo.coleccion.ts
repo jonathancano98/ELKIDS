@@ -29,6 +29,22 @@ export class CalculosService {
   ) {
   }
 
+ JuegoPuntosAlumno(alumnoID:any): any[]{
+  
+  const juegosdePuntos: any[] = [];
+  
+  
+  this.dbService.DameJuegoDePuntosAlumno(alumnoID)
+  .subscribe(JuegoPuntos =>{
+   
+    console.log("JuegoPuntos:",JuegoPuntos);
+    juegosdePuntos.push(JuegoPuntos);
+
+                          })
+    return juegosdePuntos;
+
+}
+
 // Esta función recibe una lista de cromos en la que puede haber repetidos
   // y geneera otra en la que cada cromo aparece una sola vez y se le asocia el número
   // de veces que aparece reperido en la lista de entrada
