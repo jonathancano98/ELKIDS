@@ -23,6 +23,13 @@ export class SesionService {
 
     coleccion: any;
     cromos:any;
+    posicion:any;
+    equipoSeleccionado:any;
+    inscripcionEquipoJuego:any;
+    nivelesDelJuego:any;
+    tiposPuntosDelJuego:any;
+    alumnoSeleccionado:any;
+    inscripcionAlumnoJuego:any;
 
     constructor() { }
 
@@ -42,6 +49,52 @@ export class SesionService {
       public DameColeccion(): any {
         return this.coleccion;
       }
+
+      public TomaDatosEvolucionEquipoJuegoPuntos(
+        posicion: any,
+        equipoSeleccionado: any,
+        inscripcionEquipoJuego: any,
+        nivelesDelJuego: any,
+        tiposPuntosDelJuego) {
+        this.posicion = posicion;
+        this.equipoSeleccionado = equipoSeleccionado;
+        this.inscripcionEquipoJuego = inscripcionEquipoJuego;
+        this.nivelesDelJuego = nivelesDelJuego;
+        this.tiposPuntosDelJuego = tiposPuntosDelJuego;
     
+      }
+      public DameDatosEvolucionAlumnoJuegoPuntos(): any {
+        const datos = {
+          posicion: this.posicion,
+          tiposPuntosDelJuego: this.tiposPuntosDelJuego,
+          nivelesDelJuego: this.nivelesDelJuego,
+          alumnoSeleccionado: this.alumnoSeleccionado,
+          inscripcionAlumnoJuego: this.inscripcionAlumnoJuego
+        };
+        return datos;
+      }
+      public DameDatosEvolucionEquipoJuegoPuntos(): any {
+        const datos = {
+          posicion: this.posicion,
+          equipoSeleccionado: this.equipoSeleccionado,
+          inscripcionEquipoJuego: this.inscripcionEquipoJuego,
+          nivelesDelJuego: this.nivelesDelJuego,
+          tiposPuntosDelJuego: this.tiposPuntosDelJuego
+        };
+        return datos;
+      }
+
+      
+  public TomaDatosEvolucionAlumnoJuegoPuntos(posicion: any,
+    tiposPuntosDelJuego: any,
+    nivelesDelJuego: any,
+    alumnoSeleccionado: any,
+    inscripcionAlumnoJuego: any) {
+    this.posicion = posicion;
+    this.tiposPuntosDelJuego = tiposPuntosDelJuego;
+    this.nivelesDelJuego = nivelesDelJuego;
+    this.alumnoSeleccionado = alumnoSeleccionado;
+    this.inscripcionAlumnoJuego = inscripcionAlumnoJuego;
+  }
 
 }

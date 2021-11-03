@@ -36,6 +36,15 @@ export class DbServiceService {
   private APIRUrlAlbum = this.base + '/api/Albumes';
   private APIUrlEquipoJuegoDeColeccion = this.base + '/api/EquiposJuegoDeColeccion';
   private APIRUrlAlbumEquipo = this.base + '/api/albumsEquipo';
+  private APIRUrlJuegoDePuntos = this.base + '/api/JuegosDePuntos';
+  private APIUrlImagenNivel = this.base + '/api/imagenes/ImagenNivel';
+  private APIUrlAlumnoJuegoDePuntos = this.base + '/api/AlumnoJuegosDePuntos';
+  private APIUrlHistorialPuntosAlumno = this.base + '/api/HistorialesPuntosAlumno';
+  private APIUrlEquipoJuegoDePuntos = this.base + '/api/EquiposJuegosDePuntos';
+  private APIUrlEquipos = this.base + '/api/Equipos';
+  private APIUrlHistorialPuntosEquipo = this.base + '/api/HistorialesPuntosEquipo';
+
+
 
 
 
@@ -340,14 +349,77 @@ public DameEquiposDelAlumno(alumnoId: any): Observable<any[]> {
 }
 ////////////////////////////////////////////////////////////////////////////////COLECCION
 
+
 ////////////////////////////////////////////////////////////////////////////////PUNTOS
  // Devuelve los juegos de puntos del Alumno
  public DameJuegoDePuntosAlumno(alumnoId: any): Observable<any[]> {
   console.log('DameJuegoDePuntosAlumno: ',this.APIurlAlumnos + '/' + alumnoId + '/juegoDePuntos');
   return this.http.get<any[]>(this.APIurlAlumnos + '/' + alumnoId + '/juegoDePuntos');
+ }
+  
+public DameJuegodePuntoseleccionado(juegopuntosid:any): Observable<any[]>{
+
+    console.log('JuegoDePuntosseleccionado:',this.APIRUrlJuegoDePuntos+'?filter[where][id]='+juegopuntosid);
+    return this.http.get<any[]>(this.APIRUrlJuegoDePuntos+'?filter[where][id]='+juegopuntosid);
+  }
+
+   // OBTENEMOS LOS NIVELES QUE FORMAN PARTE DEL JUEGO DE PUNTOS
+   public DameNivelesJuegoDePuntos(juegoDePuntosId: number): Observable<any[]> {
+    return this.http.get<any[]>(this.APIRUrlJuegoDePuntos + '/' + juegoDePuntosId + '/nivels');
+  }
+  // Obtenemos la imagen del nivel deseado
+  public DameImagenNivel(imagen: string): Observable<any> {
+    return this.httpImagenes.get(this.APIUrlImagenNivel + '/download/' + imagen,
+        { responseType: ResponseContentType.Blob });
+  }
+  // OBTENEMOS LOS PUNTOS QUE FORMAN PARTE DEL JUEGO DE PUNTOS
+  public DamePuntosJuegoDePuntos(juegoDePuntosId: number): Observable<any[]> {
+    return this.http.get<any[]>(this.APIRUrlJuegoDePuntos + '/' + juegoDePuntosId + '/puntos');
+  }
+  // OBTENEMOS LA INSCRIPCIÓN ESPECÍFICA DE UN ALUMNO CONCRETO EN UN JUEGO DE PUNTOS CONCRETO.
+  public DameInscripcionAlumnoJuegoDePuntos(alumnoId: number, juegoDePuntosId: number): Observable<any> {
+    console.log('voy a por los puntos');
+    return this.http.get<any>(this.APIUrlAlumnoJuegoDePuntos + '?filter[where][alumnoId]=' + alumnoId
+      + '&filter[where][juegoDePuntosId]=' + juegoDePuntosId);
+  }
+  // OBTENEMOS EL HISTORIAL DE UN ALUMNO POR TIPO DE PUNTO
+  public DameHistorialDeUnPunto(alumnoJuegoDePuntosId: number, puntoId: number): Observable<any[]> {
+    return this.http.get<any[]>(this.APIUrlHistorialPuntosAlumno + '?filter[where][alumnoJuegoDePuntosId]='
+      + alumnoJuegoDePuntosId + '&filter[where][puntoId]=' + puntoId);
+  }
+    // OBTENEMOS LOS ALUMNOS QUE FORMAN PARTE DEL JUEGO DE PUNTOS
+    public DameAlumnosJuegoDePuntos(juegoDePuntosId: number): Observable<Alumno[]> {
+      console.log('Voy a por los alumnos');
+      return this.http.get<Alumno[]>(this.APIRUrlJuegoDePuntos + '/' + juegoDePuntosId + '/alumnos');
+    }
+// NOS DEVUELVE LAS INCRIPCIONES DE TODOS LOS ALUMNOS DE UN JUEGO DE PUNTOS
+public DameInscripcionesAlumnoJuegoDePuntos(juegoDePuntosId: number): Observable<any[]> {
+  return this.http.get<any[]>(this.APIUrlAlumnoJuegoDePuntos + '?filter[where][juegoDePuntosId]=' + juegoDePuntosId);
+} 
+// OBTENEMOS LOS EQUIPOS QUE FORMAN PARTE DEL JUEGO DE PUNTOS
+public DameEquiposJuegoDePuntos(juegoDePuntosId: number): Observable<any[]> {
+  return this.http.get<any[]>(this.APIRUrlJuegoDePuntos + '/' + juegoDePuntosId + '/equipos');
+} 
+public DameInscripcionesEquipoJuegoDePuntos(juegoDePuntosId: number): Observable<any[]> {
+  return this.http.get<any[]>(this.APIUrlEquipoJuegoDePuntos + '?filter[where][juegoDePuntosId]=' + juegoDePuntosId);
+}
+ // OBTENEMOS LOS ALUMNOS QUE PERTENECEN A UN EQUIPO
+ public DameAlumnosEquipo(equipoId: number): Observable<any[]> {
+  return this.http.get<any[]>(this.APIUrlEquipos + '/' + equipoId + '/alumnos');
+}
+ // OBTENEMOS EL HISTORIAL TOTAL DE PUNTOS DEL EQUIPO
+ public DameHistorialPuntosEquipo(equipoJuegoDePuntosId: number): Observable<any[]> {
+  return this.http.get<any[]>(this.APIUrlHistorialPuntosEquipo + '?filter[where][equipoJuegoDePuntosId]='
+    + equipoJuegoDePuntosId);
+}
+ // OBTENEMOS EL HISTORIAL TOTAL DE PUNTOS DEL ALUMNO
+ public DameHistorialPuntosAlumno(alumnoJuegoDePuntosId: number): Observable<any[]> {
+  return this.http.get<any[]>(this.APIUrlHistorialPuntosAlumno + '?filter[where][alumnoJuegoDePuntosId]='
+    + alumnoJuegoDePuntosId);
+}
   ////////////////////////////////////////////////////////////////////////////////PUNTOS
 
-}
+
 
 //////////////////////////////////////////////////////////////////AÑADIDO
 

@@ -5,6 +5,7 @@ import{juegolibro} from '../home/clases/juegolibro'
 import { AlertController } from '@ionic/angular';
 import { element } from 'protractor';
 import { CalculosService } from '../Servicios/calculo.coleccion';
+import { i18nMetaToJSDoc } from '@angular/compiler/src/render3/view/i18n/meta';
 
 @Component({
   selector: 'app-mis-juegos',
@@ -33,6 +34,7 @@ export class MisJuegosPage implements OnInit {
   alumno:any;
   juegosalumnoestaenelgrupo: any[]=[];
   juegosdePuntos: any[]=[];
+  juegoPuntoseleccionado:any;
 
 
   constructor(private router: Router, private dBservice: DbServiceService, private alertController: AlertController,private calculos: CalculosService) { }
@@ -46,8 +48,22 @@ export class MisJuegosPage implements OnInit {
   async ionViewWillEnter()
   {
 
-   this.juegosdePuntos=this.calculos.JuegoPuntosAlumno(localStorage.getItem("alumnoID"));
-   console.log("Juego de Puntos:",this.juegosdePuntos);
+    this.juegosdePuntos= await this.dBservice.DameJuegoDePuntosAlumno(localStorage.getItem("alumnoID")).toPromise();
+    console.log("Lista Juego de Puntos:",this.juegosdePuntos);
+
+    for(let i=0; this.juegosdePuntos.length>i ; i++){
+      
+      if(this.juegosdePuntos[i].JuegoActivo === true){
+
+        this.listaAuxiliar.push(this.juegosdePuntos[i])
+
+      }
+      else{
+        console.log("Juego No Activo")
+      }
+       this.seleccionado = Array(this.listaAuxiliar.length).fill(false);
+      this.categorias = Array(this.listaAuxiliar.length).fill(false);
+    }
 
     // this.id = this.dBservice.DameAlumno().id;
     // console.log('Este es el id del alumno que se ha logado: ' + this.id);
@@ -214,7 +230,8 @@ export class MisJuegosPage implements OnInit {
             this.valori=i; 
 
           }
-          else
+          else if(this.listaAuxiliar[i].Tipo === "Juego De Colección")
+
           {
             //COLECCION
 
@@ -230,13 +247,17 @@ export class MisJuegosPage implements OnInit {
                 localStorage.setItem("idjuegodecoleccion", this.elementoauxiliarirjuego[0].juegoDeColeccionId);
               } 
               
-              console.log( "Identificador juego coleccion:",localStorage.getItem("idjuegodecoleccion"));
+            console.log( "Identificador juego coleccion:",localStorage.getItem("idjuegodecoleccion"));
+            count = true; 
+            this.valori=i; 
 
-
-            // console.log("idAlumnoJuego : ",this.elementoauxiliarirjuego[0].id,"idjuegodecoleccion:",localStorage.getItem("idjuegodecoleccion"));
-             count = true; 
-             this.valori=i; 
-
+          }
+          else
+          {
+            localStorage.setItem("idjuegodepuntos", this.listaAuxiliar[i].id);
+            console.log( "Identificador juego Puntos:",localStorage.getItem("idjuegodepuntos"));
+            count = true; 
+            this.valori=i; 
           }
 
         }
@@ -263,7 +284,7 @@ export class MisJuegosPage implements OnInit {
         else{
           this.listaAuxiliar=[];
           this.contador=0;
-          console.log("Estoy en el count = true(COLECCION)")
+          console.log("Estoy en el count = true(PUNTOS)")
           this.router.navigate(['/inicio-juego-puntos']);
         }
     }

@@ -12,6 +12,10 @@ import { DbServiceService } from '../db-service.service';
 import { element } from 'protractor';
 import { Album } from '../home/clases/Album';
 import { AlbumEquipo } from '../home/clases/Albumequipo';
+import { TablaAlumnoJuegoDePuntos } from '../home/clases/TablaAlumnoJuegoDePuntos';
+import { TablaEquipoJuegoDePuntos } from '../home/clases/TablaEquipoJuegoDePuntos';
+import { TablaHistorialPuntosEquipo } from '../home/clases/clasesParaTablasJuegoDePuntos/TablaHistorialPuntosEquipo';
+import { TablaHistorialPuntosAlumno } from '../home/clases/clasesParaTablasJuegoDePuntos/TablaHistorialPuntosAlumno';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +26,8 @@ export class CalculosService {
 
   puntos: number;
   MiImagenCromo: string;
+  juegosdePuntos: any[] = [];
+
   constructor(
     public https: Http,
     private dbService: DbServiceService
@@ -29,21 +35,17 @@ export class CalculosService {
   ) {
   }
 
- JuegoPuntosAlumno(alumnoID:any): any[]{
+//  JuegoPuntosAlumno(alumnoID:any): any {
   
-  const juegosdePuntos: any[] = [];
-  
-  
-  this.dbService.DameJuegoDePuntosAlumno(alumnoID)
-  .subscribe(JuegoPuntos =>{
+//   this.dbService.DameJuegoDePuntosAlumno(alumnoID)
+//   .subscribe(JuegoPuntos =>{
    
-    console.log("JuegoPuntos:",JuegoPuntos);
-    juegosdePuntos.push(JuegoPuntos);
+//     console.log("JuegoPuntos:",JuegoPuntos);
+//     return JuegoPuntos;
 
-                          })
-    return juegosdePuntos;
+//                           })
 
-}
+// }
 
 // Esta función recibe una lista de cromos en la que puede haber repetidos
   // y geneera otra en la que cada cromo aparece una sola vez y se le asocia el número
@@ -152,6 +154,167 @@ export class CalculosService {
     return equipoObservable;
   }
  
+  //////////////////////////////////////////////////////////////////////////////////////////////////////Puntos
+  public DameHistorialMisPuntos(juegoId: number, alumnoId: number): any {
+    // const HistorialPuntos: any [] = [];
+    const Observables = new Observable(obs => {
+      const EsteAlumnoJDP: any[] = [];
+      const HistorialPuntos: any[] = [];
+      this.dbService.DameInscripcionAlumnoJuegoDePuntos(alumnoId, juegoId)
+      .subscribe(MiAlumnoJuegoDePuntos => {
+                                            EsteAlumnoJDP.push(MiAlumnoJuegoDePuntos[0].PuntosTotalesAlumno);
+                                            this.dbService.DamePuntosJuegoDePuntos(juegoId)
+                                            .subscribe(TipoDePuntos => {
+                                                                        for (let i = 0; i < TipoDePuntos.length; i++) {
+                                                                        this.dbService.DameHistorialDeUnPunto(MiAlumnoJuegoDePuntos[0].id, TipoDePuntos[i].id)
+                                                                        .subscribe(HistorialDeUnPunto => {
+                                                                                                            console.log(MiAlumnoJuegoDePuntos);
+                                                                                                            console.log(HistorialDeUnPunto);
+                                                                                                            this.puntos = 0;
+                                                                                                            // tslint:disable-next-line:prefer-for-of
+                                                                                                            for (let j = 0; j < HistorialDeUnPunto.length; j++) {
+                                                                                                              this.puntos = this.puntos + HistorialDeUnPunto[j].ValorPunto;
+                                                                                                              console.log('acumulo punto' + this.puntos);
+                                                                                                            }
+                                                                                                            HistorialPuntos.push({ Nombre: TipoDePuntos[i].Nombre, Puntos: this.puntos });
+                                                                                                           });
+                                                                                                                        }
+                                                                        });
+                                            });
+      const MisObservables = { AlumnoJDP: EsteAlumnoJDP, Historial: HistorialPuntos };
+      obs.next(MisObservables);
+    });
+    return Observables;
+  }
 
+  
+  public PrepararTablaRankingIndividual(listaAlumnosOrdenadaPorPuntos,
+    alumnosDelJuego,
+    nivelesDelJuego): any {
+
+const rankingJuegoDePuntos: any[] = [];
+// tslint:disable-next-line:prefer-for-of
+for (let i = 0; i < listaAlumnosOrdenadaPorPuntos.length; i++) {
+let alumno: any;
+let nivel: any;
+const alumnoId = listaAlumnosOrdenadaPorPuntos[i].alumnoId;
+const nivelId = listaAlumnosOrdenadaPorPuntos[i].nivelId;
+alumno = alumnosDelJuego.filter(res => res.id === alumnoId)[0];
+
+if (listaAlumnosOrdenadaPorPuntos[i].nivelId !== undefined) {
+nivel = nivelesDelJuego.filter(res => res.id === nivelId)[0];
+}
+
+if (nivel !== undefined) {
+rankingJuegoDePuntos[i] = new TablaAlumnoJuegoDePuntos(i + 1, alumno.id, alumno.Nombre, alumno.PrimerApellido, alumno.SegundoApellido,
+listaAlumnosOrdenadaPorPuntos[i].PuntosTotalesAlumno, nivel.Nombre);
+
+} else {
+rankingJuegoDePuntos[i] = new TablaAlumnoJuegoDePuntos(i + 1, alumno.id, alumno.Nombre, alumno.PrimerApellido, alumno.SegundoApellido,
+listaAlumnosOrdenadaPorPuntos[i].PuntosTotalesAlumno);
+}
+}
+
+return (rankingJuegoDePuntos);
+
+}
+
+public PrepararTablaRankingEquipos(
+  listaEquiposOrdenadaPorPuntos: any,
+  equiposDelJuego: any,
+  nivelesDelJuego: any,
+
+): any {
+  const rankingEquiposJuegoDePuntos: any[] = [];
+  // const rankingEquiposJuegoDePuntosTotal: any [] = [];
+  for (let i = 0; i < listaEquiposOrdenadaPorPuntos.length; i++) {
+    console.log('Bucle principal');
+    let equipo: any;
+    let nivel: any;
+    equipo = equiposDelJuego.filter(res => res.id === listaEquiposOrdenadaPorPuntos[i].equipoId)[0];
+
+    if (listaEquiposOrdenadaPorPuntos[i].nivelId !== undefined) {
+      console.log(listaEquiposOrdenadaPorPuntos[i].equipoId);
+      nivel = nivelesDelJuego.filter(res => res.id === listaEquiposOrdenadaPorPuntos[i].nivelId)[0];
+      console.log(listaEquiposOrdenadaPorPuntos[i].nivelId);
+    }
+
+    if (nivel !== undefined) {
+      rankingEquiposJuegoDePuntos[i] = new TablaEquipoJuegoDePuntos(i + 1, equipo.Nombre, equipo.id,
+        listaEquiposOrdenadaPorPuntos[i].PuntosTotalesEquipo, nivel.Nombre);
+
+      // rankingEquiposJuegoDePuntosTotal[i] = new TablaEquipoJuegoDePuntos (i + 1, equipo.Nombre, equipo.id,
+      //     listaEquiposOrdenadaPorPuntos[i].PuntosTotalesEquipo, nivel.Nombre);
+    } else {
+      rankingEquiposJuegoDePuntos[i] = new TablaEquipoJuegoDePuntos(i + 1, equipo.Nombre, equipo.id,
+        listaEquiposOrdenadaPorPuntos[i].PuntosTotalesEquipo);
+
+      // rankingEquiposJuegoDePuntosTotal[i] = new TablaEquipoJuegoDePuntos (i + 1, equipo.Nombre, equipo.id,
+      //     listaEquiposOrdenadaPorPuntos[i].PuntosTotalesEquipo);
+    }
+  }
+
+  // const resultado = {
+  //                       ranking: rankingEquiposJuegoDePuntos,
+  //                       rankingTotal: rankingEquiposJuegoDePuntosTotal
+  // };
+  return rankingEquiposJuegoDePuntos;
+}
+
+public PreparaHistorialEquipo(equipoJuegoDePuntos: any, tiposPuntosDelJuego: any, ):
+any {
+const historialObservable = new Observable(obs => {
+
+  let historial = [];
+
+  this.dbService.DameHistorialPuntosEquipo(equipoJuegoDePuntos.id)
+    .subscribe(his => {
+
+      if (his[0] !== null) {
+        for (let i = 0; i < his.length; i++) {
+          console.log('voy ' + i);
+          const punto = tiposPuntosDelJuego.filter(res => res.id === his[i].puntoId)[0];
+
+          historial[i] = new TablaHistorialPuntosEquipo(punto.Nombre,
+            punto.Descripcion, his[i].ValorPunto, his[i].fecha,
+            his[i].equipoJuegoDePuntosId, his[i].id, his[i].puntoId);
+        }
+      } else {
+        historial = undefined;
+      }
+      historial = historial.filter(res => res.nombre !== '');
+      obs.next(historial);
+    });
+});
+return historialObservable;
+}
+
+public PreparaHistorialAlumno(alumnoJuegoDePuntos: any, tiposPuntosDelJuego: any, ):
+    any {
+    const historialObservable = new Observable(obs => {
+
+      let historial = [];
+
+      this.dbService.DameHistorialPuntosAlumno(alumnoJuegoDePuntos.id)
+        .subscribe(his => {
+
+          if (his[0] !== null) {
+            for (let i = 0; i < his.length; i++) {
+              console.log('voy ' + i);
+              const punto = tiposPuntosDelJuego.filter(res => res.id === his[i].puntoId)[0];
+
+              historial[i] = new TablaHistorialPuntosAlumno(punto.Nombre,
+                punto.Descripcion, his[i].ValorPunto, his[i].fecha,
+                his[i].alumnoJuegoDePuntosId, his[i].id, his[i].puntoId);
+            }
+          } else {
+            historial = undefined;
+          }
+          historial = historial.filter(res => res.nombre !== '');
+          obs.next(historial);
+        });
+    });
+    return historialObservable;
+  }
 
 }
