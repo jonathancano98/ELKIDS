@@ -280,7 +280,8 @@ export class MisJuegosPage implements OnInit {
           this.contador=0;
           console.log("Estoy en el count = true(COLECCION)")
           // this.router.navigate(['/inicio-juego-coleccion']);
-          this.router.navigate(['/memorama-coleccion']);
+          //this.router.navigate(['/memorama-coleccion']);
+          this.router.navigate(['/wally']);
         }
         else{
           this.listaAuxiliar=[];

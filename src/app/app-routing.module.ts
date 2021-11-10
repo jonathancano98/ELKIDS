@@ -66,6 +66,10 @@ const routes: Routes = [
     path: 'memorama-coleccion',
     loadChildren: () => import('./memorama-coleccion/memorama-coleccion.module').then( m => m.MemoramaColeccionPageModule)
   },
+  {
+    path: 'wally',
+    loadChildren: () => import('./wally/wally.module').then( m => m.WallyPageModule)
+  },
 
  
 
