@@ -279,13 +279,14 @@ export class MisJuegosPage implements OnInit {
           this.listaAuxiliar=[];
           this.contador=0;
           console.log("Estoy en el count = true(COLECCION)")
-          this.router.navigate(['/inicio-juego-coleccion']);
+          // this.router.navigate(['/inicio-juego-coleccion']);
+          this.router.navigate(['/memorama-coleccion']);
         }
         else{
           this.listaAuxiliar=[];
           this.contador=0;
           console.log("Estoy en el count = true(PUNTOS)")
-          this.router.navigate(['/inicio-juego-puntos']);
+          this.router.navigate(['/inicio-juego-memorama']);
         }
     }
     

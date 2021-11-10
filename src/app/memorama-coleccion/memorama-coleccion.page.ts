@@ -8,16 +8,14 @@ import { SesionService } from '../Servicios/sesion.service';
 import { Router } from '@angular/router';
 import { Console } from 'console';
 
-
-
-
 @Component({
-  selector: 'app-inicio-juego-coleccion',
-  templateUrl: './inicio-juego-coleccion.page.html',
-  styleUrls: ['./inicio-juego-coleccion.page.scss'],
+  selector: 'app-memorama-coleccion',
+  templateUrl: './memorama-coleccion.page.html',
+  styleUrls: ['./memorama-coleccion.page.scss'],
 })
 
-export class InicioJuegoColeccionPage implements OnInit {
+
+export class MemoramaColeccionPage implements OnInit {
 
   constructor(private dbService:DbServiceService,
               private calculos: CalculosService,
@@ -83,84 +81,84 @@ export class InicioJuegoColeccionPage implements OnInit {
           modifier: 1,
           slideShadows: false, // LO PASO A FALSE XQ SINO SE ME QUEDA UNA SOMBRA FEA
         },
-        // on: {
-        //   beforeInit() {
-        //     const swiper = this;
+        on: {
+          beforeInit() {
+            const swiper = this;
       
-        //     swiper.classNames.push(`${swiper.params.containerModifierClass}coverflow`);
-        //     swiper.classNames.push(`${swiper.params.containerModifierClass}3d`);
+            swiper.classNames.push(`${swiper.params.containerModifierClass}coverflow`);
+            swiper.classNames.push(`${swiper.params.containerModifierClass}3d`);
       
-        //     swiper.params.watchSlidesProgress = true;
-        //     swiper.originalParams.watchSlidesProgress = true;
-        //   },
-        //   setTranslate() {
-        //     const swiper = this;
-        //     const {
-        //       width: swiperWidth, height: swiperHeight, slides, $wrapperEl, slidesSizesGrid, $
-        //     } = swiper;
-        //     const params = swiper.params.coverflowEffect;
-        //     const isHorizontal = swiper.isHorizontal();
-        //     const transform$$1 = swiper.translate;
-        //     const center = isHorizontal ? -transform$$1 + (swiperWidth / 2) : -transform$$1 + (swiperHeight / 2);
-        //     const rotate = isHorizontal ? params.rotate : -params.rotate;
-        //     const translate = params.depth;
-        //     // Each slide offset from center
-        //     for (let i = 0, length = slides.length; i < length; i += 1) {
-        //       const $slideEl = slides.eq(i);
-        //       const slideSize = slidesSizesGrid[i];
-        //       const slideOffset = $slideEl[0].swiperSlideOffset;
-        //       const offsetMultiplier = ((center - slideOffset - (slideSize / 2)) / slideSize) * params.modifier;
+            swiper.params.watchSlidesProgress = true;
+            swiper.originalParams.watchSlidesProgress = true;
+          },
+          setTranslate() {
+            const swiper = this;
+            const {
+              width: swiperWidth, height: swiperHeight, slides, $wrapperEl, slidesSizesGrid, $
+            } = swiper;
+            const params = swiper.params.coverflowEffect;
+            const isHorizontal = swiper.isHorizontal();
+            const transform$$1 = swiper.translate;
+            const center = isHorizontal ? -transform$$1 + (swiperWidth / 2) : -transform$$1 + (swiperHeight / 2);
+            const rotate = isHorizontal ? params.rotate : -params.rotate;
+            const translate = params.depth;
+            // Each slide offset from center
+            for (let i = 0, length = slides.length; i < length; i += 1) {
+              const $slideEl = slides.eq(i);
+              const slideSize = slidesSizesGrid[i];
+              const slideOffset = $slideEl[0].swiperSlideOffset;
+              const offsetMultiplier = ((center - slideOffset - (slideSize / 2)) / slideSize) * params.modifier;
       
-        //        let rotateY = isHorizontal ? rotate * offsetMultiplier : 0;
-        //       let rotateX = isHorizontal ? 0 : rotate * offsetMultiplier;
-        //       // var rotateZ = 0
-        //       let translateZ = -translate * Math.abs(offsetMultiplier);
+               let rotateY = isHorizontal ? rotate * offsetMultiplier : 0;
+              let rotateX = isHorizontal ? 0 : rotate * offsetMultiplier;
+              // var rotateZ = 0
+              let translateZ = -translate * Math.abs(offsetMultiplier);
       
-        //        let translateY = isHorizontal ? 0 : params.stretch * (offsetMultiplier);
-        //       let translateX = isHorizontal ? params.stretch * (offsetMultiplier) : 0;
+               let translateY = isHorizontal ? 0 : params.stretch * (offsetMultiplier);
+              let translateX = isHorizontal ? params.stretch * (offsetMultiplier) : 0;
       
-        //        // Fix for ultra small values
-        //       if (Math.abs(translateX) < 0.001) translateX = 0;
-        //       if (Math.abs(translateY) < 0.001) translateY = 0;
-        //       if (Math.abs(translateZ) < 0.001) translateZ = 0;
-        //       if (Math.abs(rotateY) < 0.001) rotateY = 0;
-        //       if (Math.abs(rotateX) < 0.001) rotateX = 0;
+               // Fix for ultra small values
+              if (Math.abs(translateX) < 0.001) translateX = 0;
+              if (Math.abs(translateY) < 0.001) translateY = 0;
+              if (Math.abs(translateZ) < 0.001) translateZ = 0;
+              if (Math.abs(rotateY) < 0.001) rotateY = 0;
+              if (Math.abs(rotateX) < 0.001) rotateX = 0;
       
-        //        const slideTransform = `translate3d(${translateX}px,${translateY}px,${translateZ}px)  rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+               const slideTransform = `translate3d(${translateX}px,${translateY}px,${translateZ}px)  rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
       
-        //        $slideEl.transform(slideTransform);
-        //       $slideEl[0].style.zIndex = -Math.abs(Math.round(offsetMultiplier)) + 1;
-        //       if (params.slideShadows) {
-        //         // Set shadows
-        //         let $shadowBeforeEl = isHorizontal ? $slideEl.find('.swiper-slide-shadow-left') : $slideEl.find('.swiper-slide-shadow-top');
-        //         let $shadowAfterEl = isHorizontal ? $slideEl.find('.swiper-slide-shadow-right') : $slideEl.find('.swiper-slide-shadow-bottom');
-        //         if ($shadowBeforeEl.length === 0) {
-        //           $shadowBeforeEl = swiper.$(`<div class="swiper-slide-shadow-${isHorizontal ? 'left' : 'top'}"></div>`);
-        //           $slideEl.append($shadowBeforeEl);
-        //         }
-        //         if ($shadowAfterEl.length === 0) {
-        //           $shadowAfterEl = swiper.$(`<div class="swiper-slide-shadow-${isHorizontal ? 'right' : 'bottom'}"></div>`);
-        //           $slideEl.append($shadowAfterEl);
-        //         }
-        //         if ($shadowBeforeEl.length) $shadowBeforeEl[0].style.opacity = offsetMultiplier > 0 ? offsetMultiplier : 0;
-        //         if ($shadowAfterEl.length) $shadowAfterEl[0].style.opacity = (-offsetMultiplier) > 0 ? -offsetMultiplier : 0;
-        //       }
-        //     }
+               $slideEl.transform(slideTransform);
+              $slideEl[0].style.zIndex = -Math.abs(Math.round(offsetMultiplier)) + 1;
+              if (params.slideShadows) {
+                // Set shadows
+                let $shadowBeforeEl = isHorizontal ? $slideEl.find('.swiper-slide-shadow-left') : $slideEl.find('.swiper-slide-shadow-top');
+                let $shadowAfterEl = isHorizontal ? $slideEl.find('.swiper-slide-shadow-right') : $slideEl.find('.swiper-slide-shadow-bottom');
+                if ($shadowBeforeEl.length === 0) {
+                  $shadowBeforeEl = swiper.$(`<div class="swiper-slide-shadow-${isHorizontal ? 'left' : 'top'}"></div>`);
+                  $slideEl.append($shadowBeforeEl);
+                }
+                if ($shadowAfterEl.length === 0) {
+                  $shadowAfterEl = swiper.$(`<div class="swiper-slide-shadow-${isHorizontal ? 'right' : 'bottom'}"></div>`);
+                  $slideEl.append($shadowAfterEl);
+                }
+                if ($shadowBeforeEl.length) $shadowBeforeEl[0].style.opacity = offsetMultiplier > 0 ? offsetMultiplier : 0;
+                if ($shadowAfterEl.length) $shadowAfterEl[0].style.opacity = (-offsetMultiplier) > 0 ? -offsetMultiplier : 0;
+              }
+            }
       
-        //      // Set correct perspective for IE10
-        //     if (swiper.support.pointerEvents || swiper.support.prefixedPointerEvents) {
-        //       const ws = $wrapperEl[0].style;
-        //       ws.perspectiveOrigin = `${center}px 50%`;
-        //     }
-        //   },
-        //   setTransition(duration) {
-        //     const swiper = this;
-        //     swiper.slides
-        //       .transition(duration)
-        //       .find('.swiper-slide-shadow-top, .swiper-slide-shadow-right, .swiper-slide-shadow-bottom, .swiper-slide-shadow-left')
-        //       .transition(duration);
-        //   }
-        // }
+             // Set correct perspective for IE10
+            if (swiper.support.pointerEvents || swiper.support.prefixedPointerEvents) {
+              const ws = $wrapperEl[0].style;
+              ws.perspectiveOrigin = `${center}px 50%`;
+            }
+          },
+          setTransition(duration) {
+            const swiper = this;
+            swiper.slides
+              .transition(duration)
+              .find('.swiper-slide-shadow-top, .swiper-slide-shadow-right, .swiper-slide-shadow-bottom, .swiper-slide-shadow-left')
+              .transition(duration);
+          }
+        }
       };
                            
 
@@ -569,6 +567,9 @@ DameLosCromosDelAlumno() {
     for (let i = 0; i < this.cromosSinRepetidos.length; i++) {
       const elem = this.cromosSinRepetidos[i];
       this.cromosQueTengoImagenDelante[i] = URL.ImagenesCromo + elem.cromo.ImagenDelante;
+
+      console.log("cromosQueTengoImagenDelante[i]:",this.cromosQueTengoImagenDelante[i]);
+
       if (this.coleccion.DosCaras) {
         this.cromosQueTengoImagenDetras[i] = URL.ImagenesCromo + elem.cromo.ImagenDetras;
       }
@@ -589,14 +590,14 @@ DameLosCromosDelAlumno() {
   }
 
   doCheck() {
-    // Para decidir si hay que mostrar los botones de previo o siguiente slide
-    const prom1 = this.slides.isBeginning();
-    const prom2 = this.slides.isEnd();
+    // // Para decidir si hay que mostrar los botones de previo o siguiente slide
+    // const prom1 = this.slides.isBeginning();
+    // const prom2 = this.slides.isEnd();
 
-    Promise.all([prom1, prom2]).then((data) => {
-      data[0] ? this.disablePrevBtn = true : this.disablePrevBtn = false;
-      data[1] ? this.disableNextBtn = true : this.disableNextBtn = false;
-    });
+    // Promise.all([prom1, prom2]).then((data) => {
+    //   data[0] ? this.disablePrevBtn = true : this.disablePrevBtn = false;
+    //   data[1] ? this.disableNextBtn = true : this.disableNextBtn = false;
+    // });
   }
 
   next() {
@@ -614,6 +615,13 @@ DameLosCromosDelAlumno() {
                  if(index <= this.cromosSinRepetidos.length-1){this.text="DESBLOQUEADOS";}
                  else{this.text="BLOQUEADOS";}
                 })
+
+                this.slides.getSwiper().then(index=>{
+                  console.log(index);
+                })
   }
 
+  
+
 }
+

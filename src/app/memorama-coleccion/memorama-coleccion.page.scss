@@ -3,8 +3,8 @@
     background-color: transparent;
     width: 488px;
     height: 550px;
-  
     perspective: 1000px;
+    touch-action: true;
   }
   
   .flip-box-inner {
@@ -29,7 +29,7 @@
   }
   
   .flip-box-front {
-    color: black;
+    color: rgb(1, 182, 1);
   }
   
   .flip-box-back {
@@ -194,6 +194,8 @@
       margin-top: 0px !important;
       margin: 0px;
     }
+
+    
   //   .cromo {
   //     max-width: var(--anchoCromo);
   //     max-height: var(--altoCromo);
