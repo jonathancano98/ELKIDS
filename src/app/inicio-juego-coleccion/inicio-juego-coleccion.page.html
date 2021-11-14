@@ -30,31 +30,7 @@
               </div>
             </div>
         </ion-slide>
-        <!-- <ion-slide  (click) = "RegalarCromo(elem, i)"  *ngFor="let elem of cromosSinRepetidos;let i = index">  
-          <div class="flip-box">
-            <div class="flip-box-inner">
-              <div class="flip-box-front">
-                <img class = "cromoTengo" [src]="cromosQueTengoImagenDelante[i+1]"  >
-              </div>
-              <div class="flip-box-back">
-                <img  class = "cromoTengo" [src]="cromosQueTengoImagenDetras[i+1]" >
-              </div>
-            </div>
-          </div>
-      </ion-slide>
-      <ion-slide  (click) = "RegalarCromo(elem, i)"  *ngFor="let elem of cromosSinRepetidos;let i = index">  
-        <div class="flip-box">
-          <div class="flip-box-inner">
-            <div class="flip-box-front">
-              <img class = "cromoTengo" [src]="cromosQueTengoImagenDelante[i+2]"  >
-            </div>
-            <div class="flip-box-back">
-              <img  class = "cromoTengo" [src]="cromosQueTengoImagenDetras[i+2]" >
-            </div>
-          </div>
-        </div>
-    </ion-slide> -->
-  
+        
        <!-- y ahora los que no tiene todavia  -->
          <ion-slide *ngFor="let elem of cromosQueNoTengo;let i = index">
            <div>
@@ -65,24 +41,6 @@
       </ion-slides> 
     </div>
 
-    <!-- <div  *ngIf = "!coleccion.DosCaras"  >
-     
-      <button *ngIf="!disablePrevBtn" class = "anterior" mat-raised-button  (click)="prev()">Anterior</button>
-      <button *ngIf="!disableNextBtn"  class = "siguiente" mat-raised-button  (click)="next()">Siguiente</button>
-    
-    
-      <ion-slides  #slides (ionSlideWillChange)="doCheck()">
-        Prinero muestro los cromos que tiene el alumno
-        <ion-slide *ngFor="let elem of cromosSinRepetidos;let i = index">
-          <img [src]="cromosQueTengoImagenDelante[i]" style = "width:468px; height:675px; padding-right: 20px;">
-        </ion-slide>
-      
-        y ahora los que no tiene todavia
-        <ion-slide *ngFor="let elem of cromosQueNoTengo;let i = index">
-          <img [src]="cromosQueNoTengoImagenDelante[i]" style = "opacity: 0.5 !important; width:468px; height:675px; padding-right: 20px;">
-        </ion-slide>
-      </ion-slides>
-    </div> -->
 
 
   </div>

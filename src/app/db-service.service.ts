@@ -37,6 +37,12 @@ export class DbServiceService {
   private APIUrlEquipoJuegoDeColeccion = this.base + '/api/EquiposJuegoDeColeccion';
   private APIRUrlAlbumEquipo = this.base + '/api/albumsEquipo';
   private APIRUrlJuegoDePuntos = this.base + '/api/JuegosDePuntos';
+
+  private APIRUrlJuegoDeMemorama = this.base + '/api/JuegoDeMemoramas';
+  private APIurlAlumnoJuegoMemorama = this.base+'/api/AlumnoJuegoDeMemoramas';
+  private APIurlCartas = this.base+'/api/Cartas';
+
+
   private APIUrlImagenNivel = this.base + '/api/imagenes/ImagenNivel';
   private APIUrlAlumnoJuegoDePuntos = this.base + '/api/AlumnoJuegosDePuntos';
   private APIUrlHistorialPuntosAlumno = this.base + '/api/HistorialesPuntosAlumno';
@@ -349,6 +355,22 @@ public DameEquiposDelAlumno(alumnoId: any): Observable<any[]> {
 }
 ////////////////////////////////////////////////////////////////////////////////COLECCION
 
+////////////////////////////////////////////////////////////////////////////////MEMORAMA
+
+public DimesiAlumnoEsdelJuegoMemorama(juegoDeMemoramaId:any,alumnoId: any): Observable<any[]> {
+  console.log(this.APIurlAlumnoJuegoMemorama + '?filter[where][juegoDeMemoramaId]=' + juegoDeMemoramaId + '&filter[where][alumnoId]=' + alumnoId);
+  return this.http.get<any>(this.APIurlAlumnoJuegoMemorama + '?filter[where][juegoDeMemoramaId]=' + juegoDeMemoramaId + '&filter[where][alumnoId]=' + alumnoId);
+ }
+
+ public DameJuegoDeMemorama(): Observable<any[]>{
+   return this.http.get<any[]>(this.APIRUrlJuegoDeMemorama);
+ }
+
+ public Damecartasdelafamilia(familiaId:any): Observable<any[]>{
+   return this.http.get<any[]>(this.APIurlCartas+ '?filter[where][familiaId]='+familiaId);
+ }
+
+////////////////////////////////////////////////////////////////////////////////MEMORAMA
 
 ////////////////////////////////////////////////////////////////////////////////PUNTOS
  // Devuelve los juegos de puntos del Alumno

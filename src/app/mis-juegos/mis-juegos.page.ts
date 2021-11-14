@@ -35,6 +35,9 @@ export class MisJuegosPage implements OnInit {
   juegosalumnoestaenelgrupo: any[]=[];
   juegosdePuntos: any[]=[];
   juegoPuntoseleccionado:any;
+  juegosMemorama: any[]=[];
+  alumnopertecejuegomemorama: any[]=[];
+  trueofalse:any;
 
 
   constructor(private router: Router, private dBservice: DbServiceService, private alertController: AlertController,private calculos: CalculosService) { }
@@ -47,6 +50,37 @@ export class MisJuegosPage implements OnInit {
 
   async ionViewWillEnter()
   {
+
+    //////////////////////////////////////////////////////////////////////////////////PARTE MEMORAMA
+    this.juegosMemorama = await this.dBservice.DameJuegoDeMemorama().toPromise();
+    console.log("Juego Memorama:",this.juegosMemorama);
+    console
+
+    for(let i=0;this.juegosMemorama.length>i;i++){
+    
+      this.alumnopertecejuegomemorama = await this.dBservice.DimesiAlumnoEsdelJuegoMemorama(this.juegosMemorama[0].id , localStorage.getItem("alumnoID")).toPromise();
+   
+      if(this.alumnopertecejuegomemorama.length>0)
+      {
+        this.trueofalse = this.juegosMemorama[i].JuegoActivo;
+      console.log("Pertenece al Juego Memorama");
+
+      if(this.trueofalse = true){
+        console.log("HOLAAA");
+        this.listaAuxiliar.push(this.juegosMemorama[i]);
+
+      }
+      else{
+            console.log("Juego No Activo")
+          }
+           this.seleccionado = Array(this.listaAuxiliar.length).fill(false);
+          this.categorias = Array(this.listaAuxiliar.length).fill(false);
+     } 
+  }
+
+  //////////////////////////////////////////////////////////////////////////////////PARTE MEMORAMA
+
+
 
     this.juegosdePuntos= await this.dBservice.DameJuegoDePuntosAlumno(localStorage.getItem("alumnoID")).toPromise();
     console.log("Lista Juego de Puntos:",this.juegosdePuntos);
@@ -217,9 +251,10 @@ export class MisJuegosPage implements OnInit {
         if(this.seleccionado[i])
         {
 
+          // CUENTOS
+
           if(this.listaAuxiliar[i].Tipo === "Juego De Cuentos")
           {
-            // CUENTOS
             this.elementoauxiliarirjuego = await this.dBservice.dameAlumnosJuegoDeCuentoxjuegocoleid(localStorage.getItem("alumnoID"),this.listaAuxiliar[i].id).toPromise();
             console.log("ELEMENTO JUEGO CUENTO: ",this.elementoauxiliarirjuego);
             console.log(this.elementoauxiliarirjuego[0].id);
@@ -230,10 +265,12 @@ export class MisJuegosPage implements OnInit {
             this.valori=i; 
 
           }
+
+          // COLECCION
+
           else if(this.listaAuxiliar[i].Tipo === "Juego De Colección")
 
           {
-            //COLECCION
 
             if(this.listaAuxiliar[i].Modo === "Equipos")
               {
@@ -252,10 +289,26 @@ export class MisJuegosPage implements OnInit {
             this.valori=i; 
 
           }
-          else
+
+          // PUNTOS
+
+          else if(this.listaAuxiliar[i].Tipo === "Juego De Puntos")
           {
             localStorage.setItem("idjuegodepuntos", this.listaAuxiliar[i].id);
             console.log( "Identificador juego Puntos:",localStorage.getItem("idjuegodepuntos"));
+            count = true; 
+            this.valori=i; 
+          }
+
+          // MEMORAMA
+
+          else 
+          {
+            localStorage.setItem("juegoDeMemoramaId", this.listaAuxiliar[i].id);
+            localStorage.setItem("familiaId", this.listaAuxiliar[i].familiaId);
+
+
+            console.log( "Identificador juego Memorama:",localStorage.getItem("juegoDeMemoramaId"));
             count = true; 
             this.valori=i; 
           }
@@ -266,6 +319,7 @@ export class MisJuegosPage implements OnInit {
 
       if(count)
       { 
+
 
         if(this.listaAuxiliar[this.valori].Tipo === "Juego De Cuentos")
         {
@@ -279,15 +333,21 @@ export class MisJuegosPage implements OnInit {
           this.listaAuxiliar=[];
           this.contador=0;
           console.log("Estoy en el count = true(COLECCION)")
-          // this.router.navigate(['/inicio-juego-coleccion']);
+          this.router.navigate(['/inicio-juego-coleccion']);
           //this.router.navigate(['/memorama-coleccion']);
-          this.router.navigate(['/wally']);
+          //this.router.navigate(['/wally']);
         }
-        else{
+        else if(this.listaAuxiliar[this.valori].Tipo === "Juego De Puntos"){
           this.listaAuxiliar=[];
           this.contador=0;
           console.log("Estoy en el count = true(PUNTOS)")
-          this.router.navigate(['/inicio-juego-memorama']);
+          this.router.navigate(['/inicio-juego-puntos']);
+        }
+        else {
+          this.listaAuxiliar=[];
+          this.contador=0;
+          console.log("Estoy en el count = true(MEMORAMA)")
+          this.router.navigate(['/memorama-coleccion']);
         }
     }
     
