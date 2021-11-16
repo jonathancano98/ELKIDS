@@ -8,6 +8,7 @@ import { SesionService } from '../Servicios/sesion.service';
 import { Router } from '@angular/router';
 import { Console } from 'console';
 import { coerceStringArray } from '@angular/cdk/coercion';
+import { element } from 'protractor';
 
 @Component({
   selector: 'app-memorama-coleccion',
@@ -71,8 +72,15 @@ export class MemoramaColeccionPage implements OnInit {
   juegoDeMemoramaId:any;
   damecartasdelafamilia: any[]=[];
   damecartasdelafamilia2: any[]=[];
-  comparador: any[]=[];
-  comparador2: any[]=[];
+  cartasacertadas: any[]=[];
+  
+  carta1:any;
+  posicioncarta1:number;
+  carta2:any;
+  posicioncarta2:number;
+
+  Cartaspartedetras:any;
+
 
 
 
@@ -89,6 +97,8 @@ export class MemoramaColeccionPage implements OnInit {
     // this.damecartasdelafamilia = await this.dbService.Damecartasdelafamilia(this.familiaId).toPromise();
 
     // console.log("Estas son las cartas correspondientes a la familia:",this.damecartasdelafamilia);
+
+    console.log("CAAAAAAAAAAAARTAAAAAAAAAAA1:",this.carta1);
 
     this.DameLasCartasDelAlumno();
 
@@ -419,46 +429,58 @@ export class MemoramaColeccionPage implements OnInit {
 
 click(e){
 
-  console.log("Hola",e);
-  console.log(this.damecartasdelafamilia2[e]);
+  console.log("Posicion:",e);
 
-  if(this.comparador.length<1)
+  if(this.carta1 === undefined)
   {
-      this.comparador.push(this.damecartasdelafamilia2[e]);
-      console.log("COMPARADOR:",this.comparador,this.comparador.length);
+     this.carta1=this.damecartasdelafamilia2[e];
+     this.posicioncarta1=e;
+      console.log("Carta1:",this.carta1,"Posiccion:",this.posicioncarta1);
   }
 
-  else if(this.comparador2.length<1)
+  else if(this.carta2 === undefined)
   {
-      this.comparador2.push(this.damecartasdelafamilia2[e]);
-      console.log("COMPARADOR2:",this.comparador2,this.comparador2.length);
-
+     this.carta2=this.damecartasdelafamilia2[e];
+     this.posicioncarta2=e;
+      console.log("Carta2:",this.carta2,"Posicion:",this.posicioncarta2);
   }
 
   else{
     console.log("Ya tenemos las dos cartas guardaas");
   }
 
-  console.log("COMPARADOR LONG:",this.comparador.length);
-  console.log("COMPARADOR2 LONG:",this.comparador2.length);
+  console.log("Carta 1:",this.carta1);
+  console.log("Carta2 :",this.carta2);
+
+  if(this.carta1 != undefined && this.carta2 !=undefined ){
+          console.log("Vamos al lío");
+       
+            if (this.carta1.id === this.carta2.id){
+            console.log("Punto");
+          
+            this.cartasacertadas.push(this.carta1.id);
+            
+            //LIMPIAMOS
+            this.carta1=undefined;
+            this.carta2=undefined;
+            console.log(this.carta1,this.carta2);
+            this.damecartasdelafamilia[this.posicioncarta1]= this.Cartaspartedetras;
+            this.damecartasdelafamilia[this.posicioncarta2]= this.Cartaspartedetras;
 
 
-  while ((this.comparador.length = 1)&& (this.comparador2.length=1)){
-    console.log("Podemos compararar");
+
+                    }
+          else{
+            
+            console.log("Has fallado");
+            
+            //LIMPIAMOS
+            this.carta1=undefined;
+            this.carta2=undefined;
+            console.log(this.carta1,this.carta2);
+          }
+
   }
-  
-
-  // var Carta1 = this.damecartasdelafamilia2[e];
-
-  // this.comparador.push(Carta1);
-
-  // console.log("Comparador[]:");
-
-  // if (this.comparador.length=2){console.log("Holis");}
-
-
-
-
 
 }
 
@@ -508,198 +530,14 @@ PreparaImagenesCartasQueTengo() {
     console.log("cartasQueTengoImagenDelante[i]:",this.damecartasdelafamilia[i]);
     console.log("damecartasdelafamilia2",this.damecartasdelafamilia2);
 
+    this.Cartaspartedetras=URL.ImagenesCartasdetras + elem.imagenDetras;
     // this.cromosQueTengoImagenDetras[i] = URL.ImagenesCromo + elem.cromo.ImagenDetras;
     
   }
   
-  // console.log("damecartasdelafamilia2",this.damecartasdelafamilia2);
-
-//   for(let j=0;this.damecartasdelafamilia.length>j;j++){
-    
-//   var random=Math.random();
-
-//   this.damecartasdelafamilia.sort(function(){
-//                                               // console.log(random);
-//                                               return random-0.5
-//                                               random=0;
-//                                             });
-
-//   this.damecartasdelafamilia2.sort(function(){
-
-//     return random-0.5
-
-
-//   });
-  
-//   random=0;
-
-// }
-  
-
 }
 
-  // this.dbService.DameInscripcionAlumnoJuegoDeColeccion(this.juegoseleccionado[0].id, this.alumno[0].id)
-  // .subscribe(InscripcionAlumno => {
-  //                                 this.dbService.DameCromosAlumno(InscripcionAlumno[0].id)
-  //                                 .subscribe(CromosAlumno => {
-  //                                                               console.log('aquí están los cromos: ',CromosAlumno);
-  //                                                               this.cromosQueTengo = CromosAlumno;
-  //                                                               this.cromosSinRepetidos = this.calculos.GeneraListaSinRepetidos(this.cromosQueTengo);
-  //                                                               this.dbService.DameCromosColeccion(this.juegoseleccionado[0].coleccionId)
-  //                                                               .subscribe( todosLosCromos => {
-  //                                                                                               console.log('aqui estan todos los cromos',todosLosCromos);
-  //                                                                                               console.log ('cromos que tengo:',this.cromosQueTengo);
-  //                                                                                               this.cromosQueNoTengo = this.calculos.DameCromosQueNoTengo(this.cromosQueTengo, todosLosCromos);
-  //                                                                                               console.log ('cromos que NO tengo:',this.cromosQueNoTengo);
-  //                                                                                               this.PreparaImagenesCromosQueTengo();
-  //                                                                                               this.PreparaImagenesCromosQueFaltan();
-  //                                                                                               this.preparado = true;
-  //                                                                                               });
-  //                                                              });
-  //                                   });
-   
 
-
-// Interval function
-
-onPress(elem, i) {
-  this.elem = elem;
-  console.log("Elemento: ",elem);
-  this.pos = i;
-  console.log("Posicion:",i);
-  this.startInterval();
-}
-
-onPressUp() {
-
-   this.stopInterval();
-}
-
-startInterval() {
-  console.log("HOLAAAA")
-  const self = this;
-  // tslint:disable-next-line:only-arrow-functions
-  this.interval = setInterval(function() {
-      self.progress = self.progress + 1;
-      if (self.progress === 5) {
-         self.stopInterval();
-         self.progress = 0;
-      }
-  }, 1000);
-}
-
-stopInterval() {
-  clearInterval(this.interval);
-}
-
- MostrarAlbum() {
-
-  this.sesion.TomaColeccion (this.coleccion);
-  this.sesion.TomaCromos (this.cromosQueTengo);
-         
-    this.router.navigate(['/album-alumno']);
-
- }
-
-
-// async  RegalarCromo(elem, i) {
-//   // elem tiene el cromo y el número de repeticiones
-//   // i es la posición en el vector de cromos, para facilitar su eliminación
-//   if (elem.rep === 1) {
-//     console.log("Elemento no repetido:",elem);
-//     this.alertCtrl.create({
-//       header: '¿Seguro que quieres regalar el cromo?',
-//       message: 'No lo tienes repetido. Te vas a quedar sin él',
-//       buttons: [
-//         {
-//           text: 'SI',
-//           handler: async () => {
-//             //aqui es donde hago la llamada a la promise y le indico lo que quiero hacer cuando 
-//             // se resuelva. El resultado que me emitirá es un booleano que indica si el regalo se ha hecho o no.
-            
-
-//             this.ElegirYRegalarCromo(elem.cromo).then (regalado => {
-//               if (regalado) {
-//                 // Como ha regalado el cromo y era la única copia que tenía de ese cromo
-//                 // tengo que cambiar las listas de cromos que tengo y que no tengo, y las listas
-//                 // con las imágenes
-
-//                  this.cromosSinRepetidos = this.cromosSinRepetidos.filter (e => e.cromo.id !== elem.cromo.id);
-//                  console.log("Cromos sin repetir:",this.cromosSinRepetidos,);
-//                  this.cromosQueTengoImagenDelante.splice (i , 1);
-//                  if (this.coleccion.DosCaras) {
-//                     this.cromosQueTengoImagenDetras.splice (i, 1);
-//                   }
-//                  elem.rep = 0; // me quedo sin copias de ese cromo
-//                  this.cromosQueNoTengo.push (elem);
-//                  this.cromosQueNoTengoImagenDelante.push ( URL.ImagenesCromo + elem.cromo.ImagenDelante);
-//                  if (this.coleccion.DosCaras)  {
-//                     this.cromosQueNoTengoImagenDetras.push ( URL.ImagenesCromo + elem.cromo.ImagenDetras);
-//                 }
-//                  this.cromosQueTengo = this.cromosQueTengo.filter (c => c.id !== elem.cromo.id);
-//               }
-//             });
-//           }
-//         }, {
-//           text: 'NO',
-//           role: 'cancel',
-//           handler: () => {
-//             console.log('No regalo');
-//           }
-//         }
-//       ]
-//     }).then (res => res.present());
-//   } else {
-//     this.alertCtrl.create({
-//       header: '¿Seguro que quieres regalar el cromo?',
-//       message: 'Tienes ' + elem.rep + ' copias de este cromo.',
-//       buttons: [
-//         {
-//           text: 'SI',
-//           handler: async () => {
-//             this.ElegirYRegalarCromo(elem.cromo).then (regalado => {
-//               if (regalado) {
-//                 // como se ha regalado el cromo tomo nota de que tengo una copia menos de ese cromo
-//                 this.cromosSinRepetidos.filter (e => e.cromo.id === elem.cromo.id)[0].rep--;
-//               }
-//             })
-//           }
-//         }, {
-//           text: 'NO',
-//           role: 'cancel',
-//           handler: () => {
-//             console.log('No regalo');
-//           }
-//         }
-//       ]
-//     }).then (res => res.present());
-
-
-//   }
-// }
-
-
-DameLosCromosDelAlumno() {
-  this.dbService.DameInscripcionAlumnoJuegoDeColeccion(this.juegoseleccionado[0].id, this.alumno[0].id)
-  .subscribe(InscripcionAlumno => {
-                                  this.dbService.DameCromosAlumno(InscripcionAlumno[0].id)
-                                  .subscribe(CromosAlumno => {
-                                                                console.log('aquí están los cromos: ',CromosAlumno);
-                                                                this.cromosQueTengo = CromosAlumno;
-                                                                this.cromosSinRepetidos = this.calculos.GeneraListaSinRepetidos(this.cromosQueTengo);
-                                                                this.dbService.DameCromosColeccion(this.juegoseleccionado[0].coleccionId)
-                                                                .subscribe( todosLosCromos => {
-                                                                                                console.log('aqui estan todos los cromos',todosLosCromos);
-                                                                                                console.log ('cromos que tengo:',this.cromosQueTengo);
-                                                                                                this.cromosQueNoTengo = this.calculos.DameCromosQueNoTengo(this.cromosQueTengo, todosLosCromos);
-                                                                                                console.log ('cromos que NO tengo:',this.cromosQueNoTengo);
-                                                                                                this.PreparaImagenesCromosQueTengo();
-                                                                                                this.PreparaImagenesCromosQueFaltan();
-                                                                                                this.preparado = true;
-                                                                                                });
-                                                               });
-                                    });
-   }
 
    DameLosCromosDelEquipo() {
     console.log ('voy a por los cromos del equipo');
@@ -728,7 +566,7 @@ DameLosCromosDelAlumno() {
                                                                                                                           this.cromosQueNoTengo = this.calculos.DameCromosQueNoTengo(this.cromosQueTengo, todosLosCromos);
                                                                                                                           console.log ('cromos que NO tengo',this.cromosQueNoTengo);
                                                                                                                           this.PreparaImagenesCromosQueTengo();
-                                                                                                                          this.PreparaImagenesCromosQueFaltan();
+                                                                                                                          // this.PreparaImagenesCromosQueFaltan();
                                                                                                                           this.preparado = true;
                                                                                                                          });
                                                                                            });
@@ -753,52 +591,6 @@ DameLosCromosDelAlumno() {
       }
     }
   }
-
-  PreparaImagenesCromosQueFaltan() {
-    console.log ('cromos que NO tengo');
-    console.log (this.cromosQueNoTengo);
-    for (let j = 0; j < this.cromosQueNoTengo.length; j++) {
-      const elem = this.cromosQueNoTengo[j];
-      this.cromosQueNoTengoImagenDelante[j] = URL.ImagenesCromo + elem.cromo.ImagenDelante;
-
-    }
-    console.log ('IMAGENES cromos que NO tengo');
-    console.log (this.cromosQueNoTengoImagenDelante);
-
-  }
-
-  doCheck() {
-    // // Para decidir si hay que mostrar los botones de previo o siguiente slide
-    // const prom1 = this.slides.isBeginning();
-    // const prom2 = this.slides.isEnd();
-
-    // Promise.all([prom1, prom2]).then((data) => {
-    //   data[0] ? this.disablePrevBtn = true : this.disablePrevBtn = false;
-    //   data[1] ? this.disableNextBtn = true : this.disableNextBtn = false;
-    // });
-  }
-
-  next() {
-    this.slides.slideNext();
-  }
-
-  prev() {
-    this.slides.slidePrev();
-  }
-
-  ionSlideDidChange($event){
-    this.slides.getActiveIndex()
-    .then(index=>{
-                  console.log(index);
-                 if(index <= this.cromosSinRepetidos.length-1){this.text="DESBLOQUEADOS";}
-                 else{this.text="BLOQUEADOS";}
-                })
-
-                this.slides.getSwiper().then(index=>{
-                  console.log(index);
-                })
-  }
-
   
 
 }
