@@ -9,6 +9,8 @@
 
 <ion-content class="juegocoleccion-content" #content>
 
+  <button >eyyyyyyyyyyyyyyyyyyyy</button>
+
   <div *ngIf="preparado">
     
     <div  *ngIf = "damecartasdelafamilia"  >
@@ -16,13 +18,13 @@
 
       <div class="grid-container">
 
-        <ion-item class="grid-item" *ngFor="let elem of damecartasdelafamilia;let i = index">
-       <div>
-          <img class = "cromoTengo" [src]="damecartasdelafamilia[i]"  >
+        <div onClick="click()" class="grid-item" *ngFor="let elem of damecartasdelafamilia;let i = index">
+           <div (click)="click(i)">
+              <img id="CARTA" class = "redimension" [src]="damecartasdelafamilia[i]">
+           </div>
         </div>
-        
       
-      </ion-item>
+      </div>
 
 
 

@@ -70,8 +70,10 @@ export class MemoramaColeccionPage implements OnInit {
   familiaId:any;
   juegoDeMemoramaId:any;
   damecartasdelafamilia: any[]=[];
-  damecartasdelafamilia1: any[]=[];
   damecartasdelafamilia2: any[]=[];
+  comparador: any[]=[];
+  comparador2: any[]=[];
+
 
 
 
@@ -91,7 +93,19 @@ export class MemoramaColeccionPage implements OnInit {
     this.DameLasCartasDelAlumno();
 
 
+    // window.addEventListener('load', function(){
 
+    
+    // const Carta =document.getElementById('CARTA');
+    // Carta.onclick= function()
+    //                         {
+    //                           console.log("Hola");
+    //                         }
+
+    
+    // });
+
+    
     
     //   this.sliderConfig = {
         
@@ -403,6 +417,50 @@ export class MemoramaColeccionPage implements OnInit {
 
 }
 
+click(e){
+
+  console.log("Hola",e);
+  console.log(this.damecartasdelafamilia2[e]);
+
+  if(this.comparador.length<1)
+  {
+      this.comparador.push(this.damecartasdelafamilia2[e]);
+      console.log("COMPARADOR:",this.comparador,this.comparador.length);
+  }
+
+  else if(this.comparador2.length<1)
+  {
+      this.comparador2.push(this.damecartasdelafamilia2[e]);
+      console.log("COMPARADOR2:",this.comparador2,this.comparador2.length);
+
+  }
+
+  else{
+    console.log("Ya tenemos las dos cartas guardaas");
+  }
+
+  console.log("COMPARADOR LONG:",this.comparador.length);
+  console.log("COMPARADOR2 LONG:",this.comparador2.length);
+
+
+  while ((this.comparador.length = 1)&& (this.comparador2.length=1)){
+    console.log("Podemos compararar");
+  }
+  
+
+  // var Carta1 = this.damecartasdelafamilia2[e];
+
+  // this.comparador.push(Carta1);
+
+  // console.log("Comparador[]:");
+
+  // if (this.comparador.length=2){console.log("Holis");}
+
+
+
+
+
+}
 
 
 DameLasCartasDelAlumno() {
@@ -417,26 +475,67 @@ DameLasCartasDelAlumno() {
 
 
                       }
+
+                      // this.damecartasdelafamilia2=this.damecartasdelafamilia;
                       
                        console.log("damecartasdelafamilia",this.damecartasdelafamilia);
+                        this.MezclarArray();
                         this.PreparaImagenesCartasQueTengo();
                         this.preparado = true;
 
 
                        
   })
+
+}
+
+MezclarArray(){
+
+  this.damecartasdelafamilia.sort(function(){return Math.random()-0.5});
+
+
 }
 
 PreparaImagenesCartasQueTengo() {
-  for (let i = 0; i < this.damecartasdelafamilia.length; i++) {
-    const elem = this.damecartasdelafamilia[i];
-    this.damecartasdelafamilia[i] = URL.ImagenesCartas + elem.imagenDelante;
 
-    console.log("cromosQueTengoImagenDelante[i]:",this.damecartasdelafamilia[i]);
+  for (let i = 0; i < this.damecartasdelafamilia.length; i++) {
+    
+    const elem = this.damecartasdelafamilia[i];
+    
+    this.damecartasdelafamilia2.push(elem);
+
+    this.damecartasdelafamilia[i] = URL.ImagenesCartas + elem.imagenDelante;
+    console.log("cartasQueTengoImagenDelante[i]:",this.damecartasdelafamilia[i]);
+    console.log("damecartasdelafamilia2",this.damecartasdelafamilia2);
 
     // this.cromosQueTengoImagenDetras[i] = URL.ImagenesCromo + elem.cromo.ImagenDetras;
     
   }
+  
+  // console.log("damecartasdelafamilia2",this.damecartasdelafamilia2);
+
+//   for(let j=0;this.damecartasdelafamilia.length>j;j++){
+    
+//   var random=Math.random();
+
+//   this.damecartasdelafamilia.sort(function(){
+//                                               // console.log(random);
+//                                               return random-0.5
+//                                               random=0;
+//                                             });
+
+//   this.damecartasdelafamilia2.sort(function(){
+
+//     return random-0.5
+
+
+//   });
+  
+//   random=0;
+
+// }
+  
+
 }
 
   // this.dbService.DameInscripcionAlumnoJuegoDeColeccion(this.juegoseleccionado[0].id, this.alumno[0].id)
