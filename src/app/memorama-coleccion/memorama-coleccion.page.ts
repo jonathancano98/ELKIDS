@@ -102,71 +102,71 @@ export class MemoramaColeccionPage implements OnInit,AfterContentChecked,AfterVi
 
   ngAfterViewInit(){
 
-  //   this.cartasafter = document.querySelectorAll('.grid-item');
-  //   console.log("GRID-ITEM:",this.cartasafter);
+    this.cartasafter = document.querySelectorAll('.grid-item');
+    console.log("GRID-ITEM:",this.cartasafter);
 
-  //   console.log("OBJETO",this.Objeto);
+    console.log("OBJETO",this.Objeto);
      
-  //   let hasflippedcard=false;
-  //   let firstcard,secondcard;
-  //   let posicion1,posicion2;
+    let hasflippedcard=false;
+    let firstcard,secondcard;
+    let posicion1,posicion2;
 
-  //   posicion1=this.posicioncarta1;
-  //   posicion2=this.posicioncarta2;
+    posicion1=this.posicioncarta1;
+    posicion2=this.posicioncarta2;
 
-  //   console.log(this.posicion);
+    console.log(this.posicion);
 
  
 
-  // this.cartasafter.forEach(cartita =>  cartita.addEventListener('click', 
+  this.cartasafter.forEach(cartita =>  cartita.addEventListener('click', 
   
-  // function(){
+  function(){
     
     
-  //  cartita.classList.toggle('flip');  // EL TOGGLE lo que hace es modificar la clase al nombre que le pases
+   cartita.classList.toggle('flip');  // EL TOGGLE lo que hace es modificar la clase al nombre que le pases
  
 
 
-  //  if(!hasflippedcard){
-  //    hasflippedcard=true;
-  //    firstcard=this;
-  //    console.log("FIRST CARD",firstcard,"posicion1",posicion1);
-  //  }
-  //  else{
-  //    hasflippedcard=false;
-  //    secondcard=this;
-  //    console.log("SECOND CARD",secondcard,"posicion2",posicion2);
-  //  }
+   if(!hasflippedcard){
+     hasflippedcard=true;
+     firstcard=this;
+     console.log("FIRST CARD",firstcard,"posicion1",posicion1);
+   }
+   else{
+     hasflippedcard=false;
+     secondcard=this;
+     console.log("SECOND CARD",secondcard,"posicion2",posicion2);
+   }
 
 
-  //  console.log("FIRSTCARD:",firstcard,"SECONDCARD:",secondcard)
+   console.log("FIRSTCARD:",firstcard,"SECONDCARD:",secondcard)
 
-  //  if (firstcard!= undefined){
-  //    console.log("HOLAx1")
-  //       if(secondcard != undefined){
+   if (firstcard!= undefined){
+     console.log("HOLAx1")
+        if(secondcard != undefined){
           
-  //         console.log("HOLAx2");
-  //         if(firstcard == secondcard){
-  //           console.log("SIIII");
-  //           firstcard=undefined;
-  //           secondcard=undefined;
+          console.log("HOLAx2");
+          if(firstcard == secondcard){
+            console.log("SIIII");
+            firstcard=undefined;
+            secondcard=undefined;
 
-  //         }
+          }
 
-  //         else{
-  //           console.log("NOOO");
-  //           setTimeout(() =>{
-  //           firstcard.classList.remove('flip');
-  //           secondcard.classList.remove('flip');
-  //               },1500);
-  //           firstcard=undefined;
-  //           secondcard=undefined;
-  //         }
-  //       }
-  // }
+          else{
+            console.log("NOOO");
+            setTimeout(() =>{
+            firstcard.classList.remove('flip');
+            secondcard.classList.remove('flip');
+                },1500);
+            firstcard=undefined;
+            secondcard=undefined;
+          }
+        }
+  }
 
   
-  //   }));
+    }));
 
 
 

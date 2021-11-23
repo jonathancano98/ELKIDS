@@ -5,7 +5,12 @@
 <body>
 
 
-  <div  *ngIf = "Cartaspartedetras"  >
+
+    <div *ngIf="preparado">
+    
+      <div  *ngIf = "Cartaspartedetras"  >
+
+        <div id="contador" class="nuevoJuego">CONTADOR</div> 
 
 
       <div id="tablero" class="grid-container">
@@ -13,20 +18,23 @@
           <div class="tarjeta" id="tarjeta{{i}}">
 
             <div class="cara superior">
-            <i class="fab fa-accusoft"></i>
+            <!-- <i class="fab fa-accusoft"></i> -->
+            <img id="CARTAATRAS" class = "redimensiondetras" [src]="Cartaspartedetras[i]" >
+            
             </div>
 
-            <div id="trasera" class="cara trasera">
-              <i class="fas fa-adjust"></i>
+            <div id="trasera{{i}}" class="cara trasera">
+              <!-- <i class="fas fa-adjust"></i> -->
+              <img id="CARTADELANTE" class = "redimensiondelante" [src]="damecartasdelafamilia[i]">
+
             </div>
 
           </div>
         </div>
       </div>
-  </div>
+      </div>
+    </div>
 
-      <button class="nuevoJuego" (click)="cargarTablero()">
-        Nuevo Juego
-      </button>
+  <button id="ayuda" class="nuevoJuego" (click)="Ayuda()">AYUDA</button> 
 
 </body>
