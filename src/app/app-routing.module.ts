@@ -70,6 +70,10 @@ const routes: Routes = [
     path: 'wally',
     loadChildren: () => import('./wally/wally.module').then( m => m.WallyPageModule)
   },
+  {
+    path: 'pruebamemorama',
+    loadChildren: () => import('./pruebamemorama/pruebamemorama.module').then( m => m.PruebamemoramaPageModule)
+  },
 
  
 

@@ -7,25 +7,30 @@
   </ion-toolbar>
 </ion-header>
 
+
 <ion-content class="juegocoleccion-content" #content>
 
-  <button >eyyyyyyyyyyyyyyyyyyyy</button>
+
 
   <div *ngIf="preparado">
     
-    <div  *ngIf = "damecartasdelafamilia"  >
+    <div  *ngIf = "Cartaspartedetras"  >
 
 
       <div class="grid-container">
 
-        <div onClick="click()" class="grid-item" *ngFor="let elem of damecartasdelafamilia;let i = index">
-           <div (click)="click(i)">
-              <img id="CARTA" class = "redimension" [src]="damecartasdelafamilia[i]">
-           </div>
+        <div #level (click)="click(i)" class="grid-item" *ngFor="let elem of Cartaspartedetras;let i = index">
+                    
+              <img id="CARTAATRAS" class = "redimensiondetras" [src]="Cartaspartedetras[i]" >
+              <img id="CARTADELANTE" class = "redimensiondelante" [src]="damecartasdelafamilia[i]">
+          
         </div>
       
       </div>
+   </div>
+  </div>
 
+</ion-content>
 
 
 

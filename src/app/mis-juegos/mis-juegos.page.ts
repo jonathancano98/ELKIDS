@@ -333,9 +333,9 @@ export class MisJuegosPage implements OnInit {
           this.listaAuxiliar=[];
           this.contador=0;
           console.log("Estoy en el count = true(COLECCION)")
-          this.router.navigate(['/inicio-juego-coleccion']);
+          //this.router.navigate(['/inicio-juego-coleccion']);
           //this.router.navigate(['/memorama-coleccion']);
-          //this.router.navigate(['/wally']);
+          this.router.navigate(['/wally']);
         }
         else if(this.listaAuxiliar[this.valori].Tipo === "Juego De Puntos"){
           this.listaAuxiliar=[];
@@ -347,7 +347,7 @@ export class MisJuegosPage implements OnInit {
           this.listaAuxiliar=[];
           this.contador=0;
           console.log("Estoy en el count = true(MEMORAMA)")
-          this.router.navigate(['/memorama-coleccion']);
+          this.router.navigate(['/pruebamemorama']);
         }
     }
     

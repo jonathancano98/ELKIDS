@@ -1,0 +1,93 @@
+:root{
+    --w: calc(70vw/6);
+    --h: calc(70vh/4);
+  }
+  
+  *{
+    transition: all 0.5s;
+  }
+  
+  body{
+  
+    padding: 0;
+    margin: 0;
+    -webkit-perspective: 1000;
+    background: rgb(134, 195, 201);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .area-tarjeta,
+   .tarjeta,
+   .cara
+   
+   {
+    cursor: pointer;
+    width: 100px;
+    height: 150px;
+    min-width: 80px;
+  }
+  
+  .tarjeta{
+    position: relative;
+    transform-style: preserve-3d;
+    animation: iniciar 5s;
+  }
+  
+//   .area-tarjeta:hover .tarjeta {
+//     transform:rotateY(180deg);
+//   }
+  
+  .cara{
+    
+    position: absolute;
+    backface-visibility: hidden;
+    //BORDE
+    border-radius:20px;
+    border:white 5px solid;
+    // TAMAÑO ICONO
+    font-size:500%;
+    // PARA PODER MODIFICAR EL ICONO CENTRO
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+  }
+  
+  .trasera{
+    background-color: blue;
+    transform: rotateY(180deg);
+  }
+  
+  .superior{
+    background-color: orangered;
+  }
+  .nuevoJuego{
+      background-color: orangered;
+      padding: 20px;
+      border-radius:20px;
+      border:white 5px solid;
+  }
+  div{
+      display:inline-block;
+  }
+
+  .grid-container { //memory_game
+  display: grid;
+  grid-template-columns: auto auto auto auto auto;
+  padding:150px;
+  grid-gap:20px;
+  perspective:1000px;
+
+}
+@keyframes iniciar{
+    20%,90%{
+        transform: rotateY(180deg);
+    }
+    0%,100%{
+        transform: rotateY(0deg);
+    }
+}
+
+  

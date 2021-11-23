@@ -1,0 +1,32 @@
+<head>
+  <title>Memorama</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+</head>
+<body>
+
+
+  <div  *ngIf = "Cartaspartedetras"  >
+
+
+      <div id="tablero" class="grid-container">
+        <div (click)="seleccionartarjeta(i);" class="area-tarjeta" *ngFor="let elem of Cartaspartedetras;let i = index"  >
+          <div class="tarjeta" id="tarjeta{{i}}">
+
+            <div class="cara superior">
+            <i class="fab fa-accusoft"></i>
+            </div>
+
+            <div id="trasera" class="cara trasera">
+              <i class="fas fa-adjust"></i>
+            </div>
+
+          </div>
+        </div>
+      </div>
+  </div>
+
+      <button class="nuevoJuego" (click)="cargarTablero()">
+        Nuevo Juego
+      </button>
+
+</body>
