@@ -1,30 +1,62 @@
 :root{
-    --w: calc(70vw/6);
-    --h: calc(70vh/4);
+    --w: calc(70vw/5);
+    --h: calc(70vh/2);
   }
   
   *{
     transition: all 0.5s;
   }
   
-  body{
-  
-    padding: 0;
-    margin: 0;
-    -webkit-perspective: 1000;
-    background: rgb(134, 195, 201);
+   body{
+
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
+    border: 5px solid;
+    position: relative;
+  
+  //   padding: 0;
+  //   margin: 0;
+  //   -webkit-perspective: 1000;
+  //   background: rgb(134, 195, 201);
+  //   display: flex;
+  //   flex-direction: column;
+  //   justify-content: center;
+  //   align-items: center;
+  //   // background-image: url(/src/app/fondoanimado/fondo-selva-plana-organica_23-2148952811.png);
+   }
+ 
+  p{
+    position: absolute;
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    font-family: fantasy;
+    font-size: 3cm;
+    justify-content: center;
+    align-items: center;
+    // border: 3px solid;
+    margin-top: 550px;
+
   }
+  
+
+  ion-content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    --background: url(fondo-selva-plana-organica_23-2148952811.png) 0 0/100% 100% no-repeat;
+    
+
+}
+
+  
   .area-tarjeta,
    .tarjeta,
    .cara
    {
     cursor: pointer;
-    width: 100px;
-    height: 150px;
+    width: 125px;
+    height: 175px;
     min-width: 80px;
   }
   
@@ -64,24 +96,36 @@
   }
   .nuevoJuego{
       background-color: orangered;
-      padding: 20px;
-      // border-radius:20px;
-      // border:white 5px solid;
-      border: 1px solid red;
+      border-radius:20px;
+      border:purple 5px solid;
+      position: absolute;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: -60px;
+  
 
   }
-  div{
-      display:inline-block;
-  }
+
+  // div{
+  //     display:inline-block;
+  // }
 
   .grid-container { //memory_game
   display: grid;
   grid-template-columns: auto auto auto auto auto;
-  padding:10px;
   grid-gap:20px;
-  perspective:1000px;
-  border: 1px solid red;
-  margin: 10px;
+   border: 15px solid dimgrey;
+   border-radius: 20px;
+  align-items: center;
+  justify-content: center;
+  // margin-top: 200px;
+  // margin-left: 625px;
+  // margin-right: 625px;
+  position:relative;
+  margin-bottom: 90px;
+  background-color: white;
 
 }
 @keyframes iniciar{
@@ -94,30 +138,94 @@
 }
 
 img.redimensiondetras { //back-face
-  width: 90px;
-  height: 150px;
-  position: absolute;
+  width: 115px;
+  height: 165px;
+  // position: absolute;
   background:white;
   backface-visibility: hidden;
   border-radius: 20px;
 }
 
 img.redimensiondelante { //front-face
-  width: 90px;
-  height: 150px;
-  border-radius: 80px;
+  width: 110px;
+  height: 155px;
+  border-radius: 30px;
   transform:rotateY(180deg);
   
 
 }
 //ID
-#contador{
-margin: 10px;
-}
+.item1 { grid-area: header; }
+.item3 { grid-area: main; }
+.item4 { grid-area: right; }
+
+  .nuevoJuegot {
+    display: grid;
+    grid-template-areas:
+    'header header header header '
+    'main main right right';
+    grid-gap: 3px;
+    background-color:purple;
+    padding: 6px;
+    width: 11%;
+    margin-top: -75px;
+    position: absolute;
+    height: 60px;
+    border: 1px solid purple;
+    border-radius: 10px;
+  }
+  
+  .nuevoJuegot > div {
+    background-color: orangered;
+    text-align: center;
+    padding: 5px 0;
+    font-size: 9px;
+  }
+
 
 #ayuda{
-  position: inherit;
-  margin-bottom: 360px;
-  margin-left: 510px;
+  // position: inherit;
+  // margin-bottom: 360px;
+   margin-left: 650px;
 }
+// .banner{
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   height: 100%;
+// }
+
+#banner_img{
+  animation: movimiento 2.5s linear infinite;
+  position: absolute;
+  width: 250px;
+    height: 800px;
+    display: flex;
+    margin-left: 1050px;
+    // background: url(serpiente.png) 0 0/100% 100% no-repeat;
+background-image: url(/src/app/pruebamemorama/serpiente.png);
+
+}
+
+// .banner_img img{
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+// }
+@keyframes movimiento{
+  0%{
+      transform: translateY(0);
+  }
+  50%{
+      transform: translateY(30px);
+  }
+  100%{
+      transform: translateY(0);
+  }
+}
+// #puntos{
+//   display: grid;
+//   grid-template-columns: auto auto;
+//   grid-gap:20px;
+// }
   

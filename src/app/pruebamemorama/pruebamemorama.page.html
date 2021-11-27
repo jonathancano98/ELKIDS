@@ -1,40 +1,83 @@
-<head>
-  <title>Memorama</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
-</head>
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-title>MEMORAMAS</ion-title>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content >
+
+  
+
+ 
+
 <body>
+  
+    <div *ngIf="preparado && Cartaspartedetras" >
 
-
-
-    <div *ngIf="preparado">
+      <div class="nuevoJuegot">
+        <div class="item1">PUNTUACIÓN</div>
+        <div id="item3" class="item3">0</div> <div id="item4" class="item4">0</div> 
+        
+      </div>
     
-      <div  *ngIf = "Cartaspartedetras"  >
+    <!-- <div id="contador" class="nuevoJuego" >
+        CONTADOR:
+      <div id="puntos">
+        0
+      </div>
+    </div>   -->
+      <button id="ayuda" class="nuevoJuego" (click)="Ayuda()">AYUDA</button>
+ 
+<!-- 
+<ion-grid>
+      <div id="tablero" class="grid-container"> 
+        <ion-row size="6" >
+            <ion-col  (click)="seleccionartarjeta(i);" class="area-tarjeta" *ngFor="let elem of Cartaspartedetras;let i = index">
+              <div class="tarjeta" id="tarjeta{{i}}">
+            
+                <div class="cara superior">
+                <img id="CARTAATRAS" class = "redimensiondetras" [src]="Cartaspartedetras[i]" >
+                </div>
+    
+                <div id="trasera{{i}}" class="cara trasera">
+                  <img id="CARTADELANTE" class = "redimensiondelante" [src]="damecartasdelafamilia[i]">
+    
+                </div>
+    
+              </div>
+            </ion-col>
 
-        <div id="contador" class="nuevoJuego">CONTADOR</div> 
+        </ion-row>
+</ion-grid> -->
 
 
-      <div id="tablero" class="grid-container">
+       <div id="tablero" class="grid-container"> 
+
         <div (click)="seleccionartarjeta(i);" class="area-tarjeta" *ngFor="let elem of Cartaspartedetras;let i = index"  >
           <div class="tarjeta" id="tarjeta{{i}}">
-
-            <div class="cara superior">
-            <!-- <i class="fab fa-accusoft"></i> -->
-            <img id="CARTAATRAS" class = "redimensiondetras" [src]="Cartaspartedetras[i]" >
             
+            <div class="cara superior">
+            <img id="CARTAATRAS" class = "redimensiondetras" [src]="Cartaspartedetras[i]" >
             </div>
 
             <div id="trasera{{i}}" class="cara trasera">
-              <!-- <i class="fas fa-adjust"></i> -->
               <img id="CARTADELANTE" class = "redimensiondelante" [src]="damecartasdelafamilia[i]">
 
             </div>
 
           </div>
         </div>
-      </div>
-      </div>
-    </div>
+      </div> 
+      
+</div>
+<p>ANIMALES</p>
 
-  <button id="ayuda" class="nuevoJuego" (click)="Ayuda()">AYUDA</button> 
+<div id="banner_img">
+  
+</div>
 
 </body>
+
+
+
+</ion-content>

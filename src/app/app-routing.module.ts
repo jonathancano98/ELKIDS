@@ -74,6 +74,10 @@ const routes: Routes = [
     path: 'pruebamemorama',
     loadChildren: () => import('./pruebamemorama/pruebamemorama.module').then( m => m.PruebamemoramaPageModule)
   },
+  {
+    path: 'fondoanimado',
+    loadChildren: () => import('./fondoanimado/fondoanimado.module').then( m => m.FondoanimadoPageModule)
+  },
 
  
 

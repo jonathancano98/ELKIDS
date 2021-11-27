@@ -349,6 +349,8 @@ export class MisJuegosPage implements OnInit {
           console.log("Estoy en el count = true(MEMORAMA)")
           // this.router.navigate(['/memorama-coleccion']);
           this.router.navigate(['/pruebamemorama']);
+          // this.router.navigate(['/fondoanimado']);
+
         }
     }
     

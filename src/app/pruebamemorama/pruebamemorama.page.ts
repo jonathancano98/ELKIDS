@@ -20,7 +20,9 @@ export class PruebamemoramaPage implements OnInit {
   damecartasdelafamilia: any[]=[];
   damecartasdelafamilia2: any[]=[];
   preparado=false;
-
+  tarjetasayuda:any[]=[];
+contadorpos=0;
+contadorneg=0;
   ngOnInit() {
 
     console.log("ionViewWillEnter");
@@ -103,12 +105,12 @@ Ayuda(){
   let tarjeta6 = document.getElementById("tarjeta"+6);
   let tarjeta9 = document.getElementById("tarjeta"+9);
 
+  this.tarjetasayuda.push(tarjeta0,tarjeta3,tarjeta6,tarjeta9);
+
+for(let i=0; this.tarjetasayuda.length > i;i++){
 
 
-
-  console.log("TARJETA AYUDA",tarjeta0);
-
- if(tarjeta0.style.transform = "rotateY(180deg)"){
+ if(this.tarjetasayuda[i].style.transform === "rotateY(180deg)"){
 
   console.log("Ya esta girada nen");
 
@@ -116,20 +118,17 @@ Ayuda(){
  else{ 
 
 
-  tarjeta0.style.transform = "rotateY(180deg)";  
-  tarjeta3.style.transform = "rotateY(180deg)";  
-  tarjeta6.style.transform = "rotateY(180deg)";  
-  tarjeta9.style.transform = "rotateY(180deg)";    
+  
+  this.tarjetasayuda[i].style.transform = "rotateY(180deg)";    
   
   setTimeout(() => {
-    tarjeta0.style.transform = "rotateY(0deg)"; 
-    tarjeta3.style.transform = "rotateY(0deg)";   
-    tarjeta6.style.transform = "rotateY(0deg)";    
-    tarjeta9.style.transform = "rotateY(0deg)";    
+   
+    this.tarjetasayuda[i].style.transform = "rotateY(0deg)";    
 
    
   }, 2000);
 
+}
 }
 
 }
@@ -152,6 +151,10 @@ Ayuda(){
 
   deseleccionar(seleccionesrecibidas:any[]){
 
+    let contadorpositivo = document.getElementById("item3");
+    console.log(contadorpositivo);
+    let contadornegativo = document.getElementById("item4");
+
     setTimeout(() => {
     
       let trasera1=document.getElementById("trasera"+seleccionesrecibidas[0]);
@@ -165,10 +168,22 @@ Ayuda(){
         let tarjeta2=document.getElementById("tarjeta"+seleccionesrecibidas[1]);
         tarjeta1.style.transform = "rotateY(0deg)";
         tarjeta2.style.transform = "rotateY(0deg)";
+        
+        this.contadorneg++;
+        contadornegativo.innerHTML=this.contadorneg+"";
       }
       else{
       trasera1.style.backgroundColor="green"
       trasera2.style.backgroundColor="green"
+
+      
+      this.contadorpos++;
+      contadorpositivo.innerHTML = this.contadorpos+"";
+      console.log(this.contadorpos);
+
+      if(this.contadorpos == 5){
+        alert("HAS GANADO");
+      }
       }
 
 
