@@ -7,6 +7,7 @@
     transition: all 0.5s;
   }
   
+  
    body{
 
     display: flex;
@@ -39,8 +40,19 @@
 
   }
   
+  .fondodepantalla{
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(to right, #005C98, #505BDA);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url(fondo-selva-plana-organica_23-2148952811.png);
+  }
 
-  ion-content{
+  #principal{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -144,6 +156,8 @@ img.redimensiondetras { //back-face
   background:white;
   backface-visibility: hidden;
   border-radius: 20px;
+  border: 3px solid black;
+
 }
 
 img.redimensiondelante { //front-face
@@ -195,17 +209,29 @@ img.redimensiondelante { //front-face
 //   height: 100%;
 // }
 
-#banner_img{
+// .banner_img{
+//   animation: movimiento 2.5s linear infinite;
+//   position: absolute;
+//   width: 250px;
+//     height: 800px;
+//     display: flex;
+//     margin-left: 1050px;
+//     // background: url(serpiente.png) 0 0/100% 100% no-repeat;
+// background-image: url(serpiente.png);
+
+// }
+
+
+.banner_img{
   animation: movimiento 2.5s linear infinite;
   position: absolute;
-  width: 250px;
-    height: 800px;
-    display: flex;
-    margin-left: 1050px;
-    // background: url(serpiente.png) 0 0/100% 100% no-repeat;
-background-image: url(/src/app/pruebamemorama/serpiente.png);
-
 }
+
+.banner_img img{
+  width: 600px;
+  display: block;
+}
+
 
 // .banner_img img{
 //   display: flex;
@@ -223,6 +249,9 @@ background-image: url(/src/app/pruebamemorama/serpiente.png);
       transform: translateY(0);
   }
 }
+// #serpiente{
+//   background-image: url(/src/serpiente.png);
+// }
 // #puntos{
 //   display: grid;
 //   grid-template-columns: auto auto;
