@@ -306,7 +306,7 @@ export class MisJuegosPage implements OnInit {
           {
             localStorage.setItem("juegoDeMemoramaId", this.listaAuxiliar[i].id);
             localStorage.setItem("familiaId", this.listaAuxiliar[i].familiaId);
-
+            localStorage.setItem("idcartas",this.listaAuxiliar[i].idcartas);
 
             console.log( "Identificador juego Memorama:",localStorage.getItem("juegoDeMemoramaId"));
             count = true; 

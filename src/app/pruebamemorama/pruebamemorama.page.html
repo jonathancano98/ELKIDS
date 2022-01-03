@@ -10,19 +10,19 @@
   <div class="fondodepantalla">
     <div *ngIf="preparado && Cartaspartedetras" >
 
-      <div class="nuevoJuegot">
-        <div class="item1">PUNTUACIÓN</div>
-        <div id="item3" class="item3">0</div> <div id="item4" class="item4">0</div> 
-        
-      </div>
-    
     <!-- <div id="contador" class="nuevoJuego" >
         CONTADOR:
       <div id="puntos">
         0
       </div>
     </div>   -->
-      <button id="ayuda" class="nuevoJuego" (click)="Ayuda()">AYUDA</button>
+      
+    <div class="nuevoJuegot">
+      <div class="item1">PUNTUACIÓN</div>
+      <div id="item3" class="item3">0</div> 
+      <div id="item4" class="item4">0</div>   
+    </div>
+    <button id="ayuda" class="nuevoJuego" (click)="Ayuda()">AYUDA</button>
  
 <!-- 
 <ion-grid>
@@ -49,7 +49,7 @@
 
        <div id="tablero" class="grid-container"> 
 
-        <div (click)="seleccionartarjeta(i);" class="area-tarjeta" *ngFor="let elem of Cartaspartedetras;let i = index"  >
+        <div (click)="Pillarcartas(i);" class="area-tarjeta" *ngFor="let elem of Cartaspartedetras;let i = index"  >
           <div class="tarjeta" id="tarjeta{{i}}">
             
             <div class="cara superior">
@@ -69,15 +69,13 @@
 
 <p>ANIMALES</p>
 
-<div class="banner contenedor">
-  <!-- <secrion class="banner_title">
-      <h2>Necesitas ayuda <br> con tu PC?</h2>
-      <a href="#" class="llamanos">Llamanos ya!</a>
-  </secrion> -->
+<!-- <div class="banner contenedor">
   <div class="banner_img">
-      <img src="serpiente.png" alt="HAMBURGUESA-ONG">
+      <img src="serpiente.png" alt="serpiente">
   </div>
-</div>
+</div> -->
+
+<!-- <button (click)="DimensionesTablero()"> CAMBIAR</button> -->
 
 </div>
 </body>

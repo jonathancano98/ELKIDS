@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit , AfterViewInit, AfterContentInit, AfterContentChecked, AfterViewChecked } from '@angular/core';
+import { table } from 'console';
 import{DbServiceService} from 'src/app/db-service.service';
 import * as URL from '../URLS/urls';
 
@@ -8,9 +9,10 @@ import * as URL from '../URLS/urls';
   templateUrl: './pruebamemorama.page.html',
   styleUrls: ['./pruebamemorama.page.scss'],
 })
-export class PruebamemoramaPage implements OnInit {
+export class PruebamemoramaPage implements OnInit ,AfterViewChecked {
 
   constructor(private dbService:DbServiceService,) { }
+  
 
   iconos;
   Cartaspartedetras: any[]=[];
@@ -23,6 +25,8 @@ export class PruebamemoramaPage implements OnInit {
   tarjetasayuda:any[]=[];
 contadorpos=0;
 contadorneg=0;
+idcartasjuego:any;
+
   ngOnInit() {
 
     console.log("ionViewWillEnter");
@@ -31,17 +35,21 @@ contadorneg=0;
     // RECOJO LAS VARIABLES juegoDeMemoramaId y la familiaId
     this.juegoDeMemoramaId=localStorage.getItem("juegoDeMemoramaId");
     this.familiaId = localStorage.getItem("familiaId");
+    this.idcartasjuego = localStorage.getItem("idcartas");
 
-    console.log("juegoDeMemoramaId:", this.juegoDeMemoramaId,"familiaId:",this.familiaId);
 
+    console.log("juegoDeMemoramaId:", this.juegoDeMemoramaId,"familiaId:",this.familiaId,"idcartas",this.idcartasjuego);
+    
  
     // Pido las cartas del Alumno
     this.DameLasCartasDelAlumno();
 
-
-
   }
 
+  ngAfterViewChecked(){
+     this.DimensionesTablero();
+
+  }
   
   DameLasCartasDelAlumno() {
 
@@ -62,11 +70,19 @@ contadorneg=0;
                           this.MezclarArray();
                           this.PreparaImagenesCartasQueTengo();
                           this.preparado = true;
+                          // this.DimensionesTablero();
+
   
   
                          
     })
   
+  }
+  DimensionesTablero(){
+    let tablero = document.getElementById("tablero");
+    console.log("TABLERO:",tablero);
+    tablero.style.gridTemplateColumns = "auto auto auto auto auto";
+    // document.getElementById("myDIV").style.gridTemplateColumns = "auto auto auto auto auto";
   }
   
   MezclarArray(){
@@ -133,7 +149,7 @@ for(let i=0; this.tarjetasayuda.length > i;i++){
 
 }
 
-  seleccionartarjeta(i:number){
+Pillarcartas(i:number){
 
     let tarjeta = document.getElementById("tarjeta"+i);
     console.log(tarjeta,i);
@@ -160,8 +176,8 @@ for(let i=0; this.tarjetasayuda.length > i;i++){
       let trasera1=document.getElementById("trasera"+seleccionesrecibidas[0]);
       let trasera2=document.getElementById("trasera"+seleccionesrecibidas[1]);
 
-      console.log("TRASERA1",trasera1,"TRASERA2",trasera2);
-      console.log("TRASERA1 HTML",trasera1.innerHTML,"TRASERA2 HTML",trasera2.innerHTML);
+      console.log("TRASERA1: ",trasera1,"TRASERA2: ",trasera2);
+      console.log("TRASERA1 HTML: ",trasera1.innerHTML,"TRASERA2 HTML: ",trasera2.innerHTML);
 
       if(trasera1.innerHTML != trasera2.innerHTML){
         let tarjeta1=document.getElementById("tarjeta"+seleccionesrecibidas[0]);
