@@ -15,16 +15,7 @@
     align-items: center;
     border: 5px solid;
     position: relative;
-  
-  //   padding: 0;
-  //   margin: 0;
-  //   -webkit-perspective: 1000;
-  //   background: rgb(134, 195, 201);
-  //   display: flex;
-  //   flex-direction: column;
-  //   justify-content: center;
-  //   align-items: center;
-  //   // background-image: url(/src/app/fondoanimado/fondo-selva-plana-organica_23-2148952811.png);
+ 
    }
  
   p{
@@ -36,7 +27,12 @@
     justify-content: center;
     align-items: center;
     // border: 3px solid;
-    margin-top: 550px;
+    margin-top: 580px;
+    border: 2px solid;
+    background-color: white;
+    border-radius: 9px;
+
+    
 
   }
   
@@ -75,13 +71,92 @@
   .tarjeta{
     position: relative;
     transform-style: preserve-3d;
-    // animation: iniciar 5s;
+    //animation-name:  tarjetasmovimiento;
+    animation-duration: 0.5s;
+    // animation-delay: 5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+
+  @keyframes temporizador {
+    0% {
+      color: red;
+      transform: scale(1);
+  }
+  25% {
+    color: rgb(0, 0, 0);
+    transform: scale(1.1);
   }
   
-//   .area-tarjeta:hover .tarjeta {
-//     transform:rotateY(180deg);
-//   }
+  50% {
+    color: red;
+    transform: scale(1.15);
+  }
+  75% {
+    color: rgb(0, 0, 0);
+    transform: scale(1.1);
+  }
+  100% {
+    color: red;
+    transform: scale(1);
+  }
+  }
+
+  @keyframes tarjetasmovimiento{
+    0% {
+      left: 0px;
+      top: 0px;
+  }
+  25% {
+      left: 5px;
+      top: 0%;
+  }
   
+  50% {
+      left: 0px;
+      top: 0px;
+  }
+  75% {
+      left: -5px;
+      top: 0%;
+  }
+  100% {
+      left: 0px;
+      top: 0px;
+  }
+
+  }
+
+  @keyframes Expansion-Contraccion {
+
+    0% {
+      // transform: scale(1);
+      scale: 1;
+  }
+  25% {
+      // transform: scale(1.1);
+      scale: 1.1;
+
+  }
+  50% {
+      // transform: scale(1.15);
+      scale: 1.15;
+
+  }
+  75% {
+      // transform: scale(1.1);
+      scale: 1.1;
+
+  }
+  100% {
+      // transform: scale(1);
+      scale: 1;
+
+  }
+    
+  }
+  
+
   .cara{
     
     position: absolute;
@@ -121,9 +196,6 @@
 
   }
 
-  // div{
-  //     display:inline-block;
-  // }
 
   .grid-container { //memory_game
   display: grid;
@@ -133,14 +205,12 @@
   border-radius: 20px;
   align-items: center;
   justify-content: center;
-  // margin-top: 200px;
-  // margin-left: 625px;
-  // margin-right: 625px;
   position:relative;
   margin-bottom: 90px;
   background-color: white;
-
+  border-style: groove;
 }
+
 @keyframes iniciar{
     20%,90%{
         transform: rotateY(180deg);
@@ -210,6 +280,10 @@ img.redimensiondelante { //front-face
     /* height: 2px; */
     font-size: xx-large;
     margin-left: 299px;
+    animation-duration: 0.5s;
+    // animation-delay: 5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
   }
 
 
@@ -218,24 +292,6 @@ img.redimensiondelante { //front-face
   // margin-bottom: 360px;
   // margin-left: 650px;
 }
-// .banner{
-//   display: flex;
-//   justify-content: space-between;
-//   align-items: center;
-//   height: 100%;
-// }
-
-// .banner_img{
-//   animation: movimiento 2.5s linear infinite;
-//   position: absolute;
-//   width: 250px;
-//     height: 800px;
-//     display: flex;
-//     margin-left: 1050px;
-//     // background: url(serpiente.png) 0 0/100% 100% no-repeat;
-// background-image: url(serpiente.png);
-
-// }
 
 
 .banner_img{
@@ -249,11 +305,7 @@ img.redimensiondelante { //front-face
 }
 
 
-// .banner_img img{
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-// }
+
 @keyframes movimiento{
   0%{
       transform: translateY(0);
@@ -268,9 +320,5 @@ img.redimensiondelante { //front-face
 // #serpiente{
 //   background-image: url(/src/serpiente.png);
 // }
-// #puntos{
-//   display: grid;
-//   grid-template-columns: auto auto;
-//   grid-gap:20px;
-// }
+
   
