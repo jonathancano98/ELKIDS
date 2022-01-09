@@ -9,6 +9,7 @@ import{Libro} from '../app/home/clases/libro';
 import{imagenEscena}from '../app/home/clases/imagenEscena';
 import{juegolibro}from '../app/home/clases/juegolibro';
 import { Alumno } from './home/clases/alumno';
+import { alumnojuegomemorama } from './alumnojuegomemorama';
 
 @Injectable({
   providedIn: 'root'
@@ -41,6 +42,7 @@ export class DbServiceService {
   private APIRUrlJuegoDeMemorama = this.base + '/api/JuegoDeMemoramas';
   private APIurlAlumnoJuegoMemorama = this.base+'/api/AlumnoJuegoDeMemoramas';
   private APIurlCartas = this.base+'/api/Cartas';
+  private APIURLFamilia = this.base+'/api/Familia';
 
 
   private APIUrlImagenNivel = this.base + '/api/imagenes/ImagenNivel';
@@ -61,6 +63,7 @@ export class DbServiceService {
   private APIUrl = 'http://147.83.249.79:3000/api/Profesores/8/recursosLibros';
   private APIUrlProfesores='http://147.83.249.79:3000/api/Profesores';
   private APIurlImagenesLibros='http://147.83.249.79:3000/api/imagenes';
+  familia: any;
   constructor(private http: HttpClient,private httpImagenes: Http ) {}
 
   dameAlumno (nombre: string): Observable<any> {
@@ -369,6 +372,26 @@ public DimesiAlumnoEsdelJuegoMemorama(juegoDeMemoramaId:any,alumnoId: any): Obse
  public Damecartasdelafamilia(familiaId:any): Observable<any[]>{
    return this.http.get<any[]>(this.APIurlCartas+ '?filter[where][familiaId]='+familiaId);
  }
+
+ public DamecartasdelafamiliaporID(familiaId:any,cartaid:any): Observable<any[]>{
+   console.log(this.APIurlCartas+ '?filter[where][familiaId]='+familiaId+'&filter[where][id]='+cartaid);
+  return this.http.get<any[]>(this.APIurlCartas+ '?filter[where][familiaId]='+familiaId+'&filter[where][id]='+cartaid);
+}
+
+public Damefondo(familiaId:any): Observable<any>{
+  console.log(this.APIURLFamilia+ '?filter[where][id]='+familiaId);
+ return this.http.get<any>(this.APIURLFamilia+ '?filter[where][id]='+familiaId);
+}
+
+public EstablecePuntuacionAlumnoPorID(alumnojuegomemorama:alumnojuegomemorama):Observable<any>{
+  console.log(this.APIurlAlumnoJuegoMemorama,alumnojuegomemorama);
+  return this.http.put<any>(this.APIurlAlumnoJuegoMemorama,alumnojuegomemorama);
+
+}
+public Damealumnojuegomemorama(familiaId:any,cartaid:any): Observable<any[]>{
+  console.log(this.APIurlCartas+ '?filter[where][familiaId]='+familiaId+'&filter[where][id]='+cartaid);
+ return this.http.get<any[]>(this.APIurlCartas+ '?filter[where][familiaId]='+familiaId+'&filter[where][id]='+cartaid);
+}
 
 ////////////////////////////////////////////////////////////////////////////////MEMORAMA
 

@@ -307,7 +307,11 @@ export class MisJuegosPage implements OnInit {
             localStorage.setItem("juegoDeMemoramaId", this.listaAuxiliar[i].id);
             localStorage.setItem("familiaId", this.listaAuxiliar[i].familiaId);
             localStorage.setItem("idcartas",this.listaAuxiliar[i].idcartas);
-
+            // localStorage.setItem("relacion",this.listaAuxiliar[i].relacion);
+            localStorage.setItem("puntuacionCorrecta",this.listaAuxiliar[i].puntuacionCorrecta);
+            localStorage.setItem("puntuacionIncorrecta",this.listaAuxiliar[i].puntuacionIncorrecta);
+            localStorage.setItem("dificultad",this.listaAuxiliar[i].dificultad);
+            
             console.log( "Identificador juego Memorama:",localStorage.getItem("juegoDeMemoramaId"));
             count = true; 
             this.valori=i; 

@@ -18,5 +18,7 @@ export const ImagenesCartasdetras = host + '3000/api/imagenes/ImagenFamilia/down
 
 
 
+
+
 //export const Servidor = host + '8080';
 export const Servidor = host + '8200';

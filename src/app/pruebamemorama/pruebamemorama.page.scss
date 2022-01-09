@@ -116,6 +116,7 @@
       justify-content: center;
       align-items: center;
       margin-top: -60px;
+      margin-left: 410px;
   
 
   }
@@ -193,14 +194,29 @@ img.redimensiondelante { //front-face
     background-color: orangered;
     text-align: center;
     padding: 5px 0;
-    font-size: 9px;
+    font-size: 10px;
+  }
+
+  .temp{
+    background-color: orangered;
+    border-radius: 20px;
+    border: purple 5px solid;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: -60px;
+    /* width: 3px; */
+    /* height: 2px; */
+    font-size: xx-large;
+    margin-left: 299px;
   }
 
 
 #ayuda{
   // position: inherit;
   // margin-bottom: 360px;
-   margin-left: 650px;
+  // margin-left: 650px;
 }
 // .banner{
 //   display: flex;

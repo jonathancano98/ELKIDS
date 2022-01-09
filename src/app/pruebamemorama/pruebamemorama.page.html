@@ -7,7 +7,7 @@
 <!-- <ion-content > -->
 
 <body>
-  <div class="fondodepantalla">
+  <div id="fondo" class="fondodepantalla">
     <div *ngIf="preparado && Cartaspartedetras" >
 
     <!-- <div id="contador" class="nuevoJuego" >
@@ -17,12 +17,18 @@
       </div>
     </div>   -->
       
-    <div class="nuevoJuegot">
+    <div class="nuevoJuegot" id="puntuacion">
       <div class="item1">PUNTUACIÓN</div>
       <div id="item3" class="item3">0</div> 
       <div id="item4" class="item4">0</div>   
     </div>
     <button id="ayuda" class="nuevoJuego" (click)="Ayuda()">AYUDA</button>
+
+    <div *ngIf="tempo">
+    <div id="countdown" class="temp" >
+      Inicio
+    </div>
+  </div>
  
 <!-- 
 <ion-grid>
@@ -49,15 +55,15 @@
 
        <div id="tablero" class="grid-container"> 
 
-        <div (click)="Pillarcartas(i);" class="area-tarjeta" *ngFor="let elem of Cartaspartedetras;let i = index"  >
+        <div (click)="Pillarcartas(i);" id="areatarjeta{{i}}" class="area-tarjeta" *ngFor="let elem of Cartaspartedetras;let i = index"  >
           <div class="tarjeta" id="tarjeta{{i}}">
             
-            <div class="cara superior">
-            <img id="CARTAATRAS" class = "redimensiondetras" [src]="Cartaspartedetras[i]" >
+            <div id="carasuperior{{i}}"class="cara superior">
+            <img id="CARTAATRAS{{i}}" class = "redimensiondetras" [src]="Cartaspartedetras[i]" >
             </div>
 
             <div id="trasera{{i}}" class="cara trasera">
-              <img id="CARTADELANTE" class = "redimensiondelante" [src]="damecartasdelafamilia[i]">
+              <img id="CARTADELANTE{{i}}" class = "redimensiondelante" [src]="damecartasdelafamilia[i]">
 
             </div>
 
@@ -67,7 +73,7 @@
       
 </div>
 
-<p>ANIMALES</p>
+<p id="Title">{{Nombreinicial}}</p>
 
 <!-- <div class="banner contenedor">
   <div class="banner_img">
