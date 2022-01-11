@@ -19,6 +19,10 @@ export class PruebamemoramaPage implements OnInit ,AfterViewChecked {
   fondo: any;
   Nombreinicial: any;
   familiainfo: any;
+  alertacancionglobal: boolean;
+  puntuacionHTML: any;
+  tiempoHTML: any;
+  acabao= false;
 
   constructor(private dbService:DbServiceService,) { }
   
@@ -49,15 +53,19 @@ tiempoinicial:any;
 tempo=false;
 tiempoduracion:number;
 
+elalumno:any;
+nombrealumno:any;
 
 
    ngOnInit() {
 
+
     console.log("ionViewWillEnter");
     this.entrar=0;
-
-    console.log(this.minutos,this.segundos);
     
+    
+    // this.nombrealumno=this.elalumno[0].Nombre;
+
 
     // RECOJO LAS VARIABLES juegoDeMemoramaId y la familiaId
     this.juegoDeMemoramaId=localStorage.getItem("juegoDeMemoramaId");
@@ -92,17 +100,53 @@ tiempoduracion:number;
       this.identificador=alumno[0].id;
       console.log(alumno[0].id)})
 
-    // Pido las cartas del Alumno
+   
+      // Pido las cartas del Alumno
+    
     this.DameLasCartasDelAlumno();
 
-    
+    setInterval(this.contador0,1000);
 
   }
 
   ngAfterViewChecked(){
   this.DimensionesTablero();
 
+
   }
+
+  async contador0(){
+    
+    let countdown = document.getElementById("countdown");
+    
+    if(countdown.innerHTML===" "+0+":"+0+" "){
+      const audio = new Audio('assets/sintiempo.mp3');
+      audio.play();
+      
+    }
+    else{
+
+    }
+  }
+
+  reproducir(nombre:any) {
+    if(nombre === 'acierto'){
+    const audio = new Audio('assets/acierto.mp3');
+    audio.play();
+  }
+  else if (nombre === 'sintiempo'){
+    const audio = new Audio('assets/sintiempo.mp3');
+    audio.play();
+
+  }
+  else if(nombre === 'error'){
+    const audio = new Audio('assets/error.mp3');
+    audio.play();
+  }
+  else{
+    
+  }
+}
 
   async Relacion(){
     this.familiainfo = await this.dbService.Damefondo(this.familiaId).toPromise();
@@ -170,76 +214,92 @@ console.log(this.damecartasdelafamilia);
 
   }
 
+
+
+
+  
+
   tiempo(){
 
     this.tiempoinicial=this.tiempoduracion;
     let coutdownEl = document.getElementById("countdown");
     this.tempo=true;
-    // coutdownEl.innerHTML="Inicio Juego";
 
     let tiempo = this.tiempoinicial*60;
+    
 
-    var minutos2;
-    var segundos2;
-
-    this.minutos=minutos2;
-    this.segundos=segundos2;
-
-    // console.log("Minutos2",minutos2,"Segundos2",segundos2);
+    var longitud = this.Cartaspartedetras.length;
+   
+    var puntosposibles = this.puntosposibles;
+    var posit = Number(document.getElementById("item3").innerText);
+    
 
     setInterval(updatecountdown,1000);
 
 
-    function updatecountdown(){
+
+    function updatecountdown(valor:any){
       
 
       var minutos = Math.floor(tiempo/60);
       var segundos = tiempo % 60;
-      
-      minutos2=minutos;
-      segundos2=segundos;
-
-      //console.log("Minutos",minutos,"Segundos",segundos);
-
+      valor=Number(document.getElementById("item3").innerText);
       
       coutdownEl.innerHTML=" "+minutos+":"+segundos+" ";
+          
 
-
-      if((minutos==0)&&(segundos==5)){
-
-        let crono = document.getElementById("countdown");
-        crono.style.animationName="temporizador";
-
-        for(let i=0;9>=i;i++){
-
-        let tarjetas= document.getElementById("tarjeta"+i);
-
-        if (tarjetas.style.transform === "rotateY(180deg)"){}
-
-        else{
-          tarjetas.style.animationName="tarjetasmovimiento";
-
-        }
-     
-        }
-
-
-      }
-
-     
       if((minutos>=0)&&(segundos>=0)){
 
+        // console.log("VAMOS A VER LOS PUNTICOOOOS",valor,puntosposibles);
 
+        if((minutos==0)&&(segundos==10)){
+
+          let crono = document.getElementById("countdown");
+          crono.style.animationName="temporizador";
+  
+          let tablero = document.getElementById("tablero");
+          tablero.style.animationName="color";
+          
+  
+          for(let i=0;longitud>i;i++){
+  
+          let tarjetas= document.getElementById("tarjeta"+i);
+  
+          if (tarjetas.style.transform === "rotateY(180deg)"){}
+  
+          else{
+            tarjetas.style.animationName="tarjetasmovimiento";
+            }
+       
+          }
+        }
+
+        if(valor === puntosposibles){
+
+          tiempo=0;
+
+        }
+
+  
         tiempo--;
       }
 
-      else{
-        alert("Se terminó el juego");
-        minutos2=minutos;
-        segundos2=segundos;
+      else{ 
+        coutdownEl.innerHTML="FINAL";
+
       }
     }
   }
+
+
+
+
+
+
+
+
+
+
 
   DimensionesTablero(){
 
@@ -374,7 +434,7 @@ for(let i=0; this.tarjetasayuda.length > i;i++){
 
 }
 
-Pillarcartas(i:number){
+async Pillarcartas(i:number){
 
   this.entrar++;
 
@@ -403,55 +463,44 @@ Pillarcartas(i:number){
     console.log(contadorpositivo);
     let contadornegativo = document.getElementById("item4");
 
+
     setTimeout(() => {
      
-      if(this.relacion === false){
-
-        console.log("Caso sin Relacion");
-        
       let trasera1=document.getElementById("trasera"+seleccionesrecibidas[0]);
       let trasera2=document.getElementById("trasera"+seleccionesrecibidas[1]);
+      
+      let tarjeta1=document.getElementById("tarjeta"+seleccionesrecibidas[0]);
+      let tarjeta2=document.getElementById("tarjeta"+seleccionesrecibidas[1]);
 
-      console.log("TRASERA1: ",trasera1,"TRASERA2: ",trasera2);
-      console.log("TRASERA1 HTML: ",trasera1.innerHTML,"TRASERA2 HTML: ",trasera2.innerHTML);
+      if(this.relacion === false){
 
+      console.log("Caso sin Relacion");
+        
       if(this.damecartasdelafamilia2[seleccionesrecibidas[0]].Nombre!=this.damecartasdelafamilia2[seleccionesrecibidas[1]].Nombre){
        
-        let tarjeta1=document.getElementById("tarjeta"+seleccionesrecibidas[0]);
-        let tarjeta2=document.getElementById("tarjeta"+seleccionesrecibidas[1]);
+        this.reproducir('error')
+
         tarjeta1.style.transform = "rotateY(0deg)";
         tarjeta2.style.transform = "rotateY(0deg)";
         
         this.contadorneg++;
         contadornegativo.innerHTML=this.contadorneg+"";
       }
+
       else{
+
+      this.reproducir('acierto');
       trasera1.style.backgroundColor="green"
       trasera2.style.backgroundColor="green"
+      
 
       
       this.contadorpos++;
       contadorpositivo.innerHTML = this.contadorpos+"";
       console.log(this.contadorpos);
 
-      if(this.contadorpos == this.puntosposibles){
-        let tiemporealizado = document.getElementById("countdown");
-        let time;
 
-        time = tiemporealizado.innerText;
-
-        let puntuacion;
-        puntuacion= (this.contadorpos*this.puntuacionCorrecta)-(this.contadorneg*this.puntuacionIncorrecta);
-        console.log(puntuacion, time);
-        
-        
-
-        let alumno=  new alumnojuegomemorama(localStorage.getItem("alumnoID"),this.juegoDeMemoramaId,puntuacion,time,this.identificador);
-
-        this.dbService.EstablecePuntuacionAlumnoPorID(alumno).subscribe(alumno=>{console.log(alumno)});
-        
-        alert("Juego Finalizado: " + puntuacion+" Tiempo: "+time);
-      }
+    
       }
 
     }
@@ -459,44 +508,25 @@ Pillarcartas(i:number){
     else{
 
       console.log("Caso con RELACION");
-      console.log(this.damecartasdelafamilia2[seleccionesrecibidas[0]]);
-      console.log(this.damecartasdelafamilia2[seleccionesrecibidas[1]]);
-      let trasera1=document.getElementById("trasera"+seleccionesrecibidas[0]);
-      let trasera2=document.getElementById("trasera"+seleccionesrecibidas[1]);
       
       if(this.damecartasdelafamilia2[seleccionesrecibidas[0]].relacion==this.damecartasdelafamilia2[seleccionesrecibidas[1]].id){
-        trasera1.style.backgroundColor="green"
-      trasera2.style.backgroundColor="green"
+
+      this.reproducir('acierto')
+
+      trasera1.style.backgroundColor="green";
+      trasera2.style.backgroundColor="green";
+
+     
       this.contadorpos++;
       contadorpositivo.innerHTML = this.contadorpos+"";
       console.log(this.contadorpos);
 
-      if(this.contadorpos == this.puntosposibles){
-
-        let tiemporealizado = document.getElementById("countdown");
-        let time;
-
-        time = tiemporealizado.innerText;
-
-        let puntuacion;
-        puntuacion= (this.contadorpos*this.puntuacionCorrecta)-(this.contadorneg*this.puntuacionIncorrecta);
-        console.log(puntuacion, time);
-        
-        
-
-        let alumno=  new alumnojuegomemorama(localStorage.getItem("alumnoID"),this.juegoDeMemoramaId,puntuacion,time,this.identificador);
-
-        this.dbService.EstablecePuntuacionAlumnoPorID(alumno).subscribe(alumno=>{console.log(alumno)});
-        
-        alert("Juego Finalizado: " + puntuacion+" Tiempo: "+time);
-
-        
-      }
     
     }
-  else{
-    let tarjeta1=document.getElementById("tarjeta"+seleccionesrecibidas[0]);
-        let tarjeta2=document.getElementById("tarjeta"+seleccionesrecibidas[1]);
+  
+    else{
+        
+        this.reproducir('error')
         tarjeta1.style.transform = "rotateY(0deg)";
         tarjeta2.style.transform = "rotateY(0deg)";
         
@@ -504,35 +534,49 @@ Pillarcartas(i:number){
         contadornegativo.innerHTML=this.contadorneg+"";
   }
 }
+
+if(this.contadorpos == this.puntosposibles){
+ 
+  let tablero = document.getElementById("tablero");
+  tablero.style.backgroundColor="green";
+
+  let tiemporealizado = document.getElementById("countdown");
+  let time;
+
+  time = tiemporealizado.innerText;
+
+  let puntuacion;
+  puntuacion= (this.contadorpos*this.puntuacionCorrecta)-(this.contadorneg*this.puntuacionIncorrecta);
+  console.log(puntuacion, time);
+
+  this.puntuacionHTML = puntuacion;
+  this.tiempoHTML = time;
+
+  let alumno=  new alumnojuegomemorama(localStorage.getItem("alumnoID"),this.juegoDeMemoramaId,puntuacion,time,this.identificador);
+
+  this.dbService.EstablecePuntuacionAlumnoPorID(alumno).subscribe(alumno=>{console.log(alumno)});
+  
+  console.log("Juego Finalizado: " + puntuacion+" Tiempo: "+time);
+  // tiemporealizado.innerText="FINAL";
+
+  this.damenombre();
+
+  this.acabao=true;
+
+  let fondo = document.getElementById("fondo");
+  fondo.style.opacity="75%";
+
+  
+}
+
   }, 1000);
 
   }
 
+ async damenombre(){
+  this.elalumno = await this.dbService.dameAlumnoPorId(localStorage.getItem("alumnoID")).toPromise();
+  console.log(this.elalumno);
+  this.nombrealumno=this.elalumno.Nombre;
 
-
-  cargarTablero(){
-    let tablero = document.getElementById("tablero");
-    let tarjetas=[]
-    for(let i=0; i<10;i++){
-      tarjetas.push(`
-      <div class="area-tarjeta">
-          <div class="tarjeta">
-
-            <div class="cara superior">
-            <i class="fab fa-accusoft"></i>
-            </div>
-
-            <div class="cara trasera">
-              <i class="fas fa-adjust"></i>
-            </div>
-
-          </div>
-        </div>
-      
-      `);
-    }
-    tablero.innerHTML=tarjetas.join(" ");
   }
-
-
 }

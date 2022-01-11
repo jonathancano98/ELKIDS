@@ -5,18 +5,16 @@
 </ion-header> -->
 
 <!-- <ion-content > -->
+  <audio src="acierto.mp3" autoplay="true" loop="true">CANCIOOOON</audio>
 
-<body>
+
+<body id="body">
+
   <div id="fondo" class="fondodepantalla">
+
     <div *ngIf="preparado && Cartaspartedetras" >
 
-    <!-- <div id="contador" class="nuevoJuego" >
-        CONTADOR:
-      <div id="puntos">
-        0
-      </div>
-    </div>   -->
-      
+      <div id="LA VIDAAAAA">
     <div class="nuevoJuegot" id="puntuacion">
       <div class="item1">PUNTUACIÓN</div>
       <div id="item3" class="item3">0</div> 
@@ -26,7 +24,7 @@
 
     <div *ngIf="tempo">
     <div id="countdown" class="temp" >
-      Inicio
+      INICIO
     </div>
   </div>
  
@@ -73,9 +71,10 @@
         </div>
       </div> 
       
+      <p id="Title">{{Nombreinicial}}</p>
+ 
 </div>
 
-<p id="Title">{{Nombreinicial}}</p>
 
 <!-- <div class="banner contenedor">
   <div class="banner_img">
@@ -83,10 +82,22 @@
   </div>
 </div> -->
 
-<!-- <button (click)="DimensionesTablero()"> CAMBIAR</button> -->
 
 </div>
+
+
+
+
+</div>
+
+<div *ngIf="acabao" id="resultado" class="resultado">
+                  <div> Jugador: {{nombrealumno}} </div>
+  <div>Juego Finalizado:{{puntuacionHTML}} p y Tiempo:{{tiempoHTML}}</div>
+</div>
+
 </body>
+
+
 
 
 

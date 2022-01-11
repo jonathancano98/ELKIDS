@@ -15,6 +15,7 @@
     align-items: center;
     border: 5px solid;
     position: relative;
+    background-color: white;
  
    }
  
@@ -182,7 +183,7 @@
     background-color: orangered;
   }
   .nuevoJuego{
-      background-color: orangered;
+      background-color: white;
       border-radius:20px;
       border:purple 5px solid;
       position: absolute;
@@ -191,8 +192,8 @@
       justify-content: center;
       align-items: center;
       margin-top: -60px;
-      margin-left: 410px;
-  
+      margin-left: 600px;
+      font-size: x-large;
 
   }
 
@@ -209,6 +210,10 @@
   margin-bottom: 90px;
   background-color: white;
   border-style: groove;
+  animation-duration: 0.5s;
+  // animation-delay: 5s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
 }
 
 @keyframes iniciar{
@@ -239,6 +244,21 @@ img.redimensiondelante { //front-face
   
 
 }
+.resultado{
+  text-align: center;
+  margin-top: 200px;
+  z-index: 1;
+  position: absolute;
+  justify-content: center;
+  display: flex;
+  border: 5px solid yellow;
+  background-color: blue;
+  padding: 125px;
+  border-radius: 15px;
+  font-family: cursive;
+  // opacity: 1%;
+}
+
 //ID
 .item1 { grid-area: header; }
 .item3 { grid-area: main; }
@@ -268,18 +288,18 @@ img.redimensiondelante { //front-face
   }
 
   .temp{
-    background-color: orangered;
+    background-color: white;
     border-radius: 20px;
     border: purple 5px solid;
     position: absolute;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: -60px;
+    margin-top: -80px;
     /* width: 3px; */
     /* height: 2px; */
-    font-size: xx-large;
-    margin-left: 299px;
+    font-size: xxx-large;
+    margin-left: 319px;
     animation-duration: 0.5s;
     // animation-delay: 5s;
     animation-timing-function: linear;
@@ -304,7 +324,24 @@ img.redimensiondelante { //front-face
   display: block;
 }
 
+@keyframes color{
+  0%{
+      background-color: red;
+  }
+  25%{
+    background-color: white;
 
+  }
+  50%{
+    background-color: red;
+  }
+  75%{
+    background-color: white;
+  }
+  100%{
+    background-color: red;
+  }
+}
 
 @keyframes movimiento{
   0%{
