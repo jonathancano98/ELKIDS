@@ -41,7 +41,9 @@ export class DbServiceService {
 
   private APIRUrlJuegoDeMemorama = this.base + '/api/JuegoDeMemoramas';
   private APIurlAlumnoJuegoMemorama = this.base+'/api/AlumnoJuegoDeMemoramas';
+
   private APIurlCartas = this.base+'/api/Cartas';
+  
   private APIURLFamilia = this.base+'/api/Familia';
 
 

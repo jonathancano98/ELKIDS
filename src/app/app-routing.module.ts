@@ -62,7 +62,8 @@ const routes: Routes = [
   {
     path: 'inicio-juego-puntos',
     loadChildren: () => import('./inicio-juego-puntos/inicio-juego-puntos.module').then( m => m.InicioJuegoPuntosPageModule)
-  },  {
+  },
+  {
     path: 'memorama-coleccion',
     loadChildren: () => import('./memorama-coleccion/memorama-coleccion.module').then( m => m.MemoramaColeccionPageModule)
   },
@@ -78,13 +79,21 @@ const routes: Routes = [
     path: 'fondoanimado',
     loadChildren: () => import('./fondoanimado/fondoanimado.module').then( m => m.FondoanimadoPageModule)
   },
-
- 
-
+  {
+    path: 'ejemploimplementacion',
+    loadChildren: () => import('./ejemploimplementacion/ejemploimplementacion.module').then( m => m.EjemploimplementacionPageModule)
+  },  {
+    path: 'un-ejemplo',
+    loadChildren: () => import('./un-ejemplo/un-ejemplo.module').then( m => m.UnEjemploPageModule)
+  },
+  {
+    path: 'instrucciones-memorama',
+    loadChildren: () => import('./instrucciones-memorama/instrucciones-memorama.module').then( m => m.InstruccionesMemoramaPageModule)
+  },
 
 ];
 
-@NgModule({
+@NgModule({ 
   imports: [
     RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
   ],

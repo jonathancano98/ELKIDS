@@ -9,7 +9,7 @@
 
 <ion-content class="puntos-content" #content>
   <!-- Si el juego es individual creamos un div con la información-->
-  <div *ngIf="juegoSeleccionado[0].Modo === 'Individual'" id="alumno-ranking" scrollY="true" class="info-alumno">
+  <div *ngIf="juegoSeleccionado[0].Modo === 'Individual'" id="alumno-ranking"  class="info-alumno" style="background-color: white;">
     <img class="logo" src="../../assets/img/puntosicon.svg" width="100px">
     <h2> Bienvenido {{MiAlumno.Nombre}}, actualmente tienes</h2>
     <h3> {{ MiAlumnoJDP }} pts</h3>

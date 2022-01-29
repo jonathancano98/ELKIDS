@@ -99,32 +99,10 @@ export class MisJuegosPage implements OnInit {
       this.categorias = Array(this.listaAuxiliar.length).fill(false);
     }
 
-    // this.id = this.dBservice.DameAlumno().id;
-    // console.log('Este es el id del alumno que se ha logado: ' + this.id);
-    // this.calculos.DameJuegosAlumno(this.id)
-    //   .subscribe(listas => {
-    //     console.log('Listas de DameJuegosAlumno: ',listas);
-    //     this.JuegosActivos = listas.activos;
-    //     console.log('SIUUUUUUUUUUUU-Juegos del ALumno: ',this.JuegosActivos);
-    // });
-
-
     //RECIBO TODOS LOS JUEGOS DE COLECCION EN EQUIPOS QUE SEAN TRUE:
 
     this.listaDeJuegoColeccionDeAlumno2 = await this.dBservice.dameJuegosdeColeccionEquipoActivos().toPromise();
     console.log("listaDeJuegoColeccionEquipo2: ",this.listaDeJuegoColeccionDeAlumno2);
-       
-    // Y RECIBO ESTO POR CADA JUEGO:
-    // 5:
-        // Asignacion: "Equipo"
-        // JuegoActivo: true
-        // Modo: "Equipos"
-        // NombreJuego: "JuegocoleccionEquipoA2"
-        // Tipo: "Juego De Colección"
-        // coleccionId: 22
-        // grupoId: 85
-        // id: 168
-
 
     this.alumno = await this.dBservice.dameAlumnoPorId(localStorage.getItem("alumnoID")).toPromise();
     console.log("Nombre Alumno:",this.alumno.Nombre);
@@ -153,25 +131,20 @@ export class MisJuegosPage implements OnInit {
     this.listaDeJuegoColeccionDeAlumno = await this.dBservice.dameAlumnosJuegoDeColeccion(localStorage.getItem("alumnoID")).toPromise();
     console.log("listaDeJuegoColeccionAlumno: ",this.listaDeJuegoColeccionDeAlumno);
     
-    console.log('Lenght:',this.listaDeJuegoColeccionDeAlumno.length);
 
     //Pedimos a la base de datos todos los juegos a los que pertenece nuestro alumno
     this.listaDeJuegosDeAlumno = await this.dBservice.dameAlumnosJuegoDeCuento(localStorage.getItem("alumnoID")).toPromise();
-    console.log("listaDeJuegoCuentosAlumno: ",this.listaDeJuegosDeAlumno);
     
-    console.log('Lenght:',this.listaDeJuegosDeAlumno.length);
 
     for(let i=0; i<this.listaDeJuegosDeAlumno.length;i++)
     {
       //pido informacion de cada juego
       this.lista = await this.dBservice.dameJuegosDelAlumno(this.listaDeJuegosDeAlumno[i].juegoId).toPromise();
 
-      /////////////////////////////////////////////////////AÑADIDO
       if(this.lista.JuegoActivo === true){
-        console.log('Juego Cuento Añadido a Lista Auxiliar:',this.lista.JuegoActivo);
         this.listaAuxiliar.push(this.lista);
         }
-      /////////////////////////////////////////////////////AÑADIDO
+
       this.seleccionado = Array(this.listaAuxiliar.length).fill(false);
       this.categorias = Array(this.listaAuxiliar.length).fill(false);
 
@@ -188,7 +161,6 @@ export class MisJuegosPage implements OnInit {
       this.listaColeccion = await this.dBservice.dameJuegosColeccionDelAlumno(this.listaDeJuegoColeccionDeAlumno[j].juegoDeColeccionId).toPromise();
 
       if(this.listaColeccion.JuegoActivo === true){
-        console.log('Juego Coleccion Añadido a Lista Auxiliar:',this.listaColeccion.JuegoActivo);
         this.listaAuxiliar.push(this.listaColeccion);
         }
 
@@ -337,9 +309,9 @@ export class MisJuegosPage implements OnInit {
           this.listaAuxiliar=[];
           this.contador=0;
           console.log("Estoy en el count = true(COLECCION)")
-          //this.router.navigate(['/inicio-juego-coleccion']);
+          this.router.navigate(['/inicio-juego-coleccion']);
           //this.router.navigate(['/memorama-coleccion']);
-          this.router.navigate(['/wally']);
+           //this.router.navigate(['/un-ejemplo']);
         }
         else if(this.listaAuxiliar[this.valori].Tipo === "Juego De Puntos"){
           this.listaAuxiliar=[];

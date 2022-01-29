@@ -4,6 +4,7 @@ import{DbServiceService} from 'src/app/db-service.service';
 import * as URL from '../URLS/urls';
 import { alumnojuegomemorama } from '../alumnojuegomemorama';
 // import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -22,11 +23,12 @@ export class PruebamemoramaPage implements OnInit ,AfterViewChecked {
   alertacancionglobal: boolean;
   puntuacionHTML: any;
   tiempoHTML: any;
-  acabao= false;
+  acabao = false;
+  instrucciones= true;
 
-  constructor(private dbService:DbServiceService,) { }
+  constructor(private dbService:DbServiceService,private router: Router) { }
   
-
+  textHijo1: string;
   iconos;
   Cartaspartedetras: any[]=[];
   selecciones: any[]=[];
@@ -63,6 +65,7 @@ nombrealumno:any;
     console.log("ionViewWillEnter");
     this.entrar=0;
     
+    this.damenombre();
     
     // this.nombrealumno=this.elalumno[0].Nombre;
 
@@ -99,15 +102,18 @@ nombrealumno:any;
     this.dbService.DimesiAlumnoEsdelJuegoMemorama(this.juegoDeMemoramaId,localStorage.getItem("alumnoID")).subscribe(alumno=>{
       this.identificador=alumno[0].id;
       console.log(alumno[0].id)})
-
-   
-      // Pido las cartas del Alumno
+  
+  
+    // Pido las cartas del Alumno
     
     this.DameLasCartasDelAlumno();
 
     setInterval(this.contador0,1000);
 
+
   }
+
+  
 
   ngAfterViewChecked(){
   this.DimensionesTablero();
@@ -115,18 +121,65 @@ nombrealumno:any;
 
   }
 
+  Desactivarinstrucciones(){
+    this.instrucciones = false;
+  }
+
+  dameidentificador(){
+    this.dbService.DimesiAlumnoEsdelJuegoMemorama(this.juegoDeMemoramaId,localStorage.getItem("alumnoID")).subscribe(alumno=>{
+      this.identificador=alumno[0].id;
+      console.log(alumno[0].id)})
+  }
+
   async contador0(){
     
+
     let countdown = document.getElementById("countdown");
     
-    if(countdown.innerHTML===" "+0+":"+0+" "){
+    if(countdown.innerHTML===" "+0+" "){     
       const audio = new Audio('assets/sintiempo.mp3');
       audio.play();
-      
     }
     else{
 
     }
+  }
+
+  Puntuacionsintiempo(){
+
+    console.log("ESTAMOS JODIDOS" )
+    this.puntuacionHTML = 0;
+    this.tiempoHTML = "Sin tiempo";
+  
+    let alumno= new alumnojuegomemorama(localStorage.getItem("alumnoID"),this.juegoDeMemoramaId,this.puntuacionHTML,this.tiempoHTML,this.identificador);
+  
+     this.dbService.EstablecePuntuacionAlumnoPorID(alumno).subscribe();
+    
+    console.log("Juego Finalizado: " + this.puntuacionHTML+" Tiempo: "+this.tiempoHTML);
+    // tiemporealizado.innerText="FINAL";
+  
+    this.damenombre();
+  
+  // APARECE EL RESULTADO
+    this.acabao=true;
+  
+    let fondo = document.getElementById("fondo");
+    fondo.style.opacity="75%";
+  
+    let resultado = document.getElementById("resultado");
+    resultado.style.animationName="Expansion";
+  }
+
+  irMisJuegos()
+  {
+    
+    console.log("MENU JUEGOS");
+    this.router.navigate(['/menu-principal'])
+    .then(nav => {
+      console.log(nav); // true if navigation is successful
+    }, err => {
+      console.log(err) // when there's an error
+    });
   }
 
   reproducir(nombre:any) {
@@ -144,7 +197,8 @@ nombrealumno:any;
     audio.play();
   }
   else{
-    
+    const audio = new Audio('assets/felicitacion.mp3');
+    audio.play();
   }
 }
 
@@ -167,21 +221,18 @@ nombrealumno:any;
 async DameLasCartasDelAlumno() {
 
     for(let i=0;this.idcartasseparadas.length>i;i++){
+
       let carta = await this.dbService.DamecartasdelafamiliaporID(this.familiaId,this.idcartasseparadas[i]).toPromise();
 
       if(this.relacion === false){
         console.log("Sin Relacion");
         this.damecartasdelafamilia.push(carta[0]);
         this.damecartasdelafamilia.push(carta[0]);
-        console.log("false",this.damecartasdelafamilia);
       }
       else{
         console.log("Con Relacion")
-        this.damecartasdelafamilia.push(carta[0]);
-        console.log("true",this.damecartasdelafamilia);
-        
+        this.damecartasdelafamilia.push(carta[0]);        
       }
-
     }
 
 console.log(this.damecartasdelafamilia);
@@ -189,7 +240,7 @@ console.log(this.damecartasdelafamilia);
                      // this.damecartasdelafamilia2=this.damecartasdelafamilia;
                         
                          console.log("damecartasdelafamilia",this.damecartasdelafamilia);
-                          this.MezclarArray();
+                          this.Mezclador();
                           this.PreparaImagenesCartasQueTengo();
                           this.PreparaFondo();
                           this.preparado = true;
@@ -225,8 +276,8 @@ console.log(this.damecartasdelafamilia);
     let coutdownEl = document.getElementById("countdown");
     this.tempo=true;
 
-    let tiempo = this.tiempoinicial*60;
     
+    let tiempoinicial = this.tiempoduracion;
 
     var longitud = this.Cartaspartedetras.length;
    
@@ -241,55 +292,100 @@ console.log(this.damecartasdelafamilia);
     function updatecountdown(valor:any){
       
 
-      var minutos = Math.floor(tiempo/60);
-      var segundos = tiempo % 60;
+
       valor=Number(document.getElementById("item3").innerText);
+      coutdownEl.innerHTML=" "+tiempoinicial+" ";
+      let temporizador = document.getElementById("countdown");
+      let tablero = document.getElementById("tablero");
       
-      coutdownEl.innerHTML=" "+minutos+":"+segundos+" ";
-          
-
-      if((minutos>=0)&&(segundos>=0)){
-
-        // console.log("VAMOS A VER LOS PUNTICOOOOS",valor,puntosposibles);
-
-        if((minutos==0)&&(segundos==10)){
-
-          let crono = document.getElementById("countdown");
-          crono.style.animationName="temporizador";
-  
-          let tablero = document.getElementById("tablero");
-          tablero.style.animationName="color";
-          
-  
-          for(let i=0;longitud>i;i++){
-  
-          let tarjetas= document.getElementById("tarjeta"+i);
-  
-          if (tarjetas.style.transform === "rotateY(180deg)"){}
-  
-          else{
-            tarjetas.style.animationName="tarjetasmovimiento";
-            }
+if(tiempoinicial>0){
        
-          }
-        }
+        tiempoinicial--;
+
+
+        if(tiempoinicial<10){
+
+              temporizador.style.animationName="temporizador";
+              tablero.style.animationName="color";
+              
+              for(let i=0;longitud>i;i++){
+      
+              let carta = document.getElementById("tarjeta"+i);
+  
+              if (carta.style.transform === "rotateY(180deg)"){}
+              
+              else{
+                carta.style.animationName="tarjetasmovimiento";
+                }
+           
+              }
+            }
 
         if(valor === puntosposibles){
 
-          tiempo=0;
+                  tiempoinicial=0;
+                  let resultado = document.getElementById("resultado");
+                  resultado.style.opacity="99%";
+                  resultado.style.animationName="Expansion";
+        
+                }
+ }
+        
+else{ 
+    coutdownEl.innerHTML="FINAL";
+} 
+            
+      }
 
-        }
+
+          
+
+      // if((minutos>=0)&&(segundos>=0)){
+
+      //   // console.log("VAMOS A VER LOS PUNTICOOOOS",valor,puntosposibles);
+
+      //   if((minutos==0)&&(segundos==10)){
+
+      //     let crono = document.getElementById("countdown");
+      //     crono.style.animationName="temporizador";
+  
+      //     let tablero = document.getElementById("tablero");
+      //     tablero.style.animationName="color";
+          
+  
+      //     for(let i=0;longitud>i;i++){
+  
+      //     let tarjetas= document.getElementById("tarjeta"+i);
+  
+      //     if (tarjetas.style.transform === "rotateY(180deg)"){}
+  
+      //     else{
+      //       tarjetas.style.animationName="tarjetasmovimiento";
+      //       }
+       
+      //     }
+      //   }
+
+      //   if(valor === puntosposibles){
+
+      //     tiempo=0;
+      //     let resultado = document.getElementById("resultado");
+      //     resultado.style.opacity="99%";
+      //     resultado.style.animationName="Expansion";
+
+      //   }
 
   
-        tiempo--;
-      }
+      //   tiempo--;
+      // }
 
-      else{ 
-        coutdownEl.innerHTML="FINAL";
+      // else{ 
+      //   coutdownEl.innerHTML="FINAL";
 
-      }
+      // }
+
     }
-  }
+  
 
 
 
@@ -370,11 +466,9 @@ console.log(this.damecartasdelafamilia);
     
   }
   
-  MezclarArray(){
-  
-    this.damecartasdelafamilia.sort(function(){return Math.random()-0.5});
-  
-  
+  Mezclador(){
+
+    this.damecartasdelafamilia.sort(function(){return Math.random()-0.5});  
   }
   
   PreparaImagenesCartasQueTengo() {
@@ -434,30 +528,33 @@ for(let i=0; this.tarjetasayuda.length > i;i++){
 
 }
 
-async Pillarcartas(i:number){
+async click(i:number){
 
   this.entrar++;
 
   //ESTO SE HACE PARA QUE ENTRE UNA VEZ EN EL TEMPORIZADOR Y NO MULTIPLES
   if(this.entrar<=1){
     this.tiempo();
+
   }
 
-    let tarjeta = document.getElementById("tarjeta"+i);
-    console.log(tarjeta,i);
-    if(tarjeta.style.transform != "rotateY(180deg)"){
-      tarjeta.style.transform = "rotateY(180deg)";
+    let carta = document.getElementById("tarjeta"+i);
+    console.log(carta,i);
+    
+    if(carta.style.transform != "rotateY(180deg)"){
+      carta.style.transform = "rotateY(180deg)";
       this.selecciones.push(i);
     }
     if(this.selecciones.length == 2){
-      this.deseleccionar(this.selecciones);
+      this.cartasescogidas(this.selecciones);
       this.selecciones=[];
     }
 
 
   }
 
-  deseleccionar(seleccionesrecibidas:any[]){
+
+  cartasescogidas(seleccionesrecibidas:any[]){
 
     let contadorpositivo = document.getElementById("item3");
     console.log(contadorpositivo);
@@ -469,8 +566,8 @@ async Pillarcartas(i:number){
       let trasera1=document.getElementById("trasera"+seleccionesrecibidas[0]);
       let trasera2=document.getElementById("trasera"+seleccionesrecibidas[1]);
       
-      let tarjeta1=document.getElementById("tarjeta"+seleccionesrecibidas[0]);
-      let tarjeta2=document.getElementById("tarjeta"+seleccionesrecibidas[1]);
+      let carta1=document.getElementById("tarjeta"+seleccionesrecibidas[0]);
+      let carta2=document.getElementById("tarjeta"+seleccionesrecibidas[1]);
 
       if(this.relacion === false){
 
@@ -480,8 +577,8 @@ async Pillarcartas(i:number){
        
         this.reproducir('error')
 
-        tarjeta1.style.transform = "rotateY(0deg)";
-        tarjeta2.style.transform = "rotateY(0deg)";
+        carta1.style.transform = "rotateY(0deg)";
+        carta2.style.transform = "rotateY(0deg)";
         
         this.contadorneg++;
         contadornegativo.innerHTML=this.contadorneg+"";
@@ -527,8 +624,8 @@ async Pillarcartas(i:number){
     else{
         
         this.reproducir('error')
-        tarjeta1.style.transform = "rotateY(0deg)";
-        tarjeta2.style.transform = "rotateY(0deg)";
+        carta1.style.transform = "rotateY(0deg)";
+        carta2.style.transform = "rotateY(0deg)";
         
         this.contadorneg++;
         contadornegativo.innerHTML=this.contadorneg+"";
@@ -536,6 +633,8 @@ async Pillarcartas(i:number){
 }
 
 if(this.contadorpos == this.puntosposibles){
+
+  
  
   let tablero = document.getElementById("tablero");
   tablero.style.backgroundColor="green";
@@ -545,26 +644,38 @@ if(this.contadorpos == this.puntosposibles){
 
   time = tiemporealizado.innerText;
 
+  // CAMBIAR A TIEMPO REALIZADO
+
+  Number(time);
+  console.log("TIEMPOO AAAA NUMEEROOOO",time, Number(time),this.tiempoduracion-Number(time));
+
+  this.tiempoduracion-Number(time)
+
   let puntuacion;
   puntuacion= (this.contadorpos*this.puntuacionCorrecta)-(this.contadorneg*this.puntuacionIncorrecta);
   console.log(puntuacion, time);
 
   this.puntuacionHTML = puntuacion;
-  this.tiempoHTML = time;
+  let tiempofinal = this.tiempoduracion-Number(time);
+  this.tiempoHTML = tiempofinal;
 
-  let alumno=  new alumnojuegomemorama(localStorage.getItem("alumnoID"),this.juegoDeMemoramaId,puntuacion,time,this.identificador);
+  let alumno=  new alumnojuegomemorama(localStorage.getItem("alumnoID"),this.juegoDeMemoramaId,puntuacion,tiempofinal,this.identificador);
 
   this.dbService.EstablecePuntuacionAlumnoPorID(alumno).subscribe(alumno=>{console.log(alumno)});
   
-  console.log("Juego Finalizado: " + puntuacion+" Tiempo: "+time);
+  console.log("Juego Finalizado: " + puntuacion+" Tiempo: "+tiempofinal);
   // tiemporealizado.innerText="FINAL";
 
   this.damenombre();
 
+// APARECE EL RESULTADO
   this.acabao=true;
 
   let fondo = document.getElementById("fondo");
   fondo.style.opacity="75%";
+
+  let resultado = document.getElementById("resultado");
+  resultado.style.animationName="Expansion";
 
   
 }
@@ -575,7 +686,7 @@ if(this.contadorpos == this.puntosposibles){
 
  async damenombre(){
   this.elalumno = await this.dbService.dameAlumnoPorId(localStorage.getItem("alumnoID")).toPromise();
-  console.log(this.elalumno);
+  // console.log(this.elalumno);
   this.nombrealumno=this.elalumno.Nombre;
 
   }

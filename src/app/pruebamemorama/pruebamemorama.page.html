@@ -1,11 +1,3 @@
-<!-- <ion-header>
-  <ion-toolbar>
-    <ion-title>MEMORAMAS</ion-title>
-  </ion-toolbar>
-</ion-header> -->
-
-<!-- <ion-content > -->
-  <audio src="acierto.mp3" autoplay="true" loop="true">CANCIOOOON</audio>
 
 
 <body id="body">
@@ -15,18 +7,18 @@
     <div *ngIf="preparado && Cartaspartedetras" >
 
       <div id="LA VIDAAAAA">
+
+  <div>
     <div class="nuevoJuegot" id="puntuacion">
-      <div class="item1">PUNTUACIÓN</div>
-      <div id="item3" class="item3">0</div> 
-      <div id="item4" class="item4">0</div>   
+      <div class="item1">PUNTUACIÓN: </div><div id="item3" style="border-radius: 15px;margin-left: 5px;background-color: rgb(0, 255, 13);" class="item3">0</div>  <div id="item4" style="border-radius: 15px;margin-left: 5px; background-color: red;" class="item4">0</div>  
     </div>
-    <button id="ayuda" class="nuevoJuego" (click)="Ayuda()">AYUDA</button>
+
+    <button id="ayuda" class="nuevoJuego" (click)="Ayuda()">Ayuda</button>
 
     <div *ngIf="tempo">
-    <div id="countdown" class="temp" >
-      INICIO
+    <div id="countdown" class="temp" >INICIO</div>   
     </div>
-  </div>
+</div>
  
 <!-- 
 <ion-grid>
@@ -53,7 +45,7 @@
 
        <div id="tablero" class="grid-container"> 
 
-        <div (click)="Pillarcartas(i);" id="areatarjeta{{i}}" class="area-tarjeta" *ngFor="let elem of Cartaspartedetras;let i = index"  >
+        <div (click)="click(i);" id="areatarjeta{{i}}" class="area-tarjeta" *ngFor="let elem of Cartaspartedetras;let i = index"  >
          
           <div class="tarjeta" id="tarjeta{{i}}" >
             
@@ -71,7 +63,7 @@
         </div>
       </div> 
       
-      <p id="Title">{{Nombreinicial}}</p>
+      <!-- <p id="Title">{{Nombreinicial}}</p> -->
  
 </div>
 
@@ -89,16 +81,59 @@
 
 
 </div>
+<!-- *ngIf="acabao" -->
+<div *ngIf="acabao" id="resultado" class="resultado" >
+               
+                  <img style="margin-left: 75px;" src="assets/celebracion2.png" alt="oleeee">
+               
+               <h1> Jugador: {{nombrealumno}} </h1>
 
-<div *ngIf="acabao" id="resultado" class="resultado">
-                  <div> Jugador: {{nombrealumno}} </div>
-  <div>Juego Finalizado:{{puntuacionHTML}} p y Tiempo:{{tiempoHTML}}</div>
+  <h2 style="font-size: large;">Juego Finalizado: {{puntuacionHTML}} p con Tiempo: {{tiempoHTML}}</h2>
+  <ion-button class="backbutton" (click)="irMisJuegos()" ><ion-icon  name="arrow-back-sharp"> </ion-icon>Menú Principal</ion-button>
+  <!-- <ion-button (click)="IrJuegos()">Menú Juegos</ion-button> -->
+
+</div>
+
+<div *ngIf="instrucciones" id="resultado" class="resultado2" >
+
+    <div style="margin-left: 30%;">          
+      <img style="margin-left: 75px;" src="assets/celebracion2.png" alt="oleeee">
+    </div> 
+  
+  <h1>Bievendido jugador: {{nombrealumno}}</h1>
+     <div2></div2>
+
+   <h1> Este juego consiste en hacer parejas con las cartas que tienes en el tablero de juego
+    antes de que el temporizador llegue a cero.</h1>
+    <div2></div2>
+   
+    <h1>Tienes un contador en la parte izquierda de la pantalla, para que veas el número de aciertos
+    y errores que vas acumulando y un botón de ayuda en la parte derecha. Pero con cuidado de usar
+    este botón porque resta un poco cada vez que sea utilizado !!!!</h1>
+    <div2></div2>
+
+    <h1>Por cada acierto vas a sumar {{puntuacionCorrecta}} p y restar {{puntuacionIncorrecta}} p.</h1>
+   <div2></div2>
+  
+    <h1>Es de dificultad {{dificultad}} el juego y dura {{tiempoduracion}} s.</h1>
+    <div2></div2>
+    <h1>Mucha suerte !!!</h1>
+    <div2></div2>
+    <ion-button class="backbutton" (click)="Desactivarinstrucciones()" ><ion-icon  name="arrow-back-sharp"> </ion-icon>OK</ion-button>
+    <div2></div2>
+
+<!-- <h1> Jugador: {{nombrealumno}} </h1> -->
+
+<!-- <h2 style="font-size: large;">Juego Finalizado: {{puntuacionHTML}} p con Tiempo: {{tiempoHTML}}</h2>
+<ion-button class="backbutton" (click)="irMisJuegos()" ><ion-icon  name="arrow-back-sharp"> </ion-icon>Menú Principal</ion-button> -->
+<!-- <ion-button (click)="IrJuegos()">Menú Juegos</ion-button> -->
+
 </div>
 
 </body>
 
+<!-- <app-instrucciones-memorama (textoCambiado)="textoHijo1=$event"></app-instrucciones-memorama> -->
 
 
 
 
-<!-- </ion-content> -->

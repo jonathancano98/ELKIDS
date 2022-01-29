@@ -1,34 +1,24 @@
-<ion-header class="juegos-header">
-  <ion-toolbar class="header-toolbar">
-    <ion-buttons slot="start">
-      <ion-back-button class="menu-btn"></ion-back-button>
-    </ion-buttons>
-    <ion-title>MEMORAMA</ion-title>
+<ion-header>
+  <ion-toolbar>
+    <ion-title>memoramagame</ion-title>
   </ion-toolbar>
 </ion-header>
 
+<ion-content>
 
-<ion-content class="juegocoleccion-content" #content>
-
-
-
-  <div *ngIf="preparado">
-    
-    <div  *ngIf = "Cartaspartedetras"  >
-
+  <div *ngIf="preparado && Cartaspartedetras">
 
       <div class="grid-container">
 
-        <div #level (click)="click(i)" class="grid-item" *ngFor="let elem of Cartaspartedetras;let i = index">
+        <div  (click)="click(i)" class="grid-item" *ngFor="let elem of Cartaspartedetras;let i = index">
                     
-              <img id="CARTAATRAS" class = "redimensiondetras" [src]="Cartaspartedetras[i]" >
-              <img id="CARTADELANTE" class = "redimensiondelante" [src]="damecartasdelafamilia[i]">
+              <img  class = "redimensiondetras" [src]="Cartaspartedetras[i]" >
+              <img  class = "redimensiondelante" [src]="damecartasdelafamilia[i]">
           
         </div>
       
       </div>
    </div>
-  </div>
 
 </ion-content>
 

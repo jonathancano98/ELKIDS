@@ -61,12 +61,18 @@
   
   .area-tarjeta,
    .tarjeta,
+   img.redimensiondetras,
+   img.redimensiondelante,
    .cara
    {
     cursor: pointer;
-    width: 125px;
-    height: 175px;
-    min-width: 80px;
+    // width: 125px;
+    // height: 175px;
+    // min-width: 80px;
+
+    width: 145px;
+    height: 225px;
+    //min-width: 180px;
   }
   
   .tarjeta{
@@ -156,6 +162,43 @@
   }
     
   }
+
+  @keyframes Expansion {
+
+    0% {
+    
+      transform: scale(0.15);
+     
+      
+  }
+  25% {
+      // transform: scale(1.1);
+      transform: scale(0.25);
+     
+  }
+  50% {
+      // transform: scale(1.15);
+      transform: scale(0.5);
+     
+
+  }
+  75% {
+      // transform: scale(1.1);
+      transform: scale(0.75);
+
+  }
+  87%{
+    transform: scale(1.15);
+
+  }
+  100% {
+      // transform: scale(1);
+
+      transform: scale(1);
+
+  }
+    
+  }
   
 
   .cara{
@@ -185,20 +228,23 @@
   .nuevoJuego{
       background-color: white;
       border-radius:20px;
-      border:purple 5px solid;
+      border:rgb(0, 0, 0) 5px solid;
       position: absolute;
 
       display: flex;
       justify-content: center;
       align-items: center;
       margin-top: -60px;
-      margin-left: 600px;
+      margin-left: 695px;
       font-size: x-large;
+      padding: 5px;
+      width: 11%;
 
   }
 
 
   .grid-container { //memory_game
+  padding: 15px;
   display: grid;
   grid-template-columns: auto auto auto auto auto;
   grid-gap:20px;
@@ -207,7 +253,7 @@
   align-items: center;
   justify-content: center;
   position:relative;
-  margin-bottom: 90px;
+  //margin-bottom: 90px;
   background-color: white;
   border-style: groove;
   animation-duration: 0.5s;
@@ -226,84 +272,135 @@
 }
 
 img.redimensiondetras { //back-face
-  width: 115px;
-  height: 165px;
+  // width: 160px;
+  // height: 255px;
+  width: 150px;
+  height: 218px;
   // position: absolute;
   background:white;
   backface-visibility: hidden;
   border-radius: 20px;
-  border: 3px solid black;
+  border: 5px solid black;
 
 }
 
 img.redimensiondelante { //front-face
-  width: 110px;
-  height: 155px;
+  width: 150px;
+  height: 210px;
   border-radius: 30px;
   transform:rotateY(180deg);
   
 
 }
 .resultado{
-  text-align: center;
-  margin-top: 200px;
+ // text-align: center;
+ // margin-top: 200px;
   z-index: 1;
   position: absolute;
-  justify-content: center;
-  display: flex;
-  border: 5px solid yellow;
-  background-color: blue;
-  padding: 125px;
+  //justify-content: center;
+ // display: flex;
+  border: 15px solid yellow;
+  background-color: #ff0c0c;
+  padding: 35px;
   border-radius: 15px;
   font-family: cursive;
+  //align-items: center;
   // opacity: 1%;
+  animation-duration: 4s;
+    // animation-delay: 5s;
+    animation-timing-function: linear;
+    animation-iteration-count: 1;
+    opacity: 1%;
+    border-style: groove;
+    font-size: larger;
+
 }
 
+h1{
+  font-size: 18px;
+}
+
+div2{
+    
+  margin-bottom: 30px;
+}
+
+.resultado2{
+
+   z-index: 1;
+   position: absolute;
+   border: 15px solid yellow;
+   background-color: green;
+   padding: 35px;
+   border-radius: 15px;
+   font-family: cursive;
+   max-width: 635px;
+   //align-items: center;
+   // opacity: 1%
+     border-style: groove;
+     font-size: larger;
+ 
+ }
+
 //ID
-.item1 { grid-area: header; }
-.item3 { grid-area: main; }
-.item4 { grid-area: right; }
+// .item1 { grid-area: header; }
+// .item3 { grid-area: main; }
+// .item4 { grid-area: right; }
 
   .nuevoJuegot {
-    display: grid;
-    grid-template-areas:
-    'header header header header '
-    'main main right right';
-    grid-gap: 3px;
-    background-color:purple;
-    padding: 6px;
-    width: 11%;
-    margin-top: -75px;
-    position: absolute;
-    height: 60px;
-    border: 1px solid purple;
+    // display: grid;
+    // grid-template-areas:
+    // 'header header header header '
+    // 'main main right right';
+    //grid-gap: 3px;
+    background-color:rgb(255, 255, 255);
+    //padding: 6px;
+    //width: 11%;
+    margin-top: -70px;
+   // position: absolute;
+    height: 40px;
+    border: 5px solid rgb(0, 0, 0);
     border-radius: 10px;
+
+    position: absolute;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: -60px;
+    // margin-left: 600px;
+    font-size: larger;
+    width: 16%;
   }
+
   
   .nuevoJuegot > div {
-    background-color: orangered;
+    background-color: white;
     text-align: center;
-    padding: 5px 0;
-    font-size: 10px;
+    //padding: 5px 0;
+   // font-size: 10px;
   }
 
   .temp{
     background-color: white;
     border-radius: 20px;
-    border: purple 5px solid;
+    border: rgb(0, 0, 0) 5px solid;
     position: absolute;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: -80px;
-    /* width: 3px; */
-    /* height: 2px; */
-    font-size: xxx-large;
-    margin-left: 319px;
+    margin-top: -60px;
+  
+    margin-left: 365px;
     animation-duration: 0.5s;
     // animation-delay: 5s;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
+    //font-size: x-large;
+    padding: 5px;
+
+    font-size: 20px;
+    width: 11%;
   }
 
 

@@ -290,23 +290,23 @@ MuestraHistorial() {
   this.infoPuntosView = !this.infoPuntosView;
 }
 
-MuestraElRanking() {
-  this.hideMe = true;
-  this.scrollToBottom();
-  console.log(this.hideMe)
-}
-OcultarElRanking(){
-  this.scrollToTop();
-  this.hideMe = false;
-  console.log(this.hideMe)
-}
+// MuestraElRanking() {
+//   this.hideMe = true;
+//   this.scrollToBottom();
+//   console.log(this.hideMe)
+// }
+// OcultarElRanking(){
+//   this.scrollToTop();
+//   this.hideMe = false;
+//   console.log(this.hideMe)
+// }
 
-scrollToBottom(): void {
-  this.content.scrollToBottom(800);
-}
-scrollToTop() {
-  this.content.scrollToTop();
-}
+// scrollToBottom(): void {
+//   this.content.scrollToBottom(800);
+// }
+// scrollToTop() {
+//   this.content.scrollToTop();
+// }
 
 // configuramos el slider de los cromos
 sliderConfig = {
